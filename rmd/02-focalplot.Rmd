@@ -617,7 +617,7 @@ write_csv(x = focalplot,
 ## Recap
 
 ```{r}
-read.csv(here("./tables/focalplot_recap_tab.csv")) %>%
+read.csv(here("./docs/tables/focalplot_recap_tab.csv")) %>%
   knitr::kable()
 ```
 

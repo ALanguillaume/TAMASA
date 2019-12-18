@@ -87,7 +87,7 @@ Key points:
 * As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.
 
 ```{r, echo = FALSE}
-magick::image_read(here("./schemes/growing_seasons.png"))
+magick::image_read(here("./docs/schemes/growing_seasons.png"))
 ```
 
 ```{r, echo = FALSE}
@@ -373,7 +373,7 @@ Keep only plots with the two cropping systems of interest.
 plotd <- plotd %>% filter(cropsys %in% c("mmc", "mpp"))
 ```
 
-###Intermezzo: was harvest finished at enumeration date ?
+### Intermezzo: was harvest finished at enumeration date ?
 
 ```{r, echo = FALSE}
 enum_date <- inner_join(hh_info, plotd, by = "hh_index") %>%
@@ -804,7 +804,7 @@ write_csv(x = household,
 ## Recap
 
 ```{r}
-read.csv(here("./tables/household_recap_tab.csv")) %>%
+read.csv(here("./docs/tables/household_recap_tab.csv")) %>%
   knitr::kable()
 ```
 

@@ -606,13 +606,13 @@ write_csv(x = community_NPK,
 ### Community general dataset
 
 ```{r}
-read.csv(here("./tables/community_recap_tab.csv")) %>%
+read.csv(here("./docs/tables/community_recap_tab.csv")) %>%
   knitr::kable()
 ```
 
 ### Fertilizer isotope prices
 
 ```{r}
-read.csv(here("./tables/community_NPK_recap_tab.csv")) %>%
+read.csv(here("./docs/tables/community_NPK_recap_tab.csv")) %>%
   knitr::kable()
 ```
