@@ -1,0 +1,27 @@
+Variable,Description,Unit,Type
+hhid,general household index starts with S or N depending on whether the household is located in the Southern or Northen zone. ,-,character
+enum_date,survey date,-,character
+plotid,plotid,-,character
+fp_index,fp_index use to merge different focalplot sub dataset with main focal plot dataset,-,character
+fp_id,fp_id,-,character
+zone,zone,-,character
+region,region,-,character
+district,district,-,character
+site,site,-,character
+irrig_bin,was the focal plot irrigated in any way,-,integer
+area_est,focal plot area estimated by farmer,$ha$,double
+seed_ha,amount of seed,$kg.ha^{-1}$,double
+seedtype,seed type:[improved|local] & [purchased|recycled],-,character
+seedsource,seed origin/supplier,-,character
+seedexp_ha,seed expenditures per ha,$Tsh.ha^{-1}$,double
+seedexp_kg,seed expenditures per kg,$Tsh.kg^{-1}$,integer
+seedprice_hybrid,seed price for hybrid (improved) varieties,$Tsh.kg^{-1}$,integer
+seedprice_local,seed price for local (improved) varieties,$Tsh.kg^{-1}$,integer
+fertilizer_bin,was any kind of fertilizer applied,-,integer
+input,"input name: input1, input2",-,character
+amount,amount of fertilizer applied,$kg$,pair of integer
+N,amount of N applied,$kg.ha^{-1}$,double
+P,amount of P applied,$kg.ha^{-1}$,double
+K,amount of K applied,$kg.ha^{-1}$,double
+inputexp,total input price,$Tsh$,integer
+power_exp_ha,cost of hiring a power resource,$Tsh.kg^{-1}$,double

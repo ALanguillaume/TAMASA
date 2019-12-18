@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Focal plot survey | TAMASA APS survey</title>
+  <meta name="description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Focal plot survey | TAMASA APS survey" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Focal plot survey | TAMASA APS survey" />
+  
+  <meta name="twitter:description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  
+
+<meta name="author" content="Antoine Languillaume" />
+
+
+<meta name="date" content="2019-12-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="household-survey.html"/>
+<link rel="next" href="community-survey.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="household-survey.html"><a href="household-survey.html"><i class="fa fa-check"></i><b>2</b> Household survey</a><ul>
+<li class="chapter" data-level="2.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>2.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="2.2" data-path="household-survey.html"><a href="household-survey.html#main-household-dataset"><i class="fa fa-check"></i><b>2.2</b> Main household dataset</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="household-survey.html"><a href="household-survey.html#growing-seasons"><i class="fa fa-check"></i><b>2.2.1</b> Growing Seasons</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="household-survey.html"><a href="household-survey.html#buying-prices-maize-at-nearest-local-market"><i class="fa fa-check"></i><b>2.3</b> Buying prices maize at nearest local market</a></li>
+<li class="chapter" data-level="2.4" data-path="household-survey.html"><a href="household-survey.html#plot-data"><i class="fa fa-check"></i><b>2.4</b> Plot data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="household-survey.html"><a href="household-survey.html#plots-area-in-hectares"><i class="fa fa-check"></i><b>2.4.1</b> Plots area in hectares</a></li>
+<li class="chapter" data-level="2.4.2" data-path="household-survey.html"><a href="household-survey.html#define-cropping-systems"><i class="fa fa-check"></i><b>2.4.2</b> Define cropping systems</a></li>
+<li class="chapter" data-level="2.4.3" data-path="household-survey.html"><a href="household-survey.html#calculate-yield"><i class="fa fa-check"></i><b>2.4.3</b> Calculate yield</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="household-survey.html"><a href="household-survey.html#labour-in-main-season-only"><i class="fa fa-check"></i><b>2.5</b> Labour (in Main season only)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="household-survey.html"><a href="household-survey.html#combine-cropping-sytems-and-labour-data"><i class="fa fa-check"></i><b>2.5.1</b> Combine cropping sytems and labour data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="household-survey.html"><a href="household-survey.html#aggregate-over-labour-category"><i class="fa fa-check"></i><b>2.5.2</b> Aggregate over labour category:</a></li>
+<li class="chapter" data-level="2.5.3" data-path="household-survey.html"><a href="household-survey.html#calculate-labour-and-wages-per-hectare"><i class="fa fa-check"></i><b>2.5.3</b> Calculate labour and wages per hectare</a></li>
+<li class="chapter" data-level="2.5.4" data-path="household-survey.html"><a href="household-survey.html#total-labour-input-per-ha"><i class="fa fa-check"></i><b>2.5.4</b> Total labour input per ha</a></li>
+<li class="chapter" data-level="2.5.5" data-path="household-survey.html"><a href="household-survey.html#harvest-labour-in-work-days.t-1"><i class="fa fa-check"></i><b>2.5.5</b> Harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="household-survey.html"><a href="household-survey.html#sales"><i class="fa fa-check"></i><b>2.6</b> Sales</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="household-survey.html"><a href="household-survey.html#relevant-crop-sales-variables"><i class="fa fa-check"></i><b>2.6.1</b> Relevant Crop sales variables:</a></li>
+<li class="chapter" data-level="2.6.2" data-path="household-survey.html"><a href="household-survey.html#calculate-per-kg"><i class="fa fa-check"></i><b>2.6.2</b> Calculate per kg</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>2.7</b> Merge</a></li>
+<li class="chapter" data-level="2.8" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>2.8</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html"><i class="fa fa-check"></i><b>3</b> Focal plot survey</a><ul>
+<li class="chapter" data-level="3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#intervening-datasets-1"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>3.2</b> Prepare dataset</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-useful-columns"><i class="fa fa-check"></i><b>3.2.1</b> Select useful columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seeds"><i class="fa fa-check"></i><b>3.3</b> Seeds</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-amounts"><i class="fa fa-check"></i><b>3.3.1</b> Seed Amounts</a></li>
+<li class="chapter" data-level="3.3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-costs"><i class="fa fa-check"></i><b>3.3.2</b> Seed costs</a></li>
+<li class="chapter" data-level="3.3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#hybrid-vs-local"><i class="fa fa-check"></i><b>3.3.3</b> Hybrid vs local</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#pigeon-pea"><i class="fa fa-check"></i><b>3.4</b> Pigeon Pea</a></li>
+<li class="chapter" data-level="3.5" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#fertilizer"><i class="fa fa-check"></i><b>3.5</b> Fertilizer</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-variables"><i class="fa fa-check"></i><b>3.5.1</b> Select variables</a></li>
+<li class="chapter" data-level="3.5.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-npk-input-from-input-type-and-amount"><i class="fa fa-check"></i><b>3.5.2</b> Calculate NPK input from input type and amount</a></li>
+<li class="chapter" data-level="3.5.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-additional-inputs"><i class="fa fa-check"></i><b>3.5.3</b> Calculate additional inputs</a></li>
+<li class="chapter" data-level="3.5.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#combine-input-types"><i class="fa fa-check"></i><b>3.5.4</b> Combine input types</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#cost-of-hiring-power-sources"><i class="fa fa-check"></i><b>3.6</b> Cost of hiring power sources</a></li>
+<li class="chapter" data-level="3.7" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#merge-1"><i class="fa fa-check"></i><b>3.7</b> Merge</a></li>
+<li class="chapter" data-level="3.8" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#recap-1"><i class="fa fa-check"></i><b>3.8</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a><ul>
+<li class="chapter" data-level="4.1" data-path="community-survey.html"><a href="community-survey.html#intervening-datasets-2"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="community-survey.html"><a href="community-survey.html#prepare-dataset-1"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
+<li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#seed-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Seed buying prices</a></li>
+<li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="community-survey.html"><a href="community-survey.html#selected-variables"><i class="fa fa-check"></i><b>4.4.1</b> Selected variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame"><i class="fa fa-check"></i><b>4.4.2</b> Subset main community data.frame</a></li>
+<li class="chapter" data-level="4.4.3" data-path="community-survey.html"><a href="community-survey.html#calculate-price-in-tshkg-for-each-fertilizer"><i class="fa fa-check"></i><b>4.4.3</b> Calculate price in Tsh/kg for each fertilizer</a></li>
+<li class="chapter" data-level="4.4.4" data-path="community-survey.html"><a href="community-survey.html#price-of-n-p-and-k-in-tsh.kg-1"><i class="fa fa-check"></i><b>4.4.4</b> Price of N, P and K in <span class="math inline">\(Tsh.kg^{-1}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="community-survey.html"><a href="community-survey.html#labour-cost"><i class="fa fa-check"></i><b>4.5</b> Labour cost</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame-1"><i class="fa fa-check"></i><b>4.5.1</b> Subset main community data.frame</a></li>
+<li class="chapter" data-level="4.5.2" data-path="community-survey.html"><a href="community-survey.html#visual-exploration-1"><i class="fa fa-check"></i><b>4.5.2</b> Visual exploration</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="community-survey.html"><a href="community-survey.html#merge-2"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
+<li class="chapter" data-level="4.7" data-path="community-survey.html"><a href="community-survey.html#recap-2"><i class="fa fa-check"></i><b>4.7</b> Recap</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="community-survey.html"><a href="community-survey.html#community-general-dataset"><i class="fa fa-check"></i><b>4.7.1</b> Community general dataset</a></li>
+<li class="chapter" data-level="4.7.2" data-path="community-survey.html"><a href="community-survey.html#fertilizer-isotope-prices"><i class="fa fa-check"></i><b>4.7.2</b> Fertilizer isotope prices</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">TAMASA APS survey</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="focal-plot-survey" class="section level1">
+<h1><span class="header-section-number">3</span> Focal plot survey</h1>
+<p><strong>Focal plot</strong>: The maize plot which is “most important” in an economic sense, at the household level, was chosen to be studied in
+more depth. MUST INCLUDE MAIZE.</p>
+<div id="intervening-datasets-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Intervening datasets</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Description</th>
+<th align="left">File</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Main focal plot file</td>
+<td align="left">TZAPS17_fp.tab</td>
+</tr>
+<tr class="even">
+<td align="left">focal plot Metadata</td>
+<td align="left">TZAPS17_ODK_fp.xlsx</td>
+</tr>
+<tr class="odd">
+<td align="left">focal plot Seed file</td>
+<td align="left">TZAPS17_fp_seed.tab</td>
+</tr>
+<tr class="even">
+<td align="left">focal plot Other Inputs</td>
+<td align="left">TZAPS17_fp_othinp.tab</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="prepare-dataset" class="section level2">
+<h2><span class="header-section-number">3.2</span> Prepare dataset</h2>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">fp &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_fp.tab&quot;</span>),</a>
+<a class="sourceLine" id="cb79-2" title="2">                 <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb79-3" title="3">                 <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb79-4" title="4">                 <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb79-5" title="5">                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Correct missing decimal</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">fp<span class="op">$</span>area_est[fp<span class="op">$</span>area_est <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>] &lt;-<span class="st"> </span>fp<span class="op">$</span>area_est[fp<span class="op">$</span>area_est <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>] <span class="op">/</span><span class="st"> </span><span class="dv">10</span></a></code></pre></div>
+<p>Convert acres to ha</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1">acres_to_ha &lt;-<span class="st"> </span><span class="kw">with</span>(dics, areaunit[areaunit<span class="op">$</span>unit <span class="op">==</span><span class="st"> &quot;Acres&quot;</span>, <span class="st">&quot;hectares&quot;</span>])</a>
+<a class="sourceLine" id="cb81-2" title="2">fp<span class="op">$</span>area_est &lt;-<span class="st"> </span>fp<span class="op">$</span>area_est <span class="op">*</span><span class="st"> </span>acres_to_ha</a></code></pre></div>
+<p>Set zone and region as factors with meaningful levels</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1">md_geo &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/metadata/TZAPS17_ODK_fp.xlsx&quot;</span>),</a>
+<a class="sourceLine" id="cb82-2" title="2">                             <span class="dt">sheet =</span> <span class="st">&quot;external_choices&quot;</span>)</a>
+<a class="sourceLine" id="cb82-3" title="3">md_region &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;regions&quot;</span>)</a>
+<a class="sourceLine" id="cb82-4" title="4">md_district &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;districts&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1">fp<span class="op">$</span>zone &lt;-<span class="st"> </span><span class="kw">as.factor</span>(fp<span class="op">$</span>zone)</a>
+<a class="sourceLine" id="cb83-2" title="2">fp<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">factor</span>(fp<span class="op">$</span>region,</a>
+<a class="sourceLine" id="cb83-3" title="3">                    <span class="dt">levels =</span> md_region<span class="op">$</span>name,</a>
+<a class="sourceLine" id="cb83-4" title="4">                    <span class="dt">labels =</span> md_region<span class="op">$</span>label)</a>
+<a class="sourceLine" id="cb83-5" title="5">fp<span class="op">$</span>district &lt;-<span class="st"> </span><span class="kw">factor</span>(fp<span class="op">$</span>district,</a>
+<a class="sourceLine" id="cb83-6" title="6">                      <span class="dt">levels =</span> md_district<span class="op">$</span>name,</a>
+<a class="sourceLine" id="cb83-7" title="7">                      <span class="dt">labels =</span> md_district<span class="op">$</span>label)</a></code></pre></div>
+<div id="select-useful-columns" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Select useful columns</h3>
+<ul>
+<li><code>hhid</code>: household index, field with only unique values: <code>TRUE</code>.</li>
+<li><code>enum_date</code>: the date at which the survey took place.</li>
+<li><p><code>plotid</code>: plot index, relates to general household survey where each household plot was assigned a plot_id.</p></li>
+<li><code>fp_index</code>: int, used to merge different focalplot sub datasets with main focal plot dataset. Field with only unique values:TRUE.</li>
+<li><p><code>fp_id</code>: long, general focal plot index. Field with only unique values:TRUE.</p></li>
+<li><code>zone</code>: zone.</li>
+<li><code>region</code>: region.</li>
+<li><code>district</code>: district.</li>
+<li><code>site</code>: site.</li>
+<li><code>irrig_bin</code>: was any form of irrigation applied (0/1).</li>
+<li><p><code>area_est</code>: farmer estimate of the focal plot area.</p></li>
+</ul>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1">fp_info &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hhid, enum_date, plotid, fp_index, fp_id, zone, region, </a>
+<a class="sourceLine" id="cb84-2" title="2">                         district, site, irrig_bin, area_est)</a></code></pre></div>
+<p>Given that there is no duplicated <code>fp_index</code>, <code>fp_id</code> and <code>hhid</code> entry we can assume that one focal plot is indeed associated with one unique household index.</p>
+</div>
+</div>
+<div id="seeds" class="section level2">
+<h2><span class="header-section-number">3.3</span> Seeds</h2>
+<div id="seed-amounts" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Seed Amounts</h3>
+<div id="seeds-datasets" class="section level4">
+<h4><span class="header-section-number">3.3.1.1</span> Seeds datasets</h4>
+<p>Focal plot seed information can be found in two separate datasets:</p>
+<ul>
+<li>directly in the main focal plot datasets: <code>TZAPS17_fp.tab</code> later referred to as <code>fp</code>.</li>
+<li>in a specific separate file: <code>TZAPS17_fp_seed.tab</code> later referred to as <code>fp_rseed</code>.</li>
+</ul>
+<p>The <code>r</code> in <code>fp_rseed</code> stands for repeat. Some set of questions had to be asked repeatedly.
+For example if different species were grown on the same focal plot, the enumerator had to loop through all questions for each species. The answers to the first set of questions were stored in <code>TZAPS17_fp.tab</code> (<code>fp</code>) whereas the answers to the second set of questions onward are stored within <code>TZAPS17_fp_seed.tab</code>(<code>fp_rseed</code>).</p>
+<p>We first present the most relevant variables. These variables can be found in the main dataset <code>fp</code> as well as in <code>fp_rseed</code> where they are prefixed with an <code>r</code>.</p>
+<ul>
+<li><p><code>seedseas</code>: int, season in which seeds were used.</p></li>
+<li><p><code>seed1</code>: int, crop code, as crop_min see (tab <code>choices</code> of <code>TZAPS17_ODK_fp.xlsx</code>). NB: This is not consistent with the questionnaire form where <code>seed1</code> was a binary varisble indicating seed type (local or improved).</p></li>
+<li><code>seed2</code>: int, seed type (imporved/local) and (purchased/recylced).</li>
+<li><code>seed3</code>: long, amount of seeds sown (value).</li>
+<li><p><code>seed4</code>: int, amount of seeds sown (unit).</p></li>
+</ul>
+<p>For the following two variables, we noted inconsistencies between the metadata in both <code>TZAPS17_metadata.xlsx</code> and <code>TZAPS17_ODK_fp.xlsx</code> and the questionnaire form <code>TZAPS17_questionnaires.pdf</code>. In the questionnaire form one extra variable is included, indicating whetever seeds were purchased. This variable is called <code>seed5</code> too. This variable seems not to be included in the survey. Therefore:</p>
+<ul>
+<li><code>seed5</code>: most likely indicates in which way seeds were obtained (credit, exchange, retained seed).</li>
+<li><code>seed6</code>: seed source (small, trader, NGO, cooperative…).</li>
+</ul>
+<p>We first subset <code>fp</code> to keep only those aforementioned variables and to keep only data for maize grown in main season. The resulting dataset is called <code>fp_seed</code>.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">fp_seed &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-2" title="2"><span class="st">  </span><span class="kw">filter</span>(mc_crop <span class="op">==</span><span class="st"> &quot;maize&quot;</span> <span class="op">&amp;</span><span class="st"> </span>seed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>seedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, seed1, seedseas, fp_index, area_est, seed2, seed3, seed4, seed5, seed6)</a></code></pre></div>
+<p>We then load the specific seed data sets<code>fp_rseed</code>, and again keep only values correponding to maize grown in main season.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">fp_rseed &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_fp_seed.tab&quot;</span>),</a>
+<a class="sourceLine" id="cb86-2" title="2">                       <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb86-3" title="3">                       <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb86-4" title="4">                       <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb86-5" title="5">fp_rseed &lt;-<span class="st"> </span>fp_rseed <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(rseed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>rseedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
+<p>First thing to notice is that there is no reference to household index. So it will be necessary to rely on <code>fp_index</code> to merge it back to the main seed dataset <code>fp_seed</code>.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1"><span class="kw">colnames</span>(fp_rseed)</a></code></pre></div>
+<pre><code>##  [1] &quot;fp_index&quot;                 &quot;fpseed_index&quot;             &quot;rseedseas&quot;                &quot;rseed1&quot;                  
+##  [5] &quot;rseed2&quot;                   &quot;rseed3&quot;                   &quot;rseed4&quot;                   &quot;rseed5&quot;                  
+##  [9] &quot;rseed6&quot;                   &quot;fpseed_id&quot;                &quot;fpseed_uuid&quot;              &quot;fpseed_submission_time&quot;  
+## [13] &quot;fpseed_parent_table_name&quot; &quot;fpseed_parent_index&quot;      &quot;fpseed_tags&quot;              &quot;fpseed_notes&quot;            
+## [17] &quot;fpseed_version&quot;           &quot;fpseed_duration&quot;          &quot;fpseed_submitted_by&quot;</code></pre>
+<p>It should also be noted that <code>fp_rseed</code> represents only an additional <code>20</code> datapoints compare to the <code>437</code> already present in <code>fp_seed</code>.</p>
+<p>Among those <code>20</code>, <code>11</code> overlaps with <code>fp_index</code> in the main seed datasets <code>fp_seed</code>. This is not consistent with our understanding o fthe datasets. We would expect all the <code>fp_index</code> present in <code>fp_rseed</code> to be also present in <code>fp_seed</code>, if <code>fp_rseed</code> consisted indeed of additional information on the plot already described in <code>fp_seed</code>.</p>
+<p>There also appears to be complete overlaps between the two datasets, something we would hardly expect. Example:</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">fp_rseed <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb89-2" title="2"><span class="st">  </span><span class="kw">filter</span>(fp_index <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">51</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb89-3" title="3"><span class="st">  </span><span class="kw">select</span>(fp_index, fpseed_index, <span class="kw">starts_with</span>(<span class="st">&quot;rseed&quot;</span>))</a></code></pre></div>
+<pre><code>##   fp_index fpseed_index rseedseas rseed1 rseed2 rseed3 rseed4 rseed5 rseed6
+## 1       23           16         1      1      1      5      7      1      2
+## 2       51           34         1      1      4      8      8      5      7</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">fp_seed <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb91-2" title="2"><span class="st">  </span><span class="kw">filter</span>(fp_index <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">51</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb91-3" title="3"><span class="st">  </span><span class="kw">select</span>(fp_index, <span class="kw">starts_with</span>(<span class="st">&quot;seed&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb91-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(fp_index)</a></code></pre></div>
+<pre><code>##   fp_index seed1 seedseas seed2 seed3 seed4 seed5 seed6
+## 1       23     1        1     1     5     7     1     2
+## 2       51     1        1     1    12     8     1     1</code></pre>
+<p>Giving the small number of extra data points provided by the seed specific dataset <code>fp_rseed</code> and the aforementioned inconsistencies we decided not to include it in our calculations.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1">fp_seedsel &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hhid, fp_index)</a></code></pre></div>
+</div>
+<div id="calculate-seed-amount-in-kg" class="section level4">
+<h4><span class="header-section-number">3.3.1.2</span> Calculate seed amount in kg</h4>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1"><span class="kw">table</span>(fp_seed<span class="op">$</span>seed4)</a></code></pre></div>
+<pre><code>## 
+##   0   1   3   4   5   6   7   8  10  11  12  99 
+##   3   5   1   3  19   1  59 276  57   7   5   1</code></pre>
+<p>99 is not an existing unit category:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1">dics<span class="op">$</span>unit<span class="op">$</span>cat</a></code></pre></div>
+<pre><code>##  [1] NA  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25</code></pre>
+<p>Setting 99 to NA in <code>seed4</code></p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1">fp_seed<span class="op">$</span>seed4[fp_seed<span class="op">$</span>seed4 <span class="op">==</span><span class="st"> </span><span class="dv">99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<p>Plot of amount of seed purchased:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed3, <span class="dt">plot.unit =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p>Removing some aberrant outliers. Those few points ranging a couple of order of magnitude away from the rest.
+NB: It is not a matter of the unit they are expressed in.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1">fp_seed<span class="op">$</span>seed3 &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seed3, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed3, <span class="dt">plot.unit =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb102-2" title="2"><span class="st">  </span><span class="kw">inner_join</span>(dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;seed4&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb102-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">seed_kg =</span> <span class="kw">ifelse</span>(kg_maize <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb102-4" title="4">                          seed3 <span class="op">*</span><span class="st"> </span>kg_maize,</a>
+<a class="sourceLine" id="cb102-5" title="5">                          <span class="ot">NA</span>))</a></code></pre></div>
+<p>Calculate main season seed input per hectare</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1">fp_seed &lt;-<span class="st"> </span><span class="kw">mutate</span>(fp_seed, <span class="dt">seed_ha =</span> seed_kg <span class="op">/</span><span class="st"> </span>area_est)</a></code></pre></div>
+<p>Delete aberrant values and outliers</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed_ha, <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1">fp_seed<span class="op">$</span>seed_ha[fp_seed<span class="op">$</span>seed_ha <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb105-2" title="2">fp_seed<span class="op">$</span>seed_ha &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seed_ha, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed_ha, <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<p>Make seed type and source variables more explicit, by joining <code>fp_seed</code> with relevant dictionaries.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1">fp_seed &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_seed, dics<span class="op">$</span>seedsource, <span class="dt">by =</span> <span class="st">&quot;seed6&quot;</span>)</a>
+<a class="sourceLine" id="cb107-2" title="2">fp_seed &lt;-<span class="st"> </span><span class="kw">full_join</span>(fp_seed, dics<span class="op">$</span>seedtype, <span class="dt">by =</span> <span class="st">&quot;seed2&quot;</span>)</a></code></pre></div>
+<p>Organize the final dataset: order and rename some columns.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb108-2" title="2"><span class="st">  </span><span class="kw">select</span>(hhid, seed_ha, type, source) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb108-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">seedtype =</span> type,</a>
+<a class="sourceLine" id="cb108-4" title="4">         <span class="dt">seedsource =</span> source)</a></code></pre></div>
+</div>
+</div>
+<div id="seed-costs" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Seed costs</h3>
+<p>Looking only at plots where maize is the only crop grown (<code>mc_prop = 1</code>)
+during main season.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1">fp_seedexp &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb109-2" title="2"><span class="st">  </span><span class="kw">filter</span>(seed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb109-3" title="3"><span class="st">           </span>seedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb109-4" title="4"><span class="st">           </span>mc_crop <span class="op">==</span><span class="st"> &quot;maize&quot;</span> <span class="op">&amp;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb109-5" title="5"><span class="st">           </span>mc_prop <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb109-6" title="6"><span class="st">           </span>smc_crop <span class="op">==</span><span class="st"> &quot;&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb109-7" title="7"><span class="st">  </span><span class="kw">select</span>(hhid, area_est, seedexp)</a></code></pre></div>
+<p>Calculate seed expenditures in Tsh per Hectares.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1">fp_seedexp &lt;-<span class="st"> </span>fp_seedexp <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">seedexp_ha  =</span> seedexp <span class="op">/</span><span class="st"> </span>area_est)</a></code></pre></div>
+<p>and include that variables in the main seed dataset <code>fp_seed</code>.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seedexp <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb111-2" title="2"><span class="st">  </span><span class="kw">select</span>(hhid, seedexp_ha) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb111-3" title="3"><span class="st">  </span><span class="kw">inner_join</span>(fp_seed, ., <span class="dt">by =</span> <span class="st">&quot;hhid&quot;</span>)</a></code></pre></div>
+<p>Calculate seeds expenditures per kg</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">seedexp_kg =</span> seedexp_ha <span class="op">/</span><span class="st"> </span>seed_ha)</a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p>A lot of farmers did not purchase seeds leading to null seed expenditures (see above histogram). As a consequence we only keep expenditures for purchased seed.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1">NA_exp &lt;-<span class="st"> </span>fp_seed<span class="op">$</span>seedtype <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;local, recycled&quot;</span>, <span class="st">&quot;improved, recycled&quot;</span>)</a>
+<a class="sourceLine" id="cb114-2" title="2">fp_seed<span class="op">$</span>seedexp_kg[NA_exp] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1">fp_seed<span class="op">$</span>seedexp_kg &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seedexp_kg, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+</div>
+<div id="hybrid-vs-local" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Hybrid vs local</h3>
+<p>Make two new variables containing the price of purchased seeds for both local (<code>seedprice_local</code>) and improved varieties (<code>seedprice_hybrid</code>).</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1">fp_seed<span class="op">$</span>seedprice_hybrid &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb118-2" title="2">id_hyb &lt;-<span class="st"> </span><span class="kw">which</span>(fp_seed<span class="op">$</span>seedtype <span class="op">==</span><span class="st">&quot;improved, purchased&quot;</span>)</a>
+<a class="sourceLine" id="cb118-3" title="3">fp_seed<span class="op">$</span>seedprice_hybrid[id_hyb] &lt;-<span class="st"> </span>fp_seed<span class="op">$</span>seedexp_kg[id_hyb]</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1">fp_seed<span class="op">$</span>seedprice_local &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb119-2" title="2">id_lcl &lt;-<span class="st"> </span><span class="kw">which</span>(fp_seed<span class="op">$</span>seedtype <span class="op">==</span><span class="st">&quot;local, purchased&quot;</span>)</a>
+<a class="sourceLine" id="cb119-3" title="3">fp_seed<span class="op">$</span>seedprice_local[id_lcl] &lt;-<span class="st"> </span>fp_seed<span class="op">$</span>seedexp_kg[id_lcl]</a></code></pre></div>
+</div>
+</div>
+<div id="pigeon-pea" class="section level2">
+<h2><span class="header-section-number">3.4</span> Pigeon Pea</h2>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1">fp_pigeonpea &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb120-2" title="2"><span class="st">  </span><span class="kw">filter</span>(seed1 <span class="op">==</span><span class="st"> </span><span class="dv">9</span> <span class="op">&amp;</span><span class="st"> </span>mc_crop <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb120-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, mc_crop, seed1, seedseas, fp_index, area_est, </a>
+<a class="sourceLine" id="cb120-4" title="4">         seed2, seed3, seed4, seed5, seed6, seedexp)</a>
+<a class="sourceLine" id="cb120-5" title="5"></a>
+<a class="sourceLine" id="cb120-6" title="6">fp_pigeonpea <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">select</span>(hhid, mc_crop, seed1, seedseas, fp_index, area_est, seedexp)</a></code></pre></div>
+<pre><code>##        hhid    mc_crop seed1 seedseas fp_index  area_est seedexp
+## 1 N04020205 pigeon_pea     9        1      252 1.2140569    9000
+## 2 S08010201 pigeon_pea     9        1       15 0.4046856  125000
+## 3 S08020301 pigeon_pea     9        1       20 0.4046856       0</code></pre>
+<p>Calculate seed cost in Tsh/ha (<code>seedexp_ha</code>) and Tsh/kg <code>seedexp_kg</code>.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1">fp_pigeonpea <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb122-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">seed_kg =</span> seed3 <span class="op">*</span><span class="st"> </span>dics<span class="op">$</span>unit<span class="op">$</span>kg_maize[<span class="kw">which</span>(dics<span class="op">$</span>unit<span class="op">$</span>cat <span class="op">==</span><span class="st"> </span>fp_pigeonpea<span class="op">$</span>seed4)],</a>
+<a class="sourceLine" id="cb122-3" title="3">         <span class="dt">seedexp_ha  =</span> seedexp <span class="op">/</span><span class="st"> </span>area_est,</a>
+<a class="sourceLine" id="cb122-4" title="4">         <span class="dt">seedexp_kg =</span> seedexp <span class="op">/</span><span class="st"> </span>seed_kg,</a>
+<a class="sourceLine" id="cb122-5" title="5">         <span class="dt">seed_ha =</span> seed_kg <span class="op">/</span><span class="st"> </span>area_est) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-6" title="6"><span class="st">  </span><span class="kw">select</span>(hhid, mc_crop, seed_kg, seed_ha, seedexp_ha, seedexp_kg) </a></code></pre></div>
+<pre><code>##        hhid    mc_crop seed_kg   seed_ha seedexp_ha seedexp_kg
+## 1 N04020205 pigeon_pea      20 16.473692   7413.161     450.00
+## 2 S08010201 pigeon_pea       3  7.413161 308881.727   41666.67
+## 3 S08020301 pigeon_pea       4  9.884215      0.000       0.00</code></pre>
+<p>Unfortunately there is only 3 household with data on pigeon pea…</p>
+</div>
+<div id="fertilizer" class="section level2">
+<h2><span class="header-section-number">3.5</span> Fertilizer</h2>
+<div id="select-variables" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Select variables</h3>
+<p>For maize grown in main season select useful variable:</p>
+<ul>
+<li><code>hhid</code>: household index.</li>
+<li><code>fp_index</code>: focal plot index.</li>
+<li><code>area_est</code>: farmer estimate of the focal plot area.</li>
+<li><code>fertilizer_bin</code>: was <em><strong>artificial</strong></em> fertilizer applied on focal plot during main season 2016-2017.</li>
+<li><code>amnd0</code>: input type.</li>
+<li><code>amnd0b</code>: NPK type.</li>
+<li><code>amnd4</code>: amount applied.</li>
+<li><code>amnd5</code>: unit.</li>
+<li><code>inputexp</code>: cost of input in Tsh.</li>
+</ul>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1">fp_fert &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb124-2" title="2"><span class="st">  </span><span class="kw">filter</span>(mc_crop <span class="op">==</span><span class="st"> &quot;maize&quot;</span> <span class="op">&amp;</span><span class="st"> </span>seed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>seedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb124-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, fp_index, area_est, fertilizer_bin, amnd0, amnd0b, amnd4, amnd5, inputexp)</a></code></pre></div>
+<p>Remove aberrant values for input expenditures</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" title="1">fp_fert<span class="op">$</span>inputexp[fp_fert<span class="op">$</span>inputexp <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<p>One bizarre feature of this dataset is that <code>59</code> focal plots said to have had no fertilizer input of any kind (<code>amnd0 == 0</code>), have non null fertilizing cost (<code>inputexp != 0</code>). See example</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1">fp_fert <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb126-2" title="2"><span class="st">  </span><span class="kw">filter</span>(amnd0 <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>inputexp <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb126-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, fp_index, amnd0, amnd0b, inputexp) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb126-4" title="4"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>##        hhid fp_index amnd0 amnd0b inputexp
+## 1 N01010101      569     0     NA   435000
+## 2 N01010106      552     0     NA    30000
+## 3 N01020101      402     0     NA    30000
+## 4 N01020103      392     0     NA   117500
+## 5 N01020104      401     0     NA    72000
+## 6 N01020107      400     0     NA    68000</code></pre>
+<p>Having no idea regarding what might have caused these inconsistencies, we simply filter out the spurious focal plots.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb128-2" title="2"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>(amnd0 <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>inputexp <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
+</div>
+<div id="calculate-npk-input-from-input-type-and-amount" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Calculate NPK input from input type and amount</h3>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1">fp_fert &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_fert, dics<span class="op">$</span>inp, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;amnd0&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</a>
+<a class="sourceLine" id="cb129-2" title="2">fp_fert &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_fert, dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;amnd5&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</a></code></pre></div>
+<p>Amount of NPK calculated in kg/ha.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">amount =</span> amnd4 <span class="op">*</span><span class="st"> </span>kg,</a>
+<a class="sourceLine" id="cb130-2" title="2">                              <span class="dt">N =</span> (amount <span class="op">*</span><span class="st"> </span>Nconc) <span class="op">/</span><span class="st"> </span>area_est,</a>
+<a class="sourceLine" id="cb130-3" title="3">                              <span class="dt">P =</span> (amount <span class="op">*</span><span class="st"> </span>Pconc) <span class="op">/</span><span class="st"> </span>area_est,</a>
+<a class="sourceLine" id="cb130-4" title="4">                              <span class="dt">K =</span> (amount <span class="op">*</span><span class="st"> </span>Kconc) <span class="op">/</span><span class="st"> </span>area_est)</a></code></pre></div>
+<p>Set points with no input indicated by <code>"none"</code> to zero.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">zero_if_no_input</span>(<span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), <span class="dt">na_string =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+</div>
+<div id="calculate-additional-inputs" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> Calculate additional inputs</h3>
+<div id="load-dataset" class="section level4">
+<h4><span class="header-section-number">3.5.3.1</span> Load dataset</h4>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1">fp_fert2 &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_fp_othinp.tab&quot;</span>),</a>
+<a class="sourceLine" id="cb132-2" title="2">                       <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb132-3" title="3">                       <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb132-4" title="4">                       <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+</div>
+<div id="join-other-input-and-fertlizer-datasets-by-focal-plot-index" class="section level4">
+<h4><span class="header-section-number">3.5.3.2</span> Join other input and fertlizer datasets by focal plot index</h4>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" title="1">fp_fert2 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(<span class="dt">x =</span> <span class="kw">select</span>(fp_fert, fp_index), </a>
+<a class="sourceLine" id="cb133-2" title="2">                       <span class="dt">y =</span> fp_fert2, </a>
+<a class="sourceLine" id="cb133-3" title="3">                       <span class="dt">by =</span> <span class="st">&quot;fp_index&quot;</span>)</a></code></pre></div>
+</div>
+<div id="calculate-npk-concentrations-from-input-type" class="section level4">
+<h4><span class="header-section-number">3.5.3.3</span> Calculate NPK concentrations from input type</h4>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1">fp_fert2 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_fert2, dics<span class="op">$</span>inp, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;ramnd0&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</a>
+<a class="sourceLine" id="cb134-2" title="2">fp_fert2 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_fert2, dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;ramnd5&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</a>
+<a class="sourceLine" id="cb134-3" title="3">fp_fert2 &lt;-<span class="st"> </span>fp_fert2 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb134-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ramount =</span> ramnd4 <span class="op">*</span><span class="st"> </span>kg) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb134-5" title="5"><span class="st">  </span><span class="kw">select</span>(fp_index, input, ramount, Nconc, Pconc, Kconc, ramnd0)</a></code></pre></div>
+<p>Prefix additional fertlizer variables with an “r” to be able to distinguish them from the initial variables.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1">append_r &lt;-<span class="st"> </span><span class="kw">str_which</span>(<span class="kw">names</span>(fp_fert2), <span class="st">&quot;input|conc&quot;</span>)</a>
+<a class="sourceLine" id="cb135-2" title="2"><span class="kw">names</span>(fp_fert2)[append_r] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;r&quot;</span>, <span class="kw">names</span>(fp_fert2)[append_r])</a></code></pre></div>
+</div>
+<div id="calculate-total-npk-inputs" class="section level4">
+<h4><span class="header-section-number">3.5.3.4</span> Calculate total NPK inputs</h4>
+<p>Join main and additional fertlizer datesets together, to have access to <code>area-est</code>.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">fp_fert2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(fp_fert, fp_fert2, <span class="dt">by =</span> <span class="st">&quot;fp_index&quot;</span>)</a></code></pre></div>
+<p>Calculate additional NPK amounts in kg/ha.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1">fp_fert2 &lt;-<span class="st"> </span>fp_fert2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">rN =</span> (ramount <span class="op">*</span><span class="st"> </span>rNconc) <span class="op">/</span><span class="st"> </span>area_est,</a>
+<a class="sourceLine" id="cb137-2" title="2">                                <span class="dt">rP =</span> (ramount <span class="op">*</span><span class="st"> </span>rPconc) <span class="op">/</span><span class="st"> </span>area_est,</a>
+<a class="sourceLine" id="cb137-3" title="3">                                <span class="dt">rK =</span> (ramount <span class="op">*</span><span class="st"> </span>rKconc) <span class="op">/</span><span class="st"> </span>area_est)</a></code></pre></div>
+<p>Add up additional NPK inputs per focal plot.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">fp_fert3 &lt;-<span class="st"> </span>fp_fert2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb138-2" title="2"><span class="st">  </span><span class="kw">select</span>(fp_index, rN, rP, rK) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb138-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(fp_index) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb138-4" title="4"><span class="st">  </span><span class="kw">summarise_all</span>(sum)</a></code></pre></div>
+<p>Put input types in one variable.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1">fp_fert4 &lt;-<span class="st"> </span>fp_fert2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb139-2" title="2"><span class="st">  </span><span class="kw">select</span>(fp_index, rinput, ramount) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb139-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(fp_index) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb139-4" title="4"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="op">~</span><span class="st"> </span><span class="kw">paste0</span>(., <span class="dt">collapse =</span> <span class="st">&quot; ; &quot;</span>))</a></code></pre></div>
+</div>
+</div>
+<div id="combine-input-types" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> Combine input types</h3>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb140-2" title="2"><span class="st">  </span><span class="kw">select</span>(hhid, fp_index, fertilizer_bin, inputexp, N, P, K, input, amount) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb140-3" title="3"><span class="st">  </span><span class="kw">inner_join</span>(fp_fert3, <span class="dt">by =</span> <span class="st">&quot;fp_index&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb140-4" title="4"><span class="st">  </span><span class="kw">inner_join</span>(fp_fert4, <span class="dt">by =</span> <span class="st">&quot;fp_index&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">zero_if_no_input</span>(<span class="kw">c</span>(<span class="st">&quot;rN&quot;</span>, <span class="st">&quot;rP&quot;</span>, <span class="st">&quot;rK&quot;</span>), <span class="dt">na_string =</span> <span class="st">&quot;NA&quot;</span>)</a></code></pre></div>
+<p>Combine all NPK inputs into one variable.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">fp_fert &lt;-<span class="st"> </span><span class="kw">add_fert_input</span>(fp_fert)</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1"><span class="kw">plot_var_facet</span>(fp_fert, </a>
+<a class="sourceLine" id="cb143-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), </a>
+<a class="sourceLine" id="cb143-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>, </a>
+<a class="sourceLine" id="cb143-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Amount of N,P and K applied&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p>Cut off high values. K is left as is.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">fp_fert &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> fp_fert,</a>
+<a class="sourceLine" id="cb144-2" title="2">                     <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>),</a>
+<a class="sourceLine" id="cb144-3" title="3">                     <span class="dt">.f =</span> outlier_to_NA,</a>
+<a class="sourceLine" id="cb144-4" title="4">                     <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">plot_var_facet</span>(fp_fert, </a>
+<a class="sourceLine" id="cb145-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), </a>
+<a class="sourceLine" id="cb145-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>, </a>
+<a class="sourceLine" id="cb145-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Amount of N,P and K applied&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<p>Put all input types in one variable, and the different amounts in another unique variable.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">fp_fert<span class="op">$</span>input &lt;-<span class="st"> </span><span class="kw">paste</span>(fp_fert<span class="op">$</span>input, fp_fert<span class="op">$</span>rinput, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</a>
+<a class="sourceLine" id="cb146-2" title="2">fp_fert<span class="op">$</span>amount &lt;-<span class="st"> </span><span class="kw">paste</span>(fp_fert<span class="op">$</span>amount, fp_fert<span class="op">$</span>ramount, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</a></code></pre></div>
+<p>Finally, define relevant variable subset.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1">fp_fert &lt;-<span class="st"> </span>fp_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hhid, fertilizer_bin, input, amount, N, P, K, inputexp)</a></code></pre></div>
+</div>
+</div>
+<div id="cost-of-hiring-power-sources" class="section level2">
+<h2><span class="header-section-number">3.6</span> Cost of hiring power sources</h2>
+<p>Select only focal plots with maize grown as main crop in main season.</p>
+<p>Here all variables of interest are related to traction hence they all start with <code>trc_</code>.</p>
+<p>The middle part indicate the type of task:</p>
+<ul>
+<li><code>a1</code>: land clearing.</li>
+<li><code>a2</code>: ploughing.</li>
+<li><code>a3</code>: harrowing.</li>
+<li><code>a4</code>: planting.</li>
+<li><code>a5</code>: other activity described in <code>trc_a5_spec</code>.</li>
+</ul>
+<p>Whereas the suffix refers to the cost of hiring:</p>
+<ul>
+<li><code>ocost</code>: oxens.</li>
+<li><code>mcost</code>: a machine.</li>
+</ul>
+<p>Example: <code>trc_a2_ocost</code> corresponds to the cost of hiring oxens for ploughing.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1">fp_hire &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb148-2" title="2"><span class="st">  </span><span class="kw">filter</span>(seed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>seedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb148-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, area_est, <span class="kw">ends_with</span>(<span class="st">&quot;cost&quot;</span>), trc_a5_spec)</a></code></pre></div>
+<p>Add up oxen and machine hiring costs, then divide by area.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1">trc_a &lt;-<span class="st"> </span><span class="kw">str_which</span>(<span class="kw">colnames</span>(fp_hire), <span class="st">&quot;^trc_a</span><span class="ch">\\</span><span class="st">d&quot;</span>)</a>
+<a class="sourceLine" id="cb149-2" title="2">x &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rowSums</span>(<span class="kw">is.na</span>(fp_hire[trc_a])) <span class="op">&lt;</span><span class="st"> </span><span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb149-3" title="3">fp_hire[x, <span class="st">&quot;power_exp_ha&quot;</span>] &lt;-<span class="st"> </span><span class="kw">rowSums</span>(fp_hire[x, trc_a], <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span>fp_hire<span class="op">$</span>area_est[x]</a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1">fp_hire &lt;-<span class="st"> </span>fp_hire <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hhid, power_exp_ha)</a></code></pre></div>
+</div>
+<div id="merge-1" class="section level2">
+<h2><span class="header-section-number">3.7</span> Merge</h2>
+<p>Combine focal plot info, seed (amount + cost), fertilizer, traction cost data in one data.frame.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1">focalplot &lt;-<span class="st"> </span><span class="kw">reduce</span>(<span class="kw">list</span>(fp_info, fp_seed, fp_fert, fp_hire),</a>
+<a class="sourceLine" id="cb151-2" title="2">                    full_join, </a>
+<a class="sourceLine" id="cb151-3" title="3">                    <span class="dt">by =</span> <span class="st">&quot;hhid&quot;</span>)</a></code></pre></div>
+<p>Save intermediate dataset.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1"><span class="kw">write_csv</span>(<span class="dt">x =</span> focalplot,</a>
+<a class="sourceLine" id="cb152-2" title="2">          <span class="dt">path =</span> <span class="kw">here</span>(<span class="st">&quot;./data/extracted/focalplot.csv&quot;</span>))</a></code></pre></div>
+</div>
+<div id="recap-1" class="section level2">
+<h2><span class="header-section-number">3.8</span> Recap</h2>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">read.csv</span>(<span class="kw">here</span>(<span class="st">&quot;./tables/focalplot_recap_tab.csv&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb153-2" title="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+<th align="left">Unit</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">hhid</td>
+<td align="left">general household index starts with S or N depending on whether the household is located in the Southern or Northen zone.</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">enum_date</td>
+<td align="left">survey date</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">plotid</td>
+<td align="left">plotid</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">fp_index</td>
+<td align="left">fp_index use to merge different focalplot sub dataset with main focal plot dataset</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">fp_id</td>
+<td align="left">fp_id</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">zone</td>
+<td align="left">zone</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">region</td>
+<td align="left">region</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">district</td>
+<td align="left">district</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">site</td>
+<td align="left">site</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">irrig_bin</td>
+<td align="left">was the focal plot irrigated in any way</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">area_est</td>
+<td align="left">focal plot area estimated by farmer</td>
+<td align="left"><span class="math inline">\(ha\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="even">
+<td align="left">seed_ha</td>
+<td align="left">amount of seed</td>
+<td align="left"><span class="math inline">\(kg.ha^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="odd">
+<td align="left">seedtype</td>
+<td align="left">seed type:[improved|local] &amp; [purchased|recycled]</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">seedsource</td>
+<td align="left">seed origin/supplier</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">seedexp_ha</td>
+<td align="left">seed expenditures per ha</td>
+<td align="left"><span class="math inline">\(Tsh.ha^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="even">
+<td align="left">seedexp_kg</td>
+<td align="left">seed expenditures per kg</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">seedprice_hybrid</td>
+<td align="left">seed price for hybrid (improved) varieties</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">seedprice_local</td>
+<td align="left">seed price for local (improved) varieties</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">fertilizer_bin</td>
+<td align="left">was any kind of fertilizer applied</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">input</td>
+<td align="left">input name: input1, input2</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">amount</td>
+<td align="left">amount of fertilizer applied</td>
+<td align="left"><span class="math inline">\(kg\)</span></td>
+<td align="left">pair of integer</td>
+</tr>
+<tr class="even">
+<td align="left">N</td>
+<td align="left">amount of N applied</td>
+<td align="left"><span class="math inline">\(kg.ha^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="odd">
+<td align="left">P</td>
+<td align="left">amount of P applied</td>
+<td align="left"><span class="math inline">\(kg.ha^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="even">
+<td align="left">K</td>
+<td align="left">amount of K applied</td>
+<td align="left"><span class="math inline">\(kg.ha^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+<tr class="odd">
+<td align="left">inputexp</td>
+<td align="left">total input price</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">power_exp_ha</td>
+<td align="left">cost of hiring a power resource</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">double</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="household-survey.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="community-survey.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+Variable,Description,Unit,Type
+hhid,general household index starts with S or N depending on whether the household is located in the Southern or Northen zone. ,-,character
+hh_index,"household index internal to the data set, simple integer incrementation.",-,integer
+enum_date,survey date,-,date
+zone,zone (North or South),-,character
+region,region,-,character
+district,district,-,character
+site,site,-,character
+ward,ward,-,character
+village,village,-,character
+hamlet,hamlet,-,character
+mz_prize_may16,Buying price nearest local market in May 2016,$Tsh.kg^{-1}$,double
+mz_prize_dec17,Buying price nearest local market in December 2016,$Tsh.kg^{-1}$,double
+mz_prize_feb17,Buying price nearest local market in February 2017,$Tsh.kg^{-1}$,double
+plot_id,plot index,-,integer
+intercrop_bin,was this plot intercropped ?,-,integer
+nb_crops,number of crops on the plot,-,integer
+crop,"crop name,  either ""maize"" or ""pigeon_pea""",-,character
+harvested_bin,was this plot harvested at enumeration date ?,-,integer
+cropsys,"cropping system, either mmc = Maize MonoCulture or mpp = Maize Pigeon Pea",-,character
+plot_area,plot area estimate by farmer,$ha$,double
+yield,yield most of the time as estimated by farmer since enumeration predated harvest in most cases,$ton.ha{-1}$,double
+flab_h_ha,family labour - harvesting,"$work \, day.ha{-1}$",double
+flab_l_ha,family labour - land preparation,"$work \, day.ha{-1}$",double
+flab_p_ha,family labour - planting,"$work \, day.ha{-1}$",double
+flab_r_ha,family labour - fertilizing,"$work \, day.ha{-1}$",double
+flab_w_ha,family labour - weeding,"$work \, day.ha{-1}$",double
+hlab_h_ha,hired labour - harvesting,"$work \, day.ha{-1}$",double
+hlab_l_ha,hired labour - land preparation,"$work \, day.ha{-1}$",double
+hlab_p_ha,hired labour - planting,"$work \, day.ha{-1}$",double
+hlab_r_ha,hired labour - fertilizing,"$work \, day.ha{-1}$",double
+hlab_w_ha,hired labour - weeding,"$work \, day.ha{-1}$",double
+hlab_lw_ha,price hired labour - land preparation ,"$Tsh.work \, day^{-1}.ha^{-1}$",double
+hlab_pw_ha,price hired labour - planting,"$Tsh.work \, day^{-1}.ha^{-1}$",double
+hlab_ww_ha,price hired labour - weeding,"$Tsh.work \, day^{-1}.ha^{-1}$",double
+hlab_rw_ha,price hired labour - fertilizing ,"$Tsh.work \, day^{-1}.ha^{-1}$",double
+hlab_hw_ha,price hired labour - harvesting,"$Tsh.work \, day^{-1}.ha^{-1}$",double
+tlab_h_ha,total labour - harvesting,"$work \, day.ha{-1}$",double
+tlab_l_ha,total labour - land preparation,"$work \, day.ha{-1}$",double
+tlab_p_ha,total labour - planting,"$work \, day.ha{-1}$",double
+tlab_r_ha,total labour - fertilizing,"$work \, day.ha{-1}$",double
+tlab_w_ha,total labour - weeding,"$work \, day.ha{-1}$",double
+flab_h_dt,family labour - harvesting in work days per ton,"$work \, day.ton{-1}$",double
+hlab_h_dt,hired labour - harvesting in work days per ton,"$work \, day.ton{-1}$",double
+tlab_h_dt,total labour - harvesting in work days per ton,"$work \, day.ton{-1}$",double
+crop_sold,"name of the crop sold, either ""maize"" or ""pigeon_pea""",-,character
+sold_kg,amount of crop sold,$kg$,double
+price_kg,price per kg maize,$Tsh.kg^{-1}$,double
+revenue,revenue from crop sales,$Tsh$,double

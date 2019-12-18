@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Community survey | TAMASA APS survey</title>
+  <meta name="description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Community survey | TAMASA APS survey" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Community survey | TAMASA APS survey" />
+  
+  <meta name="twitter:description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
+  
+
+<meta name="author" content="Antoine Languillaume" />
+
+
+<meta name="date" content="2019-12-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="focal-plot-survey.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="household-survey.html"><a href="household-survey.html"><i class="fa fa-check"></i><b>2</b> Household survey</a><ul>
+<li class="chapter" data-level="2.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>2.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="2.2" data-path="household-survey.html"><a href="household-survey.html#main-household-dataset"><i class="fa fa-check"></i><b>2.2</b> Main household dataset</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="household-survey.html"><a href="household-survey.html#growing-seasons"><i class="fa fa-check"></i><b>2.2.1</b> Growing Seasons</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="household-survey.html"><a href="household-survey.html#buying-prices-maize-at-nearest-local-market"><i class="fa fa-check"></i><b>2.3</b> Buying prices maize at nearest local market</a></li>
+<li class="chapter" data-level="2.4" data-path="household-survey.html"><a href="household-survey.html#plot-data"><i class="fa fa-check"></i><b>2.4</b> Plot data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="household-survey.html"><a href="household-survey.html#plots-area-in-hectares"><i class="fa fa-check"></i><b>2.4.1</b> Plots area in hectares</a></li>
+<li class="chapter" data-level="2.4.2" data-path="household-survey.html"><a href="household-survey.html#define-cropping-systems"><i class="fa fa-check"></i><b>2.4.2</b> Define cropping systems</a></li>
+<li class="chapter" data-level="2.4.3" data-path="household-survey.html"><a href="household-survey.html#calculate-yield"><i class="fa fa-check"></i><b>2.4.3</b> Calculate yield</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="household-survey.html"><a href="household-survey.html#labour-in-main-season-only"><i class="fa fa-check"></i><b>2.5</b> Labour (in Main season only)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="household-survey.html"><a href="household-survey.html#combine-cropping-sytems-and-labour-data"><i class="fa fa-check"></i><b>2.5.1</b> Combine cropping sytems and labour data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="household-survey.html"><a href="household-survey.html#aggregate-over-labour-category"><i class="fa fa-check"></i><b>2.5.2</b> Aggregate over labour category:</a></li>
+<li class="chapter" data-level="2.5.3" data-path="household-survey.html"><a href="household-survey.html#calculate-labour-and-wages-per-hectare"><i class="fa fa-check"></i><b>2.5.3</b> Calculate labour and wages per hectare</a></li>
+<li class="chapter" data-level="2.5.4" data-path="household-survey.html"><a href="household-survey.html#total-labour-input-per-ha"><i class="fa fa-check"></i><b>2.5.4</b> Total labour input per ha</a></li>
+<li class="chapter" data-level="2.5.5" data-path="household-survey.html"><a href="household-survey.html#harvest-labour-in-work-days.t-1"><i class="fa fa-check"></i><b>2.5.5</b> Harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="household-survey.html"><a href="household-survey.html#sales"><i class="fa fa-check"></i><b>2.6</b> Sales</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="household-survey.html"><a href="household-survey.html#relevant-crop-sales-variables"><i class="fa fa-check"></i><b>2.6.1</b> Relevant Crop sales variables:</a></li>
+<li class="chapter" data-level="2.6.2" data-path="household-survey.html"><a href="household-survey.html#calculate-per-kg"><i class="fa fa-check"></i><b>2.6.2</b> Calculate per kg</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>2.7</b> Merge</a></li>
+<li class="chapter" data-level="2.8" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>2.8</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html"><i class="fa fa-check"></i><b>3</b> Focal plot survey</a><ul>
+<li class="chapter" data-level="3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#intervening-datasets-1"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>3.2</b> Prepare dataset</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-useful-columns"><i class="fa fa-check"></i><b>3.2.1</b> Select useful columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seeds"><i class="fa fa-check"></i><b>3.3</b> Seeds</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-amounts"><i class="fa fa-check"></i><b>3.3.1</b> Seed Amounts</a></li>
+<li class="chapter" data-level="3.3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-costs"><i class="fa fa-check"></i><b>3.3.2</b> Seed costs</a></li>
+<li class="chapter" data-level="3.3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#hybrid-vs-local"><i class="fa fa-check"></i><b>3.3.3</b> Hybrid vs local</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#pigeon-pea"><i class="fa fa-check"></i><b>3.4</b> Pigeon Pea</a></li>
+<li class="chapter" data-level="3.5" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#fertilizer"><i class="fa fa-check"></i><b>3.5</b> Fertilizer</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-variables"><i class="fa fa-check"></i><b>3.5.1</b> Select variables</a></li>
+<li class="chapter" data-level="3.5.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-npk-input-from-input-type-and-amount"><i class="fa fa-check"></i><b>3.5.2</b> Calculate NPK input from input type and amount</a></li>
+<li class="chapter" data-level="3.5.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-additional-inputs"><i class="fa fa-check"></i><b>3.5.3</b> Calculate additional inputs</a></li>
+<li class="chapter" data-level="3.5.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#combine-input-types"><i class="fa fa-check"></i><b>3.5.4</b> Combine input types</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#cost-of-hiring-power-sources"><i class="fa fa-check"></i><b>3.6</b> Cost of hiring power sources</a></li>
+<li class="chapter" data-level="3.7" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#merge-1"><i class="fa fa-check"></i><b>3.7</b> Merge</a></li>
+<li class="chapter" data-level="3.8" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#recap-1"><i class="fa fa-check"></i><b>3.8</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a><ul>
+<li class="chapter" data-level="4.1" data-path="community-survey.html"><a href="community-survey.html#intervening-datasets-2"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="community-survey.html"><a href="community-survey.html#prepare-dataset-1"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
+<li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#seed-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Seed buying prices</a></li>
+<li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="community-survey.html"><a href="community-survey.html#selected-variables"><i class="fa fa-check"></i><b>4.4.1</b> Selected variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame"><i class="fa fa-check"></i><b>4.4.2</b> Subset main community data.frame</a></li>
+<li class="chapter" data-level="4.4.3" data-path="community-survey.html"><a href="community-survey.html#calculate-price-in-tshkg-for-each-fertilizer"><i class="fa fa-check"></i><b>4.4.3</b> Calculate price in Tsh/kg for each fertilizer</a></li>
+<li class="chapter" data-level="4.4.4" data-path="community-survey.html"><a href="community-survey.html#price-of-n-p-and-k-in-tsh.kg-1"><i class="fa fa-check"></i><b>4.4.4</b> Price of N, P and K in <span class="math inline">\(Tsh.kg^{-1}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="community-survey.html"><a href="community-survey.html#labour-cost"><i class="fa fa-check"></i><b>4.5</b> Labour cost</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame-1"><i class="fa fa-check"></i><b>4.5.1</b> Subset main community data.frame</a></li>
+<li class="chapter" data-level="4.5.2" data-path="community-survey.html"><a href="community-survey.html#visual-exploration-1"><i class="fa fa-check"></i><b>4.5.2</b> Visual exploration</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="community-survey.html"><a href="community-survey.html#merge-2"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
+<li class="chapter" data-level="4.7" data-path="community-survey.html"><a href="community-survey.html#recap-2"><i class="fa fa-check"></i><b>4.7</b> Recap</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="community-survey.html"><a href="community-survey.html#community-general-dataset"><i class="fa fa-check"></i><b>4.7.1</b> Community general dataset</a></li>
+<li class="chapter" data-level="4.7.2" data-path="community-survey.html"><a href="community-survey.html#fertilizer-isotope-prices"><i class="fa fa-check"></i><b>4.7.2</b> Fertilizer isotope prices</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">TAMASA APS survey</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="community-survey" class="section level1">
+<h1><span class="header-section-number">4</span> Community survey</h1>
+<p>Mainly contains information about access to services, field-labour price, seed and input prices.</p>
+<div id="intervening-datasets-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Intervening datasets</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Description</th>
+<th align="left">File</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Community main file</td>
+<td align="left">TZAPS17_cmty.tab</td>
+</tr>
+<tr class="even">
+<td align="left">Community metadata</td>
+<td align="left">TZAPS17_ODK_community.xlsx</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="prepare-dataset-1" class="section level2">
+<h2><span class="header-section-number">4.2</span> Prepare dataset</h2>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1">cmty &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_cmty.tab&quot;</span>),</a>
+<a class="sourceLine" id="cb154-2" title="2">                   <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb154-3" title="3">                   <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb154-4" title="4">                   <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1">cmty<span class="op">$</span>village[cmty<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>cmty<span class="op">$</span>village_alt[cmty<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</a>
+<a class="sourceLine" id="cb155-2" title="2">cmty<span class="op">$</span>hamlet[cmty<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>cmty<span class="op">$</span>hamlet_alt[cmty<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</a></code></pre></div>
+<p>Set zone and region as factors with legible levels</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" title="1">md_geo &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/metadata/TZAPS17_ODK_community.xlsx&quot;</span>),</a>
+<a class="sourceLine" id="cb156-2" title="2">                            <span class="dt">sheet =</span> <span class="st">&quot;external_choices&quot;</span>)</a>
+<a class="sourceLine" id="cb156-3" title="3">md_region  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;regions&quot;</span>)</a>
+<a class="sourceLine" id="cb156-4" title="4">md_district  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;districts&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1">cmty<span class="op">$</span>zone &lt;-<span class="st"> </span><span class="kw">as.factor</span>(cmty<span class="op">$</span>zone)</a>
+<a class="sourceLine" id="cb157-2" title="2">cmty<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">factor</span>(cmty<span class="op">$</span>region,</a>
+<a class="sourceLine" id="cb157-3" title="3">                      <span class="dt">levels =</span> md_region<span class="op">$</span>name,</a>
+<a class="sourceLine" id="cb157-4" title="4">                      <span class="dt">labels =</span> md_region<span class="op">$</span>label)</a>
+<a class="sourceLine" id="cb157-5" title="5">cmty<span class="op">$</span>district &lt;-<span class="st"> </span><span class="kw">factor</span>(cmty<span class="op">$</span>district,</a>
+<a class="sourceLine" id="cb157-6" title="6">                        <span class="dt">levels =</span> md_district<span class="op">$</span>name,</a>
+<a class="sourceLine" id="cb157-7" title="7">                        <span class="dt">labels =</span> md_district<span class="op">$</span>label)</a></code></pre></div>
+<p>Decriptive variables:</p>
+<ul>
+<li><code>cmty_index</code>: community index, field with only unique values: <code>TRUE</code>.</li>
+<li><code>enum_date</code>: date of the survey.</li>
+<li><code>zone &gt; region &gt; district &gt; site &gt; ward &gt; village &gt; hamlet</code>: spatial hierachy.</li>
+<li><code>comm_gps</code>: community GPS coordinates.</li>
+</ul>
+<p>Quantitative variables :</p>
+<ul>
+<li><code>vil_nhh</code>: number of households in the village.</li>
+<li><code>vil_npersons</code>: number of persons in the village.</li>
+<li><p><code>vil_acres</code>: approximate size of the village in acres.</p></li>
+<li><code>acc_inp_km</code>: distance to input dealer in km.</li>
+<li><p><code>acc_inp_tsh</code>: cost of transport in Tsh.</p></li>
+</ul>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1">cmty_info &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb158-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, enum_date, zone, region, district, site, ward, village,</a>
+<a class="sourceLine" id="cb158-3" title="3">         hamlet, comm_gps, vil_nhh, vil_npersons, vil_acres, acc_inp_km, acc_inp_tsh)</a></code></pre></div>
+<p>Data is available for <code>68</code> communities threw out the country.</p>
+<p>The quantitative variables should be strictly positive. Scan for negative values:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1">(neg_val &lt;-<span class="st"> </span>cmty_info[<span class="kw">map_lgl</span>(cmty_info, is.numeric)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>())</a></code></pre></div>
+<pre><code>## [1] &quot;vil_npersons&quot; &quot;vil_acres&quot;</code></pre>
+<p>and replace existing ones by NA.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1">cmty_info[neg_val] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_info[neg_val], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">plot_var</span>(cmty_info, vil_nhh, <span class="dt">plot.unit =</span> <span class="st">&quot;nb of household&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-154-1.png" width="672" /></p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="kw">plot_var_matrix</span>(<span class="dt">df =</span> cmty_info,</a>
+<a class="sourceLine" id="cb163-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
+<a class="sourceLine" id="cb163-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;nb of household&quot;</span>, <span class="st">&quot;nb of persons&quot;</span>, <span class="st">&quot;acres&quot;</span>),</a>
+<a class="sourceLine" id="cb163-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-155-1.png" width="672" /></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">cmty_info &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_info,</a>
+<a class="sourceLine" id="cb164-2" title="2">                       <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
+<a class="sourceLine" id="cb164-3" title="3">                       <span class="dt">.f =</span> outlier_to_NA,</a>
+<a class="sourceLine" id="cb164-4" title="4">                       <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">del_NA &lt;-<span class="st"> </span>cmty_info <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb165-2" title="2"><span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;vil_&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb165-3" title="3"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="st"> </span><span class="kw">which</span>(<span class="kw">is.na</span>(.x))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb165-4" title="4"><span class="st">  </span><span class="kw">unlist</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb165-5" title="5"><span class="st">  </span><span class="kw">unique</span>()</a>
+<a class="sourceLine" id="cb165-6" title="6">cmty_info &lt;-<span class="st"> </span>cmty_info[<span class="op">-</span>del_NA, ]</a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1"><span class="kw">dim</span>(cmty_info)</a></code></pre></div>
+<pre><code>## [1] 46 15</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1"><span class="kw">plot_var_matrix</span>(<span class="dt">df =</span> cmty_info,</a>
+<a class="sourceLine" id="cb168-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
+<a class="sourceLine" id="cb168-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;nb of household&quot;</span>, <span class="st">&quot;nb of persons&quot;</span>, <span class="st">&quot;acres&quot;</span>),</a>
+<a class="sourceLine" id="cb168-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">plot_var_matrix</span>(</a>
+<a class="sourceLine" id="cb169-2" title="2">  <span class="dt">df =</span> cmty_info,</a>
+<a class="sourceLine" id="cb169-3" title="3">  <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;acc_inp_km&quot;</span>, <span class="st">&quot;acc_inp_tsh&quot;</span>),</a>
+<a class="sourceLine" id="cb169-4" title="4">  <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;km&quot;</span>, <span class="st">&quot;tsh&quot;</span>),</a>
+<a class="sourceLine" id="cb169-5" title="5">  <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb169-6" title="6">)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
+<p>A number of communities are said to be located at a 0 km from an input dealer or to have null input transportation cost. It can be that these communities are indeed located nearby a supplier or most likely that they simply do not use additional inputs.</p>
+</div>
+<div id="seed-buying-prices" class="section level2">
+<h2><span class="header-section-number">4.3</span> Seed buying prices</h2>
+<p>The community datasets contains a varierty of variables related to maize prize.
+Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh of a 50 kg bag of maize seeds at two possible locations (<code>depot</code> or <code>town</code>) in four different time periods (<code>q1</code>, <code>q2</code>, <code>q3</code> and <code>q4</code>).</p>
+<p><strong>Locations:</strong></p>
+<p><code>depot</code> refers to a large commercial depot compare to <code>town</code> which is supposed to be the regular market place gor example in the district town.</p>
+<p><strong>Time periods:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Buying place</th>
+<th>Apr-Jun 2016</th>
+<th>Jul-Sep 2016</th>
+<th>Oct-Dec 2016</th>
+<th>Jan-Mar 2017</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>depot</td>
+<td>q1</td>
+<td>q2</td>
+<td>q3</td>
+<td>q4</td>
+</tr>
+<tr class="even">
+<td>town</td>
+<td>q1</td>
+<td>q2</td>
+<td>q3</td>
+<td>q4</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">cmty_seed &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb170-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, <span class="kw">starts_with</span>(<span class="st">&quot;maiprc_&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1">maiprc &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^maiprc&quot;</span>, <span class="kw">colnames</span>(cmty_seed), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Is there any price variable wiht a negative price ?</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">cmty_seed[, maiprc] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;maiprc_depot_q1&quot; &quot;maiprc_depot_q2&quot; &quot;maiprc_depot_q3&quot; &quot;maiprc_depot_q4&quot; &quot;maiprc_town_q1&quot;  &quot;maiprc_town_q2&quot; 
+## [7] &quot;maiprc_town_q3&quot;  &quot;maiprc_town_q4&quot;</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">cmty_seed[, maiprc] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_seed[, maiprc], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
+<p>Convert price from Tsh/50 kg bag to Tsh/kg</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">cmty_seed[, maiprc] &lt;-<span class="st"> </span>cmty_seed[, maiprc] <span class="op">/</span><span class="st"> </span><span class="dv">50</span></a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
+<a class="sourceLine" id="cb176-2" title="2">title =<span class="st"> &quot;Maize price&quot;</span></a>
+<a class="sourceLine" id="cb176-3" title="3">cmty_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb176-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> maiprc,</a>
+<a class="sourceLine" id="cb176-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
+<a class="sourceLine" id="cb176-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb176-7" title="7"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;maiprc&quot;</span>, <span class="st">&quot;place&quot;</span>, <span class="st">&quot;trimester&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb176-8" title="8"><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></a>
+<a class="sourceLine" id="cb176-9" title="9"><span class="st">  </span><span class="kw">facet_grid</span>(place <span class="op">~</span><span class="st"> </span>trimester)<span class="op">+</span></a>
+<a class="sourceLine" id="cb176-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb176-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
+<p>Replace extreme values by NA</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" title="1">cmty_seed &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_seed,</a>
+<a class="sourceLine" id="cb177-2" title="2">                       <span class="dt">.at =</span> maiprc,</a>
+<a class="sourceLine" id="cb177-3" title="3">                       <span class="dt">.f =</span> outlier_to_NA,</a>
+<a class="sourceLine" id="cb177-4" title="4">                       <span class="dt">quantile =</span> <span class="fl">0.99</span>)</a></code></pre></div>
+<p>and delete any community harbouring NA for any variable</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" title="1">del_NA &lt;-<span class="st"> </span>cmty_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb178-2" title="2"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="st"> </span><span class="kw">which</span>(<span class="kw">is.na</span>(.x))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb178-3" title="3"><span class="st">  </span><span class="kw">unlist</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb178-4" title="4"><span class="st">  </span><span class="kw">unique</span>()</a>
+<a class="sourceLine" id="cb178-5" title="5">cmty_seed &lt;-<span class="st"> </span>cmty_seed[<span class="op">-</span>del_NA, ]</a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
+<a class="sourceLine" id="cb179-2" title="2">title =<span class="st"> &quot;Maize price&quot;</span></a>
+<a class="sourceLine" id="cb179-3" title="3">cmty_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb179-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> maiprc,</a>
+<a class="sourceLine" id="cb179-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
+<a class="sourceLine" id="cb179-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb179-7" title="7"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;maiprc&quot;</span>, <span class="st">&quot;place&quot;</span>, <span class="st">&quot;trimester&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb179-8" title="8"><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></a>
+<a class="sourceLine" id="cb179-9" title="9"><span class="st">  </span><span class="kw">facet_grid</span>(place <span class="op">~</span><span class="st"> </span>trimester)<span class="op">+</span></a>
+<a class="sourceLine" id="cb179-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb179-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
+</div>
+<div id="fertilizer-prices" class="section level2">
+<h2><span class="header-section-number">4.4</span> Fertilizer prices</h2>
+<div id="selected-variables" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Selected variables</h3>
+<div id="standard-bag" class="section level4">
+<h4><span class="header-section-number">4.4.1.1</span> Standard bag</h4>
+<p>Cost in Tsh of a 50 kg bag of fertilizer from the nearest input dealer:</p>
+<ul>
+<li><code>fmkt_pri_bas</code>: basal fertlizer, (compound D). One of the most used fertlizer (cf:<a href="http://www.fao.org/3/a0395e/a0395e0a.htm" class="uri">http://www.fao.org/3/a0395e/a0395e0a.htm</a>).</li>
+<li><code>fmkt_pri_top</code>: top-dressing fertilizer (urea).</li>
+<li><code>fmkt_mkt_trp</code>: transport.</li>
+</ul>
+</div>
+<div id="other-variables" class="section level4">
+<h4><span class="header-section-number">4.4.1.2</span> Other variables</h4>
+<p>Those variables do not relate to a fix amount of fertilizer.
+They all start with the prefix <code>price</code>. The middle part is then a code for the type of input:</p>
+<table>
+<thead>
+<tr class="header">
+<th>code</th>
+<th align="center">fertilizer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fert1</td>
+<td align="center">SA</td>
+</tr>
+<tr class="even">
+<td>fert2</td>
+<td align="center">DAP</td>
+</tr>
+<tr class="odd">
+<td>fert3</td>
+<td align="center">CAN</td>
+</tr>
+<tr class="even">
+<td>fert4</td>
+<td align="center">Urea</td>
+</tr>
+<tr class="odd">
+<td>fert5</td>
+<td align="center">TSP</td>
+</tr>
+<tr class="even">
+<td>fert6</td>
+<td align="center">MinjinguMazao</td>
+</tr>
+<tr class="odd">
+<td>fert7</td>
+<td align="center">YaraMilaCereal</td>
+</tr>
+<tr class="even">
+<td>fert8</td>
+<td align="center">YaraAmidas</td>
+</tr>
+<tr class="odd">
+<td>fert9</td>
+<td align="center">YaraMilaWinner</td>
+</tr>
+<tr class="even">
+<td>fert10</td>
+<td align="center">other</td>
+</tr>
+<tr class="odd">
+<td>oinp1</td>
+<td align="center">pesticide (for field use not storage)</td>
+</tr>
+<tr class="even">
+<td>oinp2</td>
+<td align="center">herbicide</td>
+</tr>
+<tr class="odd">
+<td>oinp4</td>
+<td align="center">fungicide</td>
+</tr>
+</tbody>
+</table>
+<p>Lastly, a suffix indicates the type of variable:</p>
+<table>
+<thead>
+<tr class="header">
+<th>suffix</th>
+<th align="center">variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tsh</td>
+<td align="center">price in Tsh</td>
+</tr>
+<tr class="even">
+<td>amt</td>
+<td align="center">amount</td>
+</tr>
+<tr class="odd">
+<td>unit</td>
+<td align="center">unit</td>
+</tr>
+</tbody>
+</table>
+<p>Example: <code>price_fert2_amt</code> amount of DAP, given in the unit indicated in <code>price_fert2_unit</code> and corresponding to the price in Tsh in <code>price_fert2_tsh</code>.</p>
+</div>
+</div>
+<div id="subset-main-community-data.frame" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Subset main community data.frame</h3>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" title="1">cmty_fert &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb180-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, </a>
+<a class="sourceLine" id="cb180-3" title="3">         <span class="kw">starts_with</span>(<span class="st">&quot;fmkt&quot;</span>),</a>
+<a class="sourceLine" id="cb180-4" title="4">         <span class="kw">matches</span>(<span class="st">&quot;^price_oinp[^3]&quot;</span>),</a>
+<a class="sourceLine" id="cb180-5" title="5">         <span class="kw">starts_with</span>(<span class="st">&quot;price_fert&quot;</span>))</a></code></pre></div>
+<p>Any variables with negative values ?</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1">cmty_fert <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb181-2" title="2"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>cmty_index) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb181-3" title="3"><span class="st">  </span><span class="kw">any_negative</span>()</a></code></pre></div>
+<pre><code>##  [1] &quot;fmkt_pri_bas&quot;     &quot;fmkt_pri_top&quot;     &quot;fmkt_mkt_trp&quot;     &quot;price_oinp2_tsh&quot;  &quot;price_oinp1_tsh&quot;  &quot;price_oinp4_tsh&quot; 
+##  [7] &quot;price_fert1_tsh&quot;  &quot;price_fert2_tsh&quot;  &quot;price_fert3_tsh&quot;  &quot;price_fert4_tsh&quot;  &quot;price_fert5_tsh&quot;  &quot;price_fert6_tsh&quot; 
+## [13] &quot;price_fert7_tsh&quot;  &quot;price_fert8_tsh&quot;  &quot;price_fert9_tsh&quot;  &quot;price_fert9_amt&quot;  &quot;price_fert10_tsh&quot;</code></pre>
+<p>The value -98 seems to be the recurring place holder for missing value, sometimes it is also mislabelled as 98…</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" title="1">cmty_fert[<span class="kw">c</span>(<span class="dv">42</span>,<span class="dv">54</span>), <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">14</span>)]</a></code></pre></div>
+<pre><code>##    cmty_index price_oinp2_tsh price_fert1_tsh
+## 42         42             -98           60000
+## 54         54             -98              98</code></pre>
+<p>Replace those place holder values by NA.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1">id_vars &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;cmty_index&quot;</span>, <span class="kw">colnames</span>(cmty_fert), <span class="dt">invert =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb185-2" title="2">err_to_NA &lt;-<span class="st"> </span><span class="kw">which</span>(cmty_fert[, id_vars ] <span class="op">&lt;=</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>cmty_fert[, id_vars] <span class="op">==</span><span class="st"> </span><span class="dv">98</span>, <span class="dt">arr.ind =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb185-3" title="3">cmty_fert[, id_vars][err_to_NA] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+</div>
+<div id="calculate-price-in-tshkg-for-each-fertilizer" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> Calculate price in Tsh/kg for each fertilizer</h3>
+<div id="transport-price-per-kg" class="section level4">
+<h4><span class="header-section-number">4.4.3.1</span> Transport price per kg</h4>
+<p>Transport price is assume to scale linearly with the amount being transported and is calculated by simply dividing the cost of transport of a 50kg fetlizer bag by 50.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" title="1">cmty_fert &lt;-<span class="st"> </span>cmty_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">transp_price =</span> fmkt_mkt_trp <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" title="1"><span class="kw">plot_var</span>(cmty_fert, <span class="dt">var =</span> transp_price, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" title="1">cmty_fert<span class="op">$</span>transp_price[cmty_fert<span class="op">$</span>transp_price <span class="op">&gt;</span><span class="st"> </span><span class="dv">200</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" title="1"><span class="kw">plot_var</span>(cmty_fert, <span class="dt">var =</span> transp_price, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-177-1.png" width="672" /></p>
+</div>
+<div id="price-tshkg" class="section level4">
+<h4><span class="header-section-number">4.4.3.2</span> Price Tsh/kg</h4>
+<p>Per unit category, per fertilizer type, calculate price in Tsh/kg as:</p>
+<p><span class="math inline">\(Price_{(Tsh.kg^{-1})} = \frac{Price_{(Tsh)}}{amount_{(kg)}} + transport_{(Tsh.kg^{-1})}\)</span></p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" title="1">fertilizer &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;SA&quot;</span>, <span class="st">&quot;DAP&quot;</span>, <span class="st">&quot;CAN&quot;</span>, <span class="st">&quot;Urea&quot;</span>, <span class="st">&quot;TSP&quot;</span>,</a>
+<a class="sourceLine" id="cb190-2" title="2">                <span class="st">&quot;MinjinguMazao&quot;</span>, <span class="st">&quot;YaraMilaCereal&quot;</span>, <span class="st">&quot;YaraAmidas&quot;</span>, <span class="st">&quot;YaraMilaWinner&quot;</span>, <span class="st">&quot;other&quot;</span>)</a>
+<a class="sourceLine" id="cb190-3" title="3">pesticide &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;pesticide&quot;</span>, <span class="st">&quot;herbicide&quot;</span>, <span class="ot">NA</span>, <span class="st">&quot;fungicide&quot;</span>)</a>
+<a class="sourceLine" id="cb190-4" title="4">units &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">99</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" title="1"><span class="co"># Fertilizer</span></a>
+<a class="sourceLine" id="cb191-2" title="2">cmty_fert &lt;-<span class="st"> </span><span class="kw">price_input</span>(<span class="dt">df =</span> cmty_fert,</a>
+<a class="sourceLine" id="cb191-3" title="3">                         <span class="dt">input_type =</span> <span class="st">&quot;fert&quot;</span>,</a>
+<a class="sourceLine" id="cb191-4" title="4">                         <span class="dt">input_id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb191-5" title="5">                         <span class="dt">input_name =</span> fertilizer,</a>
+<a class="sourceLine" id="cb191-6" title="6">                         <span class="dt">units =</span> units)</a>
+<a class="sourceLine" id="cb191-7" title="7"><span class="co"># Pesticide </span></a>
+<a class="sourceLine" id="cb191-8" title="8">cmty_fert &lt;-<span class="st"> </span><span class="kw">price_input</span>(<span class="dt">df =</span> cmty_fert,</a>
+<a class="sourceLine" id="cb191-9" title="9">                         <span class="dt">input_type =</span> <span class="st">&quot;oinp&quot;</span>,</a>
+<a class="sourceLine" id="cb191-10" title="10">                         <span class="dt">input_id =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb191-11" title="11">                         <span class="dt">input_name =</span> pesticide,</a>
+<a class="sourceLine" id="cb191-12" title="12">                         <span class="dt">units =</span> units)</a></code></pre></div>
+</div>
+<div id="keep-only-transformed-variables" class="section level4">
+<h4><span class="header-section-number">4.4.3.3</span> Keep only transformed variables</h4>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" title="1">cmty_fert &lt;-<span class="st"> </span>cmty_fert <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb192-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, fmkt_pri_bas, fmkt_pri_top, transp_price,</a>
+<a class="sourceLine" id="cb192-3" title="3">         <span class="kw">paste0</span>(<span class="st">&quot;price_&quot;</span>, pesticide[<span class="op">!</span><span class="kw">is.na</span>(pesticide)]),</a>
+<a class="sourceLine" id="cb192-4" title="4">         <span class="kw">paste0</span>(<span class="st">&quot;price_&quot;</span>, fertilizer))</a></code></pre></div>
+<p>Rename standard bag variables (<code>fmkt</code>)</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" title="1"><span class="kw">colnames</span>(cmty_fert)[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;price_basfert&quot;</span>, <span class="st">&quot;price_topfert&quot;</span>)</a></code></pre></div>
+<p>Convert those in price per kg</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" title="1">cmty_fert &lt;-<span class="st"> </span>cmty_fert <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb194-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">price_basfert =</span> price_basfert <span class="op">/</span><span class="st"> </span><span class="dv">50</span>,</a>
+<a class="sourceLine" id="cb194-3" title="3">         <span class="dt">price_topfert =</span> price_topfert <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)</a></code></pre></div>
+</div>
+<div id="visual-exploration" class="section level4">
+<h4><span class="header-section-number">4.4.3.4</span> Visual exploration</h4>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" title="1"><span class="kw">plot_var_facet</span>(cmty_fert, </a>
+<a class="sourceLine" id="cb195-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;price_basfert&quot;</span>, <span class="st">&quot;price_topfert&quot;</span>), </a>
+<a class="sourceLine" id="cb195-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
+<a class="sourceLine" id="cb195-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Price base and top fertilizers&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-183-1.png" width="672" /></p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" title="1">var_fert &lt;-<span class="st"> </span><span class="kw">map</span>(fertilizer, <span class="op">~</span><span class="st"> </span><span class="kw">grep</span>(.x, <span class="kw">colnames</span>(cmty_fert), <span class="dt">value =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</a>
+<a class="sourceLine" id="cb196-2" title="2"><span class="kw">plot_var_facet</span>(cmty_fert, </a>
+<a class="sourceLine" id="cb196-3" title="3">               <span class="dt">vars =</span> var_fert, </a>
+<a class="sourceLine" id="cb196-4" title="4">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
+<a class="sourceLine" id="cb196-5" title="5">               <span class="dt">title =</span> <span class="st">&quot;Price fertilizers&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-184-1.png" width="672" /></p>
+<p><code>price_TSP</code>, all NA ?: <code>TRUE</code>.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" title="1">cmty <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb197-2" title="2"><span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;price_fert5&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb197-3" title="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>##   price_fert5_tsh price_fert5_amt price_fert5_unit
+## 1             -98               1                3
+## 2             -98               1                3
+## 3             -98               1                3
+## 4             -98               1                3
+## 5             -98               1                3
+## 6             -98               1                3</code></pre>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" title="1"><span class="kw">table</span>(cmty<span class="op">$</span>price_fert5_tsh)</a></code></pre></div>
+<pre><code>## 
+##   -98 50000 
+##    66     1</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" title="1">var_pest &lt;-<span class="st"> </span><span class="kw">map_chr</span>(pesticide[<span class="op">!</span><span class="kw">is.na</span>(pesticide)], </a>
+<a class="sourceLine" id="cb201-2" title="2">                    <span class="op">~</span><span class="st"> </span><span class="kw">grep</span>(.x, <span class="kw">colnames</span>(cmty_fert), <span class="dt">value =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb201-3" title="3"><span class="kw">plot_var_facet</span>(cmty_fert, </a>
+<a class="sourceLine" id="cb201-4" title="4">               <span class="dt">vars =</span> var_pest, </a>
+<a class="sourceLine" id="cb201-5" title="5">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
+<a class="sourceLine" id="cb201-6" title="6">               <span class="dt">title =</span> <span class="st">&quot;Price inputs other than fertilizers&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
+</div>
+</div>
+<div id="price-of-n-p-and-k-in-tsh.kg-1" class="section level3">
+<h3><span class="header-section-number">4.4.4</span> Price of N, P and K in <span class="math inline">\(Tsh.kg^{-1}\)</span></h3>
+<p>We now calculate the price of fertilizer by isotopes, namely N, P and K. This price corresponds to the price of a given raw isotope in <span class="math inline">\(Tsh.kg^{-1}\)</span>. We do not take into account the difference in terms of availability of N, P and K per fertilizer type.</p>
+<p>Modified input names in dedicatd dictionary (<code>dics$inp</code>) so that they match community data names.</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="kw">str_remove</span>(dics<span class="op">$</span>inp<span class="op">$</span>input, <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">(.*</span><span class="ch">\\</span><span class="st">))&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb202-2" title="2"><span class="st">  </span><span class="kw">str_remove</span>(<span class="st">&quot; &quot;</span>) -&gt;<span class="st"> </span>dics<span class="op">$</span>inp<span class="op">$</span>input_mod</a></code></pre></div>
+<p>Temporarily transform <code>cmty_fert</code> to long format to be able to join it with <code>dics$inp</code> and perform calculations.</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" title="1">cmty_fert_l &lt;-<span class="st"> </span>cmty_fert <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb203-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, <span class="kw">starts_with</span>(<span class="st">&quot;price&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb203-3" title="3"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">str_subset</span>(<span class="kw">colnames</span>(cmty_fert), <span class="st">&quot;^price&quot;</span>), </a>
+<a class="sourceLine" id="cb203-4" title="4">               <span class="dt">names_to =</span> <span class="st">&quot;input&quot;</span>, </a>
+<a class="sourceLine" id="cb203-5" title="5">               <span class="dt">values_to =</span> <span class="st">&quot;price&quot;</span>)</a>
+<a class="sourceLine" id="cb203-6" title="6">cmty_fert_l<span class="op">$</span>input &lt;-<span class="st"> </span><span class="kw">str_extract</span>(cmty_fert_l<span class="op">$</span>input, <span class="st">&quot;(?&lt;=price_).*&quot;</span>)</a></code></pre></div>
+<p>Perform calculation and transform back to wider format <code>cmty_fert</code>.</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1">cmty_fert_l &lt;-<span class="st"> </span>cmty_fert_l <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">full_join</span>(dics<span class="op">$</span>inp, </a>
+<a class="sourceLine" id="cb204-2" title="2">                                         <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;input&quot;</span> =<span class="st"> &quot;input_mod&quot;</span>), </a>
+<a class="sourceLine" id="cb204-3" title="3">                                         <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.x&quot;</span>, <span class="st">&quot;.dic&quot;</span>))</a></code></pre></div>
+<p>Define function to divide fertilizer price by concentration only if the concentration of a given isotope is different from 0.</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" title="1">isotope_price &lt;-<span class="st"> </span><span class="cf">function</span>(price, conc){</a>
+<a class="sourceLine" id="cb205-2" title="2">  <span class="kw">map2_dbl</span>(<span class="dt">.x =</span> price, <span class="dt">.y =</span> conc, <span class="cf">function</span>(.x, .y){ <span class="kw">ifelse</span>(.y <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>, .x<span class="op">/</span>.y, <span class="ot">NA</span>)})</a>
+<a class="sourceLine" id="cb205-3" title="3">}</a></code></pre></div>
+<p>Calculate price per isotope.</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" title="1">cmty_fert_l &lt;-<span class="st"> </span>cmty_fert_l <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">N_price =</span> <span class="kw">isotope_price</span>(price, Nconc), </a>
+<a class="sourceLine" id="cb206-2" title="2">                                      <span class="dt">P_price =</span> <span class="kw">isotope_price</span>(price, Pconc),</a>
+<a class="sourceLine" id="cb206-3" title="3">                                      <span class="dt">K_price =</span> <span class="kw">isotope_price</span>(price, Kconc))</a></code></pre></div>
+<p>Convert to wider format.</p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1">cmty_fert_NPK &lt;-<span class="st"> </span>cmty_fert_l <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb207-2" title="2"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> <span class="st">&quot;input&quot;</span>, <span class="dt">values_from =</span> <span class="st">&#39;price&#39;</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-3" title="3"><span class="st">  </span><span class="kw">select</span>(cmty_index, input.dic, <span class="kw">matches</span>(<span class="st">&quot;^[A-Z]_price$&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-4" title="4"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">input_type =</span> input.dic)</a></code></pre></div>
+<p>Delete rows without any input or isotope price.</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1">cmty_fert_NPK &lt;-<span class="st"> </span>cmty_fert_NPK[<span class="kw">rowSums</span>(<span class="kw">is.na</span>(cmty_fert_NPK)) <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>, ]</a></code></pre></div>
+<p>Plot results.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1">dNPK &lt;-<span class="st"> </span><span class="kw">pivot_longer</span>(cmty_fert_NPK, <span class="dt">cols =</span> <span class="kw">paste0</span>(<span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), <span class="st">&quot;_price&quot;</span>),</a>
+<a class="sourceLine" id="cb209-2" title="2">                     <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
+<a class="sourceLine" id="cb209-3" title="3">                     <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>)</a>
+<a class="sourceLine" id="cb209-4" title="4">dNPK<span class="op">$</span>category &lt;-<span class="st"> </span><span class="kw">factor</span>(dNPK<span class="op">$</span>category, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;N_price&quot;</span>, <span class="st">&quot;P_price&quot;</span>, <span class="st">&quot;K_price&quot;</span>))</a>
+<a class="sourceLine" id="cb209-5" title="5"><span class="kw">plot_var</span>(dNPK, <span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></a>
+<a class="sourceLine" id="cb209-6" title="6"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>category)<span class="op">+</span></a>
+<a class="sourceLine" id="cb209-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb209-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Fertilizer price per isotope: N, P and K&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-195-1.png" width="672" /></p>
+</div>
+</div>
+<div id="labour-cost" class="section level2">
+<h2><span class="header-section-number">4.5</span> Labour cost</h2>
+<p>Cost of hiring one adult man for one labour day.</p>
+<p><strong>Labour variables:</strong></p>
+<ul>
+<li>prefix: <code>labprc</code>.</li>
+<li>code: <code>clearing</code>, <code>hoeing</code>, <code>planting</code>, <code>tillplnt</code>, <code>fertapp</code>, <code>weeding</code>, <code>pestapp</code>, <code>harvesting</code>, <code>shelling</code>, pretty transparent except <code>tillplant</code> = tilling and planting together.</li>
+<li>suffix: <code>price</code>.</li>
+</ul>
+<div id="subset-main-community-data.frame-1" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Subset main community data.frame</h3>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" title="1">cmty_labour &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb210-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, <span class="kw">matches</span>(<span class="st">&quot;^labprc_.*_price$&quot;</span>))</a></code></pre></div>
+<p>Get rid of variable prefix.</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" title="1"><span class="kw">names</span>(cmty_labour) &lt;-<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">names</span>(cmty_labour), <span class="st">&quot;labprc_&quot;</span>, <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p>Get all labour variable names.</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" title="1">lab_vars &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;_price$&quot;</span>, <span class="kw">colnames</span>(cmty_labour), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Any variables with negative values ?</p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" title="1">cmty_labour[, lab_vars] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;clearing_price&quot;   &quot;hoeing_price&quot;     &quot;planting_price&quot;   &quot;tillplnt_price&quot;   &quot;fertapp_price&quot;    &quot;pestapp_price&quot;   
+## [7] &quot;harvesting_price&quot; &quot;shelling_price&quot;</code></pre>
+<p>Replace negative values by NA.</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" title="1">cmty_labour[, lab_vars] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_labour[, lab_vars], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
+</div>
+<div id="visual-exploration-1" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Visual exploration</h3>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" title="1"><span class="kw">plot_var_facet</span>(cmty_labour, </a>
+<a class="sourceLine" id="cb216-2" title="2">               <span class="dt">vars =</span> lab_vars, </a>
+<a class="sourceLine" id="cb216-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh / work day&quot;</span>, </a>
+<a class="sourceLine" id="cb216-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Community labour prices&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number_si</span>())</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-201-1.png" width="672" /></p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">cmty_labour &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_labour,</a>
+<a class="sourceLine" id="cb217-2" title="2">                         <span class="dt">.at =</span> lab_vars,</a>
+<a class="sourceLine" id="cb217-3" title="3">                         <span class="dt">.f =</span> outlier_to_NA,</a>
+<a class="sourceLine" id="cb217-4" title="4">                         <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" title="1"><span class="kw">plot_var_facet</span>(cmty_labour, </a>
+<a class="sourceLine" id="cb218-2" title="2">               <span class="dt">vars =</span> lab_vars, </a>
+<a class="sourceLine" id="cb218-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh / work day&quot;</span>, </a>
+<a class="sourceLine" id="cb218-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Community labour prices&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number_si</span>())</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-203-1.png" width="672" /></p>
+</div>
+</div>
+<div id="merge-2" class="section level2">
+<h2><span class="header-section-number">4.6</span> Merge</h2>
+<p>Merge together.</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">community &lt;-<span class="st"> </span><span class="kw">reduce</span>(<span class="kw">list</span>(cmty_info, cmty_seed, cmty_fert, cmty_labour),</a>
+<a class="sourceLine" id="cb219-2" title="2">                    inner_join,</a>
+<a class="sourceLine" id="cb219-3" title="3">                    <span class="dt">by =</span> <span class="st">&quot;cmty_index&quot;</span>)</a></code></pre></div>
+<p>Save intermediate dataset.</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1"><span class="kw">write_csv</span>(<span class="dt">x =</span> community,</a>
+<a class="sourceLine" id="cb220-2" title="2">          <span class="dt">path =</span> <span class="kw">here</span>(<span class="st">&quot;./data/extracted/community.csv&quot;</span>))</a></code></pre></div>
+<p>Save separate dataset with fertilizers isotope prices.</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1">community_NPK &lt;-<span class="st"> </span><span class="kw">inner_join</span>(cmty_info, cmty_fert_NPK, <span class="dt">by =</span> <span class="st">&quot;cmty_index&quot;</span>)</a>
+<a class="sourceLine" id="cb221-2" title="2"><span class="kw">write_csv</span>(<span class="dt">x =</span> community_NPK,</a>
+<a class="sourceLine" id="cb221-3" title="3">          <span class="dt">path =</span> <span class="kw">here</span>(<span class="st">&quot;./data/extracted/community_NPK.csv&quot;</span>))</a></code></pre></div>
+</div>
+<div id="recap-2" class="section level2">
+<h2><span class="header-section-number">4.7</span> Recap</h2>
+<div id="community-general-dataset" class="section level3">
+<h3><span class="header-section-number">4.7.1</span> Community general dataset</h3>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1"><span class="kw">read.csv</span>(<span class="kw">here</span>(<span class="st">&quot;./tables/community_recap_tab.csv&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-2" title="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+<th align="left">Unit</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">cmty_index</td>
+<td align="left">community index</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">enum_date</td>
+<td align="left">survey date</td>
+<td align="left">-</td>
+<td align="left">date</td>
+</tr>
+<tr class="odd">
+<td align="left">zone</td>
+<td align="left">zone</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">region</td>
+<td align="left">region</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">district</td>
+<td align="left">district</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">site</td>
+<td align="left">site</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">ward</td>
+<td align="left">ward</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">village</td>
+<td align="left">village</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">hamlet</td>
+<td align="left">hamlet</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">comm_gps</td>
+<td align="left">latitude and longitude of community</td>
+<td align="left">-</td>
+<td align="left">coordonates</td>
+</tr>
+<tr class="odd">
+<td align="left">vil_nhh</td>
+<td align="left">number of households in village</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">vil_npersons</td>
+<td align="left">number of persons in village</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">vil_acres</td>
+<td align="left">approximative village area</td>
+<td align="left"><span class="math inline">\(acres\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">acc_inp_km</td>
+<td align="left">distance to nearest input dealer</td>
+<td align="left"><span class="math inline">\(km\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">acc_inp_tsh</td>
+<td align="left">cost of transport to nearest input dealer</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">maiprc_depot_q1</td>
+<td align="left">price 50kg bag of maize from large commercial depot for Apr-Jun 2016 (q1)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">maiprc_depot_q2</td>
+<td align="left">same for Jul-Sep 2016 (q2)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">maiprc_depot_q3</td>
+<td align="left">same for Oct-Dec 2016 (q3</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">maiprc_depot_q4</td>
+<td align="left">same forJan-Mar 2017 (q4)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">maiprc_town_q1</td>
+<td align="left">price 50kg bag of maize from regular marketplace for Apr-Jun 2016 (q1)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">maiprc_town_q2</td>
+<td align="left">same for Jul-Sep 2016 (q2)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">maiprc_town_q3</td>
+<td align="left">same for Oct-Dec 2016 (q3</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">maiprc_town_q4</td>
+<td align="left">same forJan-Mar 2017 (q4)</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_basfert</td>
+<td align="left">price basal fertilizer (compound D) from nearest input dealer</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_topfert</td>
+<td align="left">price top-dressing fertilizer (Urea) from nearest input dealer</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">transp_price</td>
+<td align="left">transport cost per kg for fertilizer from the nearest input dealer to this village (price transport 50kg bag / 50)</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_pesticide</td>
+<td align="left">price at peak demand (aug-dec) for different inputs.</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_herbicide</td>
+<td align="left">Calculated as:</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_fungicide</td>
+<td align="left">(Price / amount converted to kg) + transp_price</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_SA</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_DAP</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_CAN</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_Urea</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_TSP</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_ MinjinguMazao</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_YaraMilaCereal</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_YaraAmidas</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">price_YaraMilaWinner</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">price_other</td>
+<td align="left">-</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">clearing_price</td>
+<td align="left">labour prices for different categories: clearing</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">hoeing_price</td>
+<td align="left">hoeing</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">planting_price</td>
+<td align="left">planting</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">tillplnt_price</td>
+<td align="left">tilling and planting combined</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">fertapp_price</td>
+<td align="left">fertilizer application</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">weeding_price</td>
+<td align="left">weeding</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">pestapp_price</td>
+<td align="left">pesticide application</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">harvesting_price</td>
+<td align="left">harvesting</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">shelling_price</td>
+<td align="left">shelling /treshing</td>
+<td align="left"><span class="math inline">\(Tsh.work \, day^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fertilizer-isotope-prices" class="section level3">
+<h3><span class="header-section-number">4.7.2</span> Fertilizer isotope prices</h3>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1"><span class="kw">read.csv</span>(<span class="kw">here</span>(<span class="st">&quot;./tables/community_NPK_recap_tab.csv&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb223-2" title="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+<th align="left">Unit</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">cmty_index</td>
+<td align="left">community index</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">enum_date</td>
+<td align="left">survey date</td>
+<td align="left">-</td>
+<td align="left">date</td>
+</tr>
+<tr class="odd">
+<td align="left">zone</td>
+<td align="left">zone</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">region</td>
+<td align="left">region</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">district</td>
+<td align="left">district</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">site</td>
+<td align="left">site</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">ward</td>
+<td align="left">ward</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">village</td>
+<td align="left">village</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">hamlet</td>
+<td align="left">hamlet</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="even">
+<td align="left">comm_gps</td>
+<td align="left">latitude and longitude of community</td>
+<td align="left">-</td>
+<td align="left">coordonates</td>
+</tr>
+<tr class="odd">
+<td align="left">vil_nhh</td>
+<td align="left">number of households in village</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">vil_npersons</td>
+<td align="left">number of persons in village</td>
+<td align="left">-</td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">vil_acres</td>
+<td align="left">approximative village area</td>
+<td align="left"><span class="math inline">\(acres\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">acc_inp_km</td>
+<td align="left">distance to nearest input dealer</td>
+<td align="left"><span class="math inline">\(km\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">acc_inp_tsh</td>
+<td align="left">cost of transport to nearest input dealer</td>
+<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">input_type</td>
+<td align="left">type of fertilizer input that was used to calculate corresponding isotope price</td>
+<td align="left">-</td>
+<td align="left">character</td>
+</tr>
+<tr class="odd">
+<td align="left">N_price</td>
+<td align="left">price at peak demand (aug-dec) of Nitrogen</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">P_price</td>
+<td align="left">price at peak demand (aug-dec) of Phosphorus</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">K_price</td>
+<td align="left">price at peak demand (aug-dec) of Potassium</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
+<td align="left">integer</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="focal-plot-survey.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+Variable,Description,Unit,Type
+cmty_index,community index,-,integer
+enum_date,survey date,-,date
+zone,zone,-,character
+region,region,-,character
+district,district,-,character
+site,site,-,character
+ward,ward,-,character
+village,village,-,character
+hamlet,hamlet,-,character
+comm_gps,latitude and longitude of community,-,coordonates
+vil_nhh,number of households in village,-,integer
+vil_npersons,number of persons in village,-,integer
+vil_acres,approximative village area,$acres$,integer
+acc_inp_km,distance to nearest input dealer,$km$,integer
+acc_inp_tsh,cost of transport to nearest input dealer,$Tsh$,integer
+input_type,type of fertilizer input that was used to calculate corresponding isotope price,-,character
+N_price,price at peak demand (aug-dec) of Nitrogen,$Tsh.kg^{-1}$,integer
+P_price,price at peak demand (aug-dec) of Phosphorus,$Tsh.kg^{-1}$,integer
+K_price,price at peak demand (aug-dec) of Potassium,$Tsh.kg^{-1}$,integer

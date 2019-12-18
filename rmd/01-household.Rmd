@@ -1,0 +1,829 @@
+
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
+
+
+# Household survey
+
+
+## Intervening datasets
+
+```{r, echo = FALSE}
+datasets <- list_datasets("01-household.Rmd") %>% arrange(File)
+
+datasets$Description <- c("Main household file",
+                          "Household Crop sales",
+                          "Plot roster",
+                          "Plot Management Main season",
+                          "Plot Crops Main season",
+                          "Plot Labour in Main Season",
+                          "Household metadata")
+
+knitr::kable(datasets)
+```
+
+## Main household dataset
+
+```{r}
+hh <- read.table(here("./data/TAMASA2017/TZAPS17_hh.tab"),
+                 header = TRUE,
+                 sep = "\t",
+                 stringsAsFactors = FALSE)
+```
+
+Make a subset of informative variables regarding the household location: `hh_info`:
+
+* `hhid`: character, general household index starts with `S` or `N` depending on whether the household is located in the `Southern` or `Northen` zone. This variable can be used to merge household and focal plot files or records from year 2016 and 2017, cf `TZAPS17_metadata.xlsxl`, sheet `FILELIST`. Unique values: `r check_unique(hh$hhid)`.
+* `hh_index`: integer, numeric index, later use to merge main household data with price, cropsale and plot data. Unique values `r check_unique(hh$hh_index)`.
+* `enum_date`: date, on which data were collected.
+* `zone` > `region` > `district` > `site` > `ward` > `village` > `hamlet`: character, spatial hierachy.
+
+
+Set zone, region and district as factors with meaningful levels.
+
+```{r}
+md_geo <- readxl::read_xls(here("./data/TAMASA2017/metadata/TZAPS17_ODK_hh.xls"),
+                           sheet = "external_choices")
+md_region  <- md_geo %>% filter(list_name == "regions")
+md_district  <- md_geo %>% filter(list_name == "districts")
+```
+
+```{r}
+hh$zone <- factor(hh$zone, levels = 1:2, labels = c("N", "S"))
+hh$region <- factor(hh$rcode,
+                    levels = md_region$name,
+                    labels = md_region$label)
+```
+
+Fill in village and hamlet name for those filed under "other"
+
+```{r}
+hh$village[hh$village == "OTHER"] <- hh$village_alt[hh$village == "OTHER"]
+hh$hamlet[hh$hamlet == "OTHER"] <- hh$hamlet_alt[hh$hamlet == "OTHER"]
+```
+
+Select informative variables
+
+```{r}
+hh_info <- hh %>% 
+  select(hhid, hh_index, enum_date, zone, region, district, site, ward, village, hamlet)
+```
+
+### Growing Seasons
+
+Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (esther.mungi@wur.nl, a PhD student doing her research in Tanzania who also took part in the TAMASA survey.
+
+Key points: 
+
+* The main season is when most of the precipitation occur and thus it is during the main season that most maize are grown. 
+
+* Pigeon pea has the a much longer development cycle than maize, that last upon both main and short season. 
+
+* As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.
+
+```{r, echo = FALSE}
+magick::image_read(here("./schemes/growing_seasons.png"))
+```
+
+```{r, echo = FALSE}
+enum_date <- hh %>% 
+  select(enum_date, zone) %>%
+  group_by(enum_date, zone) %>%
+  summarise(n = table(enum_date)) %>%
+  rename(date = enum_date)
+enum_date$n <- as.numeric(enum_date$n)
+enum_date$date <- lubridate::as_date(enum_date$date)
+enum_date <- enum_date[lubridate::year(enum_date$date) == 2017, ]
+```
+
+```{r, echo = FALSE}
+ggplot(enum_date)+
+  aes(x = date, y = n, group = 1, color = zone) +
+  geom_point()+ 
+  geom_segment(aes(xend = date, yend = 0))+
+  scale_x_date(date_breaks = "1 week", date_labels = "%b %d")+
+  ylab("Number of household interviewed")+
+  ggtitle("Enumeration date TAMASA survey")
+```
+
+
+
+
+## Buying prices maize at nearest local market
+
+
+Extract the data in household survey regarding maize price at the nearest local market in Tsh/kg for the three available periods:
+
+| Season        | Label | Suffix | Suffix meaning                    |
+|---------------|-------|--------|-----------------------------------|
+| May 2016      | pric1 | a      | price (Tsh)                       |
+|               | pric1 | b      | corresponding amount (given unit) |
+| December 2017 | pric2 | a      | price (Tsh)                       |
+|               | pric2 | b      | corresponding amount (given unit) |
+| February 2017 | pric3 | a      | price (Tsh)                       |
+|               | pric3 | b      | corresponding amount (given unit) |
+
+```{r}
+hh_prices <- hh %>% 
+  select(hh_index, starts_with("pric")) %>%
+  as_tibble()
+```
+
+Remove negative prices and values without corresponding household index `hhid`
+
+```{r}
+hh_prices[which(hh_prices < 0, arr.ind = TRUE)] <- NA
+hh_prices <- hh_prices[which(!is.na(hh_prices$hh_index)), ]
+```
+
+Convert all price to Tsh/kg:
+
+```{r}
+hh_prices <- convert_prices_tsh_kg(hh_prices,
+                                   from = paste0("pric", 1:3,"b"),
+                                   to =  paste0("mz_price_", c("may16", "dec17", "feb17")))
+hh_prices <- hh_prices %>% select(hh_index, starts_with("mz_price_"))
+```
+
+```{r}
+idc_price <- grep("^mz_price", colnames(hh_prices)) 
+```
+
+```{r, warning = FALSE}
+plot.unit = "Tsh/kg"
+title = "Maize price at nearest local market"
+hh_prices %>%
+  pivot_longer(cols = colnames(hh_prices)[idc_price],
+               names_to = "category",
+               values_to = "value") %>%
+  separate(col = category, into = c("mz", "pr", "month"), sep = "_") %>%
+  plot_var(var = value, plot.unit = plot.unit)+
+  facet_wrap(. ~ month)+
+  xlab("")+
+  ggtitle(title)
+```
+
+Set maximum price to 2000 Tsh/kg
+
+```{r}
+hh_prices <- modify_at(.x = hh_prices,
+                       .at = idc_price,
+                       .f = outlier_to_NA, 
+                       threshold = 2000)
+```
+
+```{r, warning = FALSE}
+plot.unit = "Tsh/kg"
+title = "Maize price at nearest local market"
+hh_prices %>%
+  pivot_longer(cols = colnames(hh_prices)[idc_price],
+               names_to = "category",
+               values_to = "value") %>%
+  separate(col = category, into = c("mz", "pr", "month"), sep = "_") %>%
+  plot_var(var = value, plot.unit = plot.unit)+
+  facet_wrap(. ~ month)+
+  xlab("")+
+  ggtitle(title)
+```
+
+
+## Plot data
+
+Correspond to a general inventory of the farm plots. We used plot data to first calculate plot areas per household. Then isolate the two cropping system of interest, maize monoculture (**mmc**) and maize pigeon pea intercropping (**mpp**). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.
+
+### Plots area in hectares
+
+Load the data set and subset relevant variables:
+
+* `hh_index`: household index.
+* `plot_id`: plot index within household.
+* `plot_index`: unique row identifier of this dataset. Incremental integer.
+* `plot_area_a`: plot area amount (numerical value).
+* `plot_area_u`: plot area unit (corresponding unit).
+
+```{r}
+hh_plot <- read.table(here("./data/TAMASA2017/TZAPS17_hh_plot.tab"),
+                      header = TRUE,
+                      sep = "\t",
+                      stringsAsFactors = FALSE)
+hh_area <- hh_plot %>% select(hh_index, plot_index, plot_id, plot_area_a, plot_area_u)
+```
+
+Convert each plot area to hectares
+
+```{r }
+hh_area <- inner_join(hh_area, 
+                      dics$areaunit, 
+                      by = c("plot_area_u" = "cat"))
+hh_area <- hh_area %>% mutate(plot_area = plot_area_a * hectares)
+```
+
+```{r, warning = FALSE}
+plot_var(hh_area, 
+         var =plot_area, 
+         plot.unit = "ha")
+```
+
+Plots with area > 5 ha are considered as outliers and replace by NA.
+
+```{r }
+# hh_area$plot_area[hh_area$plot_area > 5] <- NA
+hh_area$plot_area <- outlier_to_NA(hh_area$plot_area, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+plot_var(hh_area, 
+         var =plot_area, 
+         plot.unit = "ha")
+```
+
+```{r}
+hh_area <- hh_area %>% select(hh_index, plot_id, plot_area)
+```
+
+
+### Define cropping systems
+
+#### Relevant datasets
+
+**Plot management in main season**
+
+```{r}
+hh_plotmc <- read.table(here("./data/TAMASA2017/TZAPS17_hh_plotmc.tab"),
+                        header = TRUE,
+                        sep = "\t",
+                        stringsAsFactors = FALSE)
+```
+
+**Crops grown in main season**
+
+```{r}
+hh_plotmcc <- read.table(here("./data/TAMASA2017/TZAPS17_hh_plotmcc.tab"),
+                         header = TRUE,
+                         sep = "\t",
+                         stringsAsFactors = FALSE)
+```
+
+Merge together management and crop data for plots in main season and keep only relevant variables:
+
+From *hh_plotmc*:
+
+* `pmc_index`: unique row identifier.
+* `mc1`: plot index wihtin household index.
+* `mc5`: Was this plot intercropped ? i.e planted in alternate rows, or planted around other crop.
+* `mc6`: total number of crops on the plot.
+
+From *hh_plotmcc*:
+
+* `pmc_index`: unique row identifier from parent dataset (*hh_plotmc*).
+* `pmcc_index`: unique row identifier for that dataset.
+* `mc8`: crop(s).
+* `mc8o`: other crops if crop grown is not present in enumerator's list.
+* `mc9`: Area under a given crop.
+* `mc10`:	Have you finished harvesting?
+* `mc11`:	Harvest quantity (Estimate expected harvest if harvesting has not been completed).
+* `mc12`:	Harvest unit (Estimate expected harvest if harvesting has not been completed).
+
+
+*hh_plotmc* and *hh_plotmcc* can be merged on: `pmc_index`.
+
+```{r}
+plotd <- inner_join(hh_plotmc, hh_plotmcc, by = "pmc_index") %>%
+  select(hh_index, pmc_index, pmcc_index, 
+         mc1, mc5, mc6, mc8, mc9, mc10, mc11, mc12)
+```
+
+
+#### Extract infomation
+
+Get plots with intercropping (`mc5 == 1`) and only two crops (`mc6 == 2`).
+
+```{r}
+plotd_2c <- plotd %>% 
+  filter(mc6 == 2, mc5 == 1) %>%
+  select(pmc_index, mc6,  mc8)
+```
+
+Get main season plot index (`pmc_index`) of plots harbouring maize with pigeon pea intercrop.
+
+```{r}
+l_plotd_2c <- split(plotd_2c, plotd_2c$pmc_index)
+mpp_pmc_index <- map(l_plotd_2c, "mc8") %>% 
+  map( ~ intersect(.x, c("maize", "pigeon_pea"))) %>%
+  keep( ~ length(.x) == 2) %>% 
+  names()
+```
+
+Get `pmc_index` of plots under maize monoculture .i.e without intercropping (`mc5 == 0`).
+
+```{r}
+lgl_unique <- function(x) !x %in% x[which(duplicated(x))]
+mmc_pmc_index <- plotd %>%
+  filter(lgl_unique(pmc_index), mc8 == "maize", mc5 == 0) %>%
+  select(pmc_index) %>%
+  deframe()
+```
+
+Create new variable indicating the type of cropping system of each plot: `cropsys`.
+
+| Cropping systems                |  Abbreviations |
+|---------------------------------|----------------|
+| maize monoculture               | mmc            |
+| maize with pigeon pea intercrop | mpp            |
+
+```{r}
+plotd$cropsys <- "other"
+plotd$cropsys[plotd$pmc_index %in% mmc_pmc_index] <- "mmc"
+plotd$cropsys[plotd$pmc_index %in% mpp_pmc_index] <- "mpp"
+```
+
+Checking if maize / pigeon pea intercrop plots `pmc_index` appear exactly two times.
+
+```{r}
+mpp <- plotd %>% 
+  filter(mc5 == 1, cropsys == "mpp") %>% 
+  select(pmc_index) %>% 
+  deframe()
+table(table(mpp))
+```
+
+One `pmc_index` appears four times. It seems also to include beans.
+
+```{r}
+susp <- names(which(table(mpp) != 2))
+plotd %>%
+  filter(pmc_index %in% susp) %>%
+  select(hh_index, pmc_index, pmcc_index, mc5, mc6, mc8, mc9)
+```
+
+This irrelevant plot is discarded.
+
+```{r}
+plotd <- plotd %>% filter(! pmc_index %in% susp)
+```
+
+Keep only plots with the two cropping systems of interest.
+
+```{r}
+plotd <- plotd %>% filter(cropsys %in% c("mmc", "mpp"))
+```
+
+###Intermezzo: was harvest finished at enumeration date ?
+
+```{r, echo = FALSE}
+enum_date <- inner_join(hh_info, plotd, by = "hh_index") %>%
+  select(enum_date, zone, mc8, mc10) %>%
+  group_by(enum_date, zone, mc10, mc8) %>%
+  summarise(n = table(enum_date)) %>%
+  rename(date = enum_date)
+
+enum_date$mc10 <- fct_recode(factor(enum_date$mc10), 
+                             "NOT harvested" = "0", 
+                             "harvested" = "1")
+enum_date$n <- as.numeric(enum_date$n)
+enum_date$date <- lubridate::as_date(enum_date$date)
+enum_date <- enum_date[lubridate::year(enum_date$date) == 2017, ]
+
+ggplot(enum_date)+
+  aes(x = date, y = n, group = 1, color = zone) +
+  geom_point()+ 
+  geom_segment(aes(xend = date, yend = 0))+
+  scale_x_date(date_breaks = "1 week", date_labels = "%b %d")+
+  ylab("Number of household interviewed")+
+  facet_grid(mc8 ~ mc10)+
+  ggtitle("Enumeration date TAMASA survey")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+In most case harvest was not finished at enumeration date for both maize and pigeon pea. 
+
+
+### Calculate yield
+
+We first calculate yield in $t.ha^{-1}$ to later be able to express harvest labour in $work \, days.t^{-1}$.
+
+`hh_area` and `plotd` need to be merged both on household index and plot index since we are working at the plot level.Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.
+
+```{r}
+hh_plot <- inner_join(hh_area, plotd, by = c("hh_index", "plot_id" = "mc1"))
+```
+
+Merge with proper dictionary to get convert units in kg and calculate yield in $t.ha^{-1}$.
+
+```{r}
+hh_plot <- hh_plot %>%
+  inner_join(dics$unit, by = c("mc12" = "cat")) %>% 
+  mutate(harvest = mc11 * ifelse(mc8 == "maize", kg_maize, kg_pp), 
+         yield = harvest / (plot_area * 1000))
+```
+
+```{r, warning = FALSE}
+ggplot(hh_plot) + 
+  aes(y = yield, x = mc8, fill = mc8, color = mc8) + 
+  geom_violin(alpha = 0.5)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
+  facet_wrap(. ~ cropsys)+
+  labs(x = "", y = "yield (t/ha)")
+```
+
+Based on the knowledge of Esther Mungi who is an agronomist working in Tanzania and who participated to the TAMASA survey as an enumerator, we fixed the upper limit for maize yield to 8 $t.ha^{-1}$ and 3 $t.ha^{-1}$ for pigeon pea.
+
+```{r}
+hh_plot$yield[hh_plot$mc8 == "maize"] <- outlier_to_NA(hh_plot$yield[hh_plot$mc8 == "maize"], 
+                                                       threshold = 7)
+hh_plot$yield[hh_plot$mc8 == "pigeon_pea"] <- outlier_to_NA(hh_plot$yield[hh_plot$mc8 == "pigeon_pea"], 
+                                                            threshold = 3)
+```
+
+
+```{r, warning = FALSE}
+ggplot(hh_plot) + 
+  aes(y = yield, x = mc8, fill = mc8, color = mc8) + 
+  geom_violin(alpha = 0.5)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
+  facet_wrap(. ~ cropsys)+
+  labs(x = "", y = "yield (t/ha)")
+```
+
+
+## Labour (in Main season only)
+
+All labour variables are measured in days.
+
+Labour variables typology:
+
+> **prefix**lab_**suffix1suffix2**
+
+* **prefix**: labour category
++ h = hired 
++ f = family
+
+* **suffix1**: task
++ l = land preparation
++ p = planting
++ r = fertilizing
++ w = weeding
++ h = harvesting
+
+* **suffix2**: worker type or price in Tsh
++ m = man
++ w or f = women, *not consistent ! depends on labour category* (w if family and f if hired)
++ w = price in Tsh *only for hired labour*, then correspond to total wages.
++ c = child 
+
+**Labour data main season**
+
+```{r}
+hh_plotml <- read.table(here("./data/TAMASA2017/TZAPS17_hh_plotml.tab"),
+                        header = TRUE,
+                        sep = "\t")
+hh_plotml <- hh_plotml %>%
+  select(hh_index, pl1, pml_index,
+         matches("^flab_[a-z]{2}$"),
+         matches("^hlab_[a-z]{2}$"))
+```
+
+
+### Combine cropping sytems and labour data
+
+```{r}
+hh_plotml <- inner_join(hh_plotml, 
+                        distinct(select(plotd, hh_index, mc1, cropsys)),
+                        by = c("hh_index", "pl1" = "mc1"))
+```
+
+
+Do any of those labour variables harbour negative values ?
+
+```{r}
+lab_vars_neg <- hh_plotml %>% any_negative()
+```
+
+<!-- Replace negative data points by NA. -->
+
+<!-- ```{r} -->
+<!-- # hh_plotml[lab_vars_neg] <- modify(hh_plotml[lab_vars_neg], ~ ifelse(.x < 0, NA, .x)) -->
+<!-- ``` -->
+
+
+### Aggregate over labour category:
+
+Reminder: Labour category correpsond to the variable prefix: h for hired and f for family.
+
+First split by labour category prefix.
+
+```{r}
+lab_cat <- split.default(x = hh_plotml,
+                         f = str_extract(colnames(hh_plotml), "^.lab"))
+```
+
+Then sum over work type (suffix2).
+
+```{r}
+lab_task <- map_dfc(lab_cat, sum_worker_type)
+lab_task <- tibble::add_column(lab_task, pml_index = hh_plotml$pml_index)
+```
+
+### Calculate labour and wages per hectare
+
+Combine hired labour price and labour variables in one data.frame.
+
+```{r}
+hlab_price <- hh_plotml %>% select(hh_index, pl1, pml_index, cropsys, matches("^hlab_.w$"))
+lab_data <- inner_join(lab_task, hlab_price, by = "pml_index")
+```
+
+Update plot data with labour data.
+
+```{r}
+hh_plot <- inner_join(hh_plot, 
+                      lab_data, 
+                      by = c("hh_index",
+                             "plot_id" = "pl1",
+                             "cropsys"))
+```
+
+Calculate labour and wages per hectare.
+
+```{r}
+lab_vars <- grep("^[a-z]lab_[a-z]*", names(hh_plot), value = TRUE)
+for (var in lab_vars) {
+  hh_plot[, paste0(var, "_ha")] <- hh_plot[[var]] / hh_plot$plot_area
+}
+```
+
+Drop original variables.
+
+```{r}
+hh_plot <- hh_plot %>% select(-lab_vars)
+```
+
+#### Visual inspection
+
+```{r, warning = FALSE, fig.dim = c(7, 8)}
+labour_category_plot(hh_plot)
+labour_price_plot(hh_plot)
+```
+
+
+Cut off high outliers >95th percentile of variables per hectare.
+
+```{r}
+lab_vars_ha <- grep("^.lab_.*_ha$", names(hh_plot), value = TRUE)
+hh_plot <- modify_at(hh_plot, lab_vars_ha, outlier_to_NA, quantile = 0.95)
+```
+
+
+```{r, warning = FALSE, fig.dim = c(7, 8)}
+labour_category_plot(hh_plot)
+labour_price_plot(hh_plot)
+```
+
+###  Total labour input per ha
+
+We now sum hired and family labour to get the total labour per ha for each task (planting, weeding...).
+
+Note that in the dedicated function `sum_category`, the argument pattern is matching the suffix coding for task type (planting, weeding,...). This is because the task is the labour type  we want our variable to be aggregated on. The function will then recognize all variables corresponding to a given task and add them together.
+
+```{r}
+lab_vars_ha <- grep("^.lab_.*_ha$", names(hh_plot), value = TRUE)
+tlab_ha <- sum_category(hh_plot[, lab_vars_ha],
+                        pattern = "(?<=_).(?=_)")
+```
+
+Append `_ha` at the end of the labour variables.
+
+```{r}
+colnames(tlab_ha) <- paste0("tlab_", colnames(tlab_ha), "_ha")
+```
+
+Update `hh_plot` with final labour per ha variable aggregated by tasks.
+
+```{r}
+hh_plot <- hh_plot %>% 
+  cbind(tlab_ha) %>% 
+  filter(!is.na(hh_index))  
+```
+
+```{r, warning = FALSE, fig.dim = c(7, 8)}
+labour_category_plot(hh_plot)
+```
+
+### Harvest labour in $work \, days.t^{-1}$
+
+
+$$
+\frac{[days.ha^{-1}]}{[kg.ha^{-1}]} \rightarrow [days.kg^{-1}] \times 10^3 \rightarrow [days.t^{-1}]
+$$
+
+```{r}
+hh_plot <- hh_plot %>%
+  mutate(flab_h_dt = (flab_h_ha / yield),
+         hlab_h_dt = (hlab_h_ha / yield),
+         tlab_h_dt = (tlab_h_ha / yield)) 
+```
+
+```{r, warning = FALSE}
+labour_harvest_plot(hh_plot)
+```
+
+```{r}
+lab_vars_dt <- grep("^.lab_h_dt$", names(hh_plot), value = TRUE)
+hh_plot <- modify_at(hh_plot, lab_vars_dt, outlier_to_NA, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+labour_harvest_plot(hh_plot)
+```
+
+#### Plot data: relevant variables
+
+Keep only relevant variable for plot data and give some more informative names.
+
+```{r}
+hh_plot <- hh_plot %>% 
+  select(hh_index, plot_id, 
+         mc5, mc6, mc8, mc10, cropsys, 
+         plot_area, yield,
+         matches("^[a-z]lab_[a-z]*_[a-z]*$")
+  ) %>%
+  rename(intercrop_bin = mc5,
+         nb_crops = mc6,
+         crop = mc8,
+         harvested_bin = mc10
+  )
+```
+
+
+## Sales
+
+```{r}
+hh_cropsales <- read.table(here("./data/TAMASA2017/TZAPS17_hh_cropsales.tab"),
+                           header = TRUE,
+                           sep = "\t")
+```
+
+### Relevant Crop sales variables:
+
+* `csal2c`: crop sold
+* `csal3`: harvest quantity
+* `csal4`: harvest unit
+* `csal5`: sold quantity
+* `csal6`: sales unit
+* `csal7`: price per unit at largest sale (Tsh). Terminology from: `TZAPS17_ODK_hh.xls`. Largest sale = peak sales ?
+
+
+Select only the cropsales for maize and pigeon pea and create a subset of relevant variables.
+
+```{r}
+hh_cropsales <-  hh_cropsales %>% 
+  filter(csal2c == "maize"| csal2c == "pigeon_pea") %>%
+  select(hh_index, cropsales_index, csal2c,  csal3, csal4, csal5, csal6, csal7)
+```
+
+```{r}
+(neg_var_sales <- hh_cropsales %>% any_negative())
+```
+
+```{r}
+hh_cropsales[neg_var_sales] <- modify(hh_cropsales[neg_var_sales ],
+                                      ~ ifelse(.x < 0, NA, .x))
+```
+
+
+```{r, warning = FALSE}
+hh_cropsales %>%
+  pivot_longer(cols = c("csal3", "csal5"),
+               names_to = "var",
+               values_to = "value") %>%
+  ggplot()+
+  aes(y = value, x = csal2c, group = csal2c, fill = csal2c, color = csal2c)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
+  geom_violin(alpha = 0.5)+
+  facet_wrap(. ~ var)
+```
+
+
+```{r}
+hh_cropsales <- modify_at(.x = hh_cropsales,
+                          .at = c("csal3", "csal5", "csal7"),
+                          .f = outlier_to_NA,
+                          quantile = 0.95)
+```
+
+
+```{r, warning = FALSE}
+hh_cropsales %>%
+  pivot_longer(cols = c("csal3", "csal5"),
+               names_to = "var",
+               values_to = "value") %>%
+  ggplot()+
+  aes(y = value, x = csal2c, group = csal2c, fill = csal2c, color = csal2c)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
+  geom_violin(alpha = 0.5)+
+  facet_wrap(. ~ var)
+```
+
+### Calculate per kg
+
+```{r}
+hh_cropsales <- full_join(hh_cropsales, dics$unit, by = c("csal6" = "cat")) %>% 
+  mutate(sold_kg = csal5 * kg_maize,
+         price_kg = csal7 / kg_maize,
+         revenue = csal5 * csal7) %>%
+  rename(kg_maize_s = kg_maize,
+         unit_s = unit,
+         crop_sold = csal2c) %>%
+  select(-kg)
+```
+
+
+```{r}
+hh_cropsales <- hh_cropsales %>%
+  select(hh_index, crop_sold, sold_kg, price_kg, revenue) %>%
+  filter(!is.na(hh_index))
+```
+
+
+
+```{r, warning = FALSE}
+plot_var_matrix(hh_cropsales,
+                vars = c("sold_kg", "price_kg", "revenue"),
+                plot.unit = c("kg", "Tsh/kg", "Tsh"),
+                plot.dim = c(2, 2),
+                fill = "crop_sold",
+                label.si = TRUE)
+```
+
+```{r}
+hh_cropsales <- modify_at(.x = hh_cropsales,
+                          .at = c("sold_kg", "price_kg", "revenue", "harvest"),
+                          .f = outlier_to_NA,
+                          quantile = 0.95)
+```
+
+
+```{r, warning = FALSE}
+plot_var_matrix(hh_cropsales,
+                vars = c("sold_kg", "price_kg", "revenue"),
+                plot.unit = c("kg", "Tsh/kg", "Tsh"),
+                plot.dim = c(2, 2),
+                fill = "crop_sold",
+                label.si = TRUE)
+```
+
+
+## Merge
+
+Combine household information, maize buying prices, plots (maize area + labour) and sales data together in one data.frame. 
+
+```{r}
+household <- reduce2(list(hh_info, hh_prices, hh_plot, hh_cropsales),
+                     as.list(rep("hh_index", 3)),
+                     full_join)
+```
+
+Remove rows that have no hhid
+
+```{r}
+household <- household[!is.na(household$hhid), ]
+```
+
+Save intermediate dataset.
+
+```{r}
+write_csv(x = household,
+          path = here("./data/extracted/household.csv"))
+```
+
+## Recap
+
+```{r}
+read.csv(here("./tables/household_recap_tab.csv")) %>%
+  knitr::kable()
+```
+
+Labour variable typology:
+
+> **prefix**lab_**suffix1**(w)_ha
+
+* **prefix**: labour category
++ h = hired 
++ f = family
++ t = total
+
+* **suffix1**: task
++ l = land preparation
++ p = planting
++ r = fertilizing
++ w = weeding
++ h = harvesting
+
+* w: total wages for hired labour in Tsh
+
+* ha: variable in working days / ha.

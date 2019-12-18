@@ -1,0 +1,618 @@
+
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
+
+
+# Community survey
+
+Mainly contains information about access to services, field-labour price, seed and input prices.
+
+## Intervening datasets
+
+```{r, echo = FALSE}
+datasets <- list_datasets("03-community.Rmd")
+datasets$Description <- c("Community main file",
+                          "Community metadata")
+knitr::kable(datasets)
+```
+
+
+## Prepare dataset
+
+```{r}
+cmty <- read.table(here("./data/TAMASA2017/TZAPS17_cmty.tab"),
+                   header = TRUE,
+                   sep = "\t",
+                   stringsAsFactors = FALSE)
+```
+
+```{r}
+cmty$village[cmty$village == "OTHER"] <- cmty$village_alt[cmty$village == "OTHER"]
+cmty$hamlet[cmty$hamlet == "OTHER"] <- cmty$hamlet_alt[cmty$hamlet == "OTHER"]
+```
+
+
+Set zone and region as factors with legible levels
+
+```{r}
+md_geo <- readxl::read_xlsx(here("./data/TAMASA2017/metadata/TZAPS17_ODK_community.xlsx"),
+                            sheet = "external_choices")
+md_region  <- md_geo %>% filter(list_name == "regions")
+md_district  <- md_geo %>% filter(list_name == "districts")
+```
+
+
+```{r}
+cmty$zone <- as.factor(cmty$zone)
+cmty$region <- factor(cmty$region,
+                      levels = md_region$name,
+                      labels = md_region$label)
+cmty$district <- factor(cmty$district,
+                        levels = md_district$name,
+                        labels = md_district$label)
+```
+
+Decriptive variables:
+
+* `cmty_index`: community index, field with only unique values: ``r length(cmty$cmty_index) == length(unique(cmty$cmty_index))``.
+* `enum_date`: date of the survey.
+* `zone > region > district > site > ward > village > hamlet`: spatial hierachy.
+* `comm_gps`: community GPS coordinates.
+
+Quantitative variables :
+
+* `vil_nhh`: number of households in the village.
+* `vil_npersons`: number of persons in the village.
+* `vil_acres`: approximate size of the village in acres.
+
+* `acc_inp_km`: distance to input dealer in km.
+* `acc_inp_tsh`: cost of transport in Tsh.
+
+
+```{r}
+cmty_info <- cmty %>% 
+  select(cmty_index, enum_date, zone, region, district, site, ward, village,
+         hamlet, comm_gps, vil_nhh, vil_npersons, vil_acres, acc_inp_km, acc_inp_tsh)
+```
+
+Data is available for ``r nrow(cmty_info)`` communities threw out the country.
+
+The quantitative variables should be strictly positive. Scan for negative values:
+
+```{r}
+(neg_val <- cmty_info[map_lgl(cmty_info, is.numeric)] %>% any_negative())
+```
+
+and replace existing ones by NA. 
+
+```{r}
+cmty_info[neg_val] <- modify(cmty_info[neg_val], ~ ifelse(.x < 0, NA, .x))
+```
+
+
+```{r}
+plot_var(cmty_info, vil_nhh, plot.unit = "nb of household")
+```
+
+```{r, warning = FALSE}
+plot_var_matrix(df = cmty_info,
+                vars = c("vil_nhh", "vil_npersons", "vil_acres"),
+                plot.unit = c("nb of household", "nb of persons", "acres"),
+                plot.dim = c(1, 3))
+```
+
+```{r}
+cmty_info <- modify_at(.x = cmty_info,
+                       .at = c("vil_nhh", "vil_npersons", "vil_acres"),
+                       .f = outlier_to_NA,
+                       quantile = 0.95)
+```
+
+
+```{r}
+del_NA <- cmty_info %>%
+  select(starts_with("vil_")) %>%
+  map(~ which(is.na(.x))) %>%
+  unlist() %>%
+  unique()
+cmty_info <- cmty_info[-del_NA, ]
+```
+
+
+```{r}
+dim(cmty_info)
+```
+
+
+```{r, warning = FALSE}
+plot_var_matrix(df = cmty_info,
+                vars = c("vil_nhh", "vil_npersons", "vil_acres"),
+                plot.unit = c("nb of household", "nb of persons", "acres"),
+                plot.dim = c(1, 3))
+```
+
+```{r, warning = FALSE}
+plot_var_matrix(
+  df = cmty_info,
+  vars = c("acc_inp_km", "acc_inp_tsh"),
+  plot.unit = c("km", "tsh"),
+  plot.dim = c(1, 2)
+)
+
+```
+
+
+A number of communities are said to be located at a 0 km from an input dealer or to have null input transportation cost. It can be that these communities are indeed located nearby a supplier or most likely that they simply do not use additional inputs.
+
+
+## Seed buying prices
+
+The community datasets contains a varierty of variables related to maize prize.
+Those 9 variables, all prefixed by `maiprc`, provide the price in Tsh of a 50 kg bag of maize seeds at two possible locations (`depot` or `town`) in four different time periods (`q1`, `q2`, `q3` and `q4`).
+
+**Locations:**
+
+`depot` refers to a large commercial depot compare to `town` which is supposed to be the regular market place gor example in the district town.
+
+**Time periods:**
+
+| Buying place | Apr-Jun 2016 | Jul-Sep 2016 | Oct-Dec 2016 | Jan-Mar 2017 |
+|--------------|--------------|--------------|--------------|--------------|
+| depot        | q1           | q2           | q3           | q4           |
+| town         | q1           | q2           | q3           | q4           |
+
+
+```{r}
+cmty_seed <- cmty %>% 
+  select(cmty_index, starts_with("maiprc_"))
+```
+
+```{r}
+maiprc <- grep("^maiprc", colnames(cmty_seed), value = TRUE)
+```
+
+Is there any price variable wiht a negative price ?
+
+```{r}
+cmty_seed[, maiprc] %>% any_negative()
+```
+
+```{r}
+cmty_seed[, maiprc] <- modify(cmty_seed[, maiprc], ~ ifelse(.x < 0, NA, .x))
+```
+
+Convert price from Tsh/50 kg bag to Tsh/kg
+
+```{r}
+cmty_seed[, maiprc] <- cmty_seed[, maiprc] / 50
+```
+
+```{r, warning = FALSE}
+plot.unit = "Tsh/kg"
+title = "Maize price"
+cmty_seed %>%
+  pivot_longer(cols = maiprc,
+               names_to = "category",
+               values_to = "value") %>%
+  separate(col = category, into = c("maiprc", "place", "trimester"), sep = "_") %>%
+  plot_var(var = value, plot.unit = plot.unit)+
+  facet_grid(place ~ trimester)+
+  xlab("")+
+  ggtitle(title)
+```
+
+Replace extreme values by NA
+
+```{r}
+cmty_seed <- modify_at(.x = cmty_seed,
+                       .at = maiprc,
+                       .f = outlier_to_NA,
+                       quantile = 0.99)
+```
+
+and delete any community harbouring NA for any variable
+
+```{r}
+del_NA <- cmty_seed %>%
+  map(~ which(is.na(.x))) %>% 
+  unlist() %>%
+  unique()
+cmty_seed <- cmty_seed[-del_NA, ]
+```
+
+
+```{r, warning = FALSE}
+plot.unit = "Tsh/kg"
+title = "Maize price"
+cmty_seed %>%
+  pivot_longer(cols = maiprc,
+               names_to = "category",
+               values_to = "value") %>%
+  separate(col = category, into = c("maiprc", "place", "trimester"), sep = "_") %>%
+  plot_var(var = value, plot.unit = plot.unit)+
+  facet_grid(place ~ trimester)+
+  xlab("")+
+  ggtitle(title)
+```
+
+
+## Fertilizer prices
+
+
+### Selected variables
+
+#### Standard bag 
+
+Cost in Tsh of a 50 kg bag of fertilizer from the nearest input dealer:
+
+* `fmkt_pri_bas`: basal fertlizer, (compound D). One of the most used fertlizer (cf:http://www.fao.org/3/a0395e/a0395e0a.htm).
+* `fmkt_pri_top`: top-dressing fertilizer (urea).
+* `fmkt_mkt_trp`: transport.
+
+#### Other variables
+
+Those variables do not relate to a fix amount of fertilizer.
+They all start with the prefix `price`. The middle part is then a code for the type of input:
+
+| code   |               fertilizer              |
+|--------|:-------------------------------------:|
+| fert1  |                   SA                  |
+| fert2  |                  DAP                  |
+| fert3  |                  CAN                  |
+| fert4  |                  Urea                 |
+| fert5  |                  TSP                  |
+| fert6  |             MinjinguMazao             |
+| fert7  |             YaraMilaCereal            |
+| fert8  |               YaraAmidas              |
+| fert9  |             YaraMilaWinner            |
+| fert10 |                 other                 |
+| oinp1  | pesticide (for field use not storage) |
+| oinp2  |               herbicide               |
+| oinp4  |               fungicide               |
+
+Lastly, a suffix indicates the type of variable:
+
+| suffix |   variable   |
+|--------|:------------:|
+| tsh    | price in Tsh |
+| amt    |    amount    |
+| unit   |     unit     |
+
+Example: `price_fert2_amt` amount of DAP, given in the unit indicated in `price_fert2_unit` and corresponding to the price in Tsh in `price_fert2_tsh`.
+
+### Subset main community data.frame
+
+```{r}
+cmty_fert <- cmty %>% 
+  select(cmty_index, 
+         starts_with("fmkt"),
+         matches("^price_oinp[^3]"),
+         starts_with("price_fert"))
+```
+
+Any variables with negative values ?
+
+```{r}
+cmty_fert %>%
+  select(-cmty_index) %>%
+  any_negative()
+```
+
+The value -98 seems to be the recurring place holder for missing value, sometimes it is also mislabelled as 98...
+
+```{r}
+cmty_fert[c(42,54), c(1, 5, 14)]
+```
+
+Replace those place holder values by NA.
+```{r}
+id_vars <- grep("cmty_index", colnames(cmty_fert), invert = TRUE)
+err_to_NA <- which(cmty_fert[, id_vars ] <= 0 | cmty_fert[, id_vars] == 98, arr.ind = TRUE)
+cmty_fert[, id_vars][err_to_NA] <- NA
+```
+
+### Calculate price in Tsh/kg for each fertilizer
+
+#### Transport price per kg
+
+Transport price is assume to scale linearly with the amount being transported and is calculated by simply dividing the cost of transport of a 50kg fetlizer bag by 50.
+
+```{r}
+cmty_fert <- cmty_fert %>% mutate(transp_price = fmkt_mkt_trp / 50)
+```
+
+```{r, warning = FALSE}
+plot_var(cmty_fert, var = transp_price, plot.unit = "Tsh/kg")
+```
+
+```{r}
+cmty_fert$transp_price[cmty_fert$transp_price > 200] <- NA
+```
+
+```{r, warning = FALSE}
+plot_var(cmty_fert, var = transp_price, plot.unit = "Tsh/kg")
+```
+
+#### Price Tsh/kg
+
+Per unit category, per fertilizer type, calculate price in Tsh/kg as:
+
+$Price_{(Tsh.kg^{-1})} = \frac{Price_{(Tsh)}}{amount_{(kg)}} + transport_{(Tsh.kg^{-1})}$
+
+```{r}
+fertilizer <- c("SA", "DAP", "CAN", "Urea", "TSP",
+                "MinjinguMazao", "YaraMilaCereal", "YaraAmidas", "YaraMilaWinner", "other")
+pesticide <- c("pesticide", "herbicide", NA, "fungicide")
+units <- c(1, 2, 3, 5, 6, 99)
+```
+
+```{r}
+# Fertilizer
+cmty_fert <- price_input(df = cmty_fert,
+                         input_type = "fert",
+                         input_id = 1:10,
+                         input_name = fertilizer,
+                         units = units)
+# Pesticide 
+cmty_fert <- price_input(df = cmty_fert,
+                         input_type = "oinp",
+                         input_id = c(1, 2, 4),
+                         input_name = pesticide,
+                         units = units)
+```
+
+
+#### Keep only transformed variables 
+
+```{r}
+cmty_fert <- cmty_fert %>%
+  select(cmty_index, fmkt_pri_bas, fmkt_pri_top, transp_price,
+         paste0("price_", pesticide[!is.na(pesticide)]),
+         paste0("price_", fertilizer))
+```
+
+Rename standard bag variables (`fmkt`)
+
+```{r}
+colnames(cmty_fert)[2:3] <- c("price_basfert", "price_topfert")
+```
+
+Convert those in price per kg
+
+```{r}
+cmty_fert <- cmty_fert %>% 
+  mutate(price_basfert = price_basfert / 50,
+         price_topfert = price_topfert / 50)
+```
+
+
+#### Visual exploration
+
+```{r, warning = FALSE}
+plot_var_facet(cmty_fert, 
+               vars = c("price_basfert", "price_topfert"), 
+               plot.unit = "Tsh/kg", 
+               title = "Price base and top fertilizers")
+```
+
+```{r, warning = FALSE}
+var_fert <- map(fertilizer, ~ grep(.x, colnames(cmty_fert), value = TRUE)) %>% unlist()
+plot_var_facet(cmty_fert, 
+               vars = var_fert, 
+               plot.unit = "Tsh/kg", 
+               title = "Price fertilizers")
+```
+
+`price_TSP`, all NA ?: ``r all(is.na(cmty_fert$price_TSP))``.
+
+```{r}
+cmty %>%
+  select(starts_with("price_fert5")) %>% 
+  head()
+```
+
+```{r}
+table(cmty$price_fert5_tsh)
+```
+
+```{r, warning = FALSE}
+var_pest <- map_chr(pesticide[!is.na(pesticide)], 
+                    ~ grep(.x, colnames(cmty_fert), value = TRUE))
+plot_var_facet(cmty_fert, 
+               vars = var_pest, 
+               plot.unit = "Tsh/kg", 
+               title = "Price inputs other than fertilizers")
+```
+
+
+### Price of N, P and K in $Tsh.kg^{-1}$
+
+We now calculate the price of fertilizer by isotopes, namely N, P and K. This price corresponds to the price of a given raw isotope in $Tsh.kg^{-1}$. We do not take into account the difference in terms of availability of N, P and K per fertilizer type. 
+
+
+Modified input names in dedicatd dictionary (`dics$inp`) so that they match community data names.
+
+```{r}
+str_remove(dics$inp$input, "(\\(.*\\))") %>%
+  str_remove(" ") -> dics$inp$input_mod
+```
+
+Temporarily transform `cmty_fert` to long format to be able to join it with `dics$inp` and perform calculations.
+
+```{r}
+cmty_fert_l <- cmty_fert %>% 
+  select(cmty_index, starts_with("price")) %>%
+  pivot_longer(cols = str_subset(colnames(cmty_fert), "^price"), 
+               names_to = "input", 
+               values_to = "price")
+cmty_fert_l$input <- str_extract(cmty_fert_l$input, "(?<=price_).*")
+```
+
+Perform calculation and transform back to wider format `cmty_fert`.
+
+```{r}
+cmty_fert_l <- cmty_fert_l %>% full_join(dics$inp, 
+                                         by = c("input" = "input_mod"), 
+                                         suffix = c(".x", ".dic"))
+```
+
+Define function to divide fertilizer price by concentration only if the concentration of a given isotope is different from 0.
+
+```{r}
+isotope_price <- function(price, conc){
+  map2_dbl(.x = price, .y = conc, function(.x, .y){ ifelse(.y != 0, .x/.y, NA)})
+}
+```
+
+Calculate price per isotope.
+
+```{r}
+cmty_fert_l <- cmty_fert_l %>% mutate(N_price = isotope_price(price, Nconc), 
+                                      P_price = isotope_price(price, Pconc),
+                                      K_price = isotope_price(price, Kconc))
+```
+
+Convert to wider format.
+
+```{r}
+cmty_fert_NPK <- cmty_fert_l %>% 
+  pivot_wider(names_from = "input", values_from = 'price')%>%
+  select(cmty_index, input.dic, matches("^[A-Z]_price$")) %>%
+  rename(input_type = input.dic)
+```
+
+Delete rows without any input or isotope price.
+
+```{r}
+cmty_fert_NPK <- cmty_fert_NPK[rowSums(is.na(cmty_fert_NPK)) < 3, ]
+```
+
+Plot results.
+
+```{r, warning = FALSE}
+dNPK <- pivot_longer(cmty_fert_NPK, cols = paste0(c("N", "P", "K"), "_price"),
+                     names_to = "category",
+                     values_to = "value")
+dNPK$category <- factor(dNPK$category, levels = c("N_price", "P_price", "K_price"))
+plot_var(dNPK, var = value, plot.unit = plot.unit)+
+  facet_wrap(. ~ category)+
+  xlab("")+
+  ggtitle("Fertilizer price per isotope: N, P and K")
+```
+
+
+## Labour cost
+
+Cost of hiring one adult man for one labour day.
+
+**Labour variables:**
+
+* prefix: `labprc`.
+* code: `clearing`, `hoeing`, `planting`, `tillplnt`, `fertapp`, `weeding`, `pestapp`, `harvesting`, `shelling`, pretty transparent except `tillplant` = tilling and planting together.
+* suffix: `price`.
+
+### Subset main community data.frame
+
+```{r}
+cmty_labour <- cmty %>% 
+  select(cmty_index, matches("^labprc_.*_price$"))
+```
+
+Get rid of variable prefix.
+
+```{r}
+names(cmty_labour) <- str_replace(names(cmty_labour), "labprc_", "")
+```
+
+Get all labour variable names.
+
+```{r}
+lab_vars <- grep("_price$", colnames(cmty_labour), value = TRUE)
+```
+
+Any variables with negative values ?
+
+```{r}
+cmty_labour[, lab_vars] %>% any_negative()
+```
+
+Replace negative values by NA.
+
+```{r}
+cmty_labour[, lab_vars] <- modify(cmty_labour[, lab_vars], ~ ifelse(.x < 0, NA, .x))
+```
+
+### Visual exploration
+
+```{r, warning = FALSE, message = FALSE}
+plot_var_facet(cmty_labour, 
+               vars = lab_vars, 
+               plot.unit = "Tsh / work day", 
+               title = "Community labour prices") +
+  scale_y_continuous(labels = scales::label_number_si())
+```
+
+
+```{r}
+cmty_labour <- modify_at(.x = cmty_labour,
+                         .at = lab_vars,
+                         .f = outlier_to_NA,
+                         quantile = 0.95)
+```
+
+```{r, warning = FALSE, message = FALSE}
+plot_var_facet(cmty_labour, 
+               vars = lab_vars, 
+               plot.unit = "Tsh / work day", 
+               title = "Community labour prices") +
+  scale_y_continuous(labels = scales::label_number_si())
+```
+
+
+## Merge 
+
+Merge together.
+
+```{r}
+community <- reduce(list(cmty_info, cmty_seed, cmty_fert, cmty_labour),
+                    inner_join,
+                    by = "cmty_index")
+```
+
+Save intermediate dataset.
+
+```{r}
+write_csv(x = community,
+          path = here("./data/extracted/community.csv"))
+```
+
+Save separate dataset with fertilizers isotope prices.
+
+```{r}
+community_NPK <- inner_join(cmty_info, cmty_fert_NPK, by = "cmty_index")
+write_csv(x = community_NPK,
+          path = here("./data/extracted/community_NPK.csv"))
+```
+
+
+
+## Recap 
+
+### Community general dataset
+
+```{r}
+read.csv(here("./tables/community_recap_tab.csv")) %>%
+  knitr::kable()
+```
+
+### Fertilizer isotope prices
+
+```{r}
+read.csv(here("./tables/community_NPK_recap_tab.csv")) %>%
+  knitr::kable()
+```

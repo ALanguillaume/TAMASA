@@ -1,0 +1,623 @@
+
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
+
+# Focal plot survey
+
+**Focal plot**: The maize plot which is “most important” in an economic sense, at the household level, was chosen to be studied in
+more depth. MUST INCLUDE MAIZE.
+
+## Intervening datasets
+
+```{r, echo = FALSE}
+datasets <- list_datasets("02-focalplot.Rmd")
+datasets$Description <- c("Main focal plot file",
+                          "focal plot Metadata",
+                          "focal plot Seed file",
+                          "focal plot Other Inputs")
+knitr::kable(datasets)
+```
+
+## Prepare dataset
+
+```{r}
+fp <- read.table(here("./data/TAMASA2017/TZAPS17_fp.tab"),
+                 header = TRUE,
+                 sep = "\t",
+                 quote = "",
+                 stringsAsFactors = FALSE)
+```
+
+Correct missing decimal
+
+```{r}
+fp$area_est[fp$area_est >= 10] <- fp$area_est[fp$area_est >= 10] / 10
+```
+
+Convert acres to ha
+
+```{r}
+acres_to_ha <- with(dics, areaunit[areaunit$unit == "Acres", "hectares"])
+fp$area_est <- fp$area_est * acres_to_ha
+```
+
+Set zone and region as factors with meaningful levels
+
+```{r}
+md_geo <- readxl::read_xlsx(here("./data/TAMASA2017/metadata/TZAPS17_ODK_fp.xlsx"),
+                             sheet = "external_choices")
+md_region <- md_geo %>% filter(list_name == "regions")
+md_district <- md_geo %>% filter(list_name == "districts")
+```
+
+
+```{r}
+fp$zone <- as.factor(fp$zone)
+fp$region <- factor(fp$region,
+                    levels = md_region$name,
+                    labels = md_region$label)
+fp$district <- factor(fp$district,
+                      levels = md_district$name,
+                      labels = md_district$label)
+```
+
+### Select useful columns
+
+* `hhid`: household index, field with only unique values: ``r check_unique(fp$hhid)``.
+* `enum_date`: the date at which the survey took place.
+* `plotid`: plot index, relates to general household survey where each household plot was assigned a plot_id.
+
+* `fp_index`: int, used to merge different focalplot sub datasets with main focal plot dataset. Field with only unique values:`r check_unique(fp$fp_index)`.
+* `fp_id`: long, general focal plot index. Field with only unique values:`r check_unique(fp$fp_id)`.
+
+* `zone`: zone.
+* `region`: region.
+* `district`: district.
+* `site`: site.
+* `irrig_bin`:  was any form of irrigation applied (0/1).
+* `area_est`: farmer estimate of the focal plot area.
+
+```{r}
+fp_info <- fp %>% select(hhid, enum_date, plotid, fp_index, fp_id, zone, region, 
+                         district, site, irrig_bin, area_est)
+```
+
+Given that there is no duplicated `fp_index`, `fp_id` and `hhid` entry we can assume that one focal plot is indeed associated with one unique household index.
+
+
+## Seeds
+
+### Seed Amounts
+
+#### Seeds datasets
+
+Focal plot seed information can be found in two separate datasets:
+
+* directly in the main focal plot datasets: `TZAPS17_fp.tab` later referred to as `fp`.
+* in a  specific separate file: `TZAPS17_fp_seed.tab` later referred to as `fp_rseed`.
+
+The `r` in `fp_rseed` stands for repeat. Some set of questions had to be asked repeatedly.
+For example if different species were grown on the same focal plot, the enumerator had to loop through all questions for each species. The answers to the first set of questions were stored in `TZAPS17_fp.tab` (`fp`) whereas the answers to the second set of questions onward are stored within `TZAPS17_fp_seed.tab`(`fp_rseed`).
+
+We first present the most relevant variables. These variables can be found in the main dataset `fp` as well as in `fp_rseed` where they are prefixed with an `r`.
+
+* `seedseas`: int, season in which seeds were used.
+
+* `seed1`: int, crop code, as crop_min see (tab `choices` of `TZAPS17_ODK_fp.xlsx`). NB: This is not consistent with the questionnaire form where `seed1` was a binary varisble indicating seed type (local or improved).
+
+* `seed2`: int,  seed type (imporved/local) and (purchased/recylced).
+* `seed3`: long, amount of seeds sown (value).
+* `seed4`: int, amount of seeds sown (unit).
+
+For the following two variables, we noted inconsistencies between the metadata in both `TZAPS17_metadata.xlsx` and `TZAPS17_ODK_fp.xlsx` and the questionnaire form `TZAPS17_questionnaires.pdf`. In the questionnaire form one extra variable is included, indicating whetever seeds  were purchased. This variable is called `seed5` too. This variable seems not to be included in the survey. Therefore:
+
+* `seed5`: most likely indicates in which way seeds were obtained (credit, exchange, retained seed).
+* `seed6`: seed source (small, trader, NGO, cooperative...).
+
+We first subset `fp` to keep only those aforementioned variables and to keep only data for maize grown in main season. The resulting dataset is called `fp_seed`.
+
+```{r}
+fp_seed <- fp %>%
+  filter(mc_crop == "maize" & seed1 == 1 & seedseas == 1) %>%
+  select(hhid, seed1, seedseas, fp_index, area_est, seed2, seed3, seed4, seed5, seed6)
+```
+
+We then load the specific seed data sets`fp_rseed`, and again keep only values correponding to maize grown in main season.
+
+```{r}
+fp_rseed <- read.table(here("./data/TAMASA2017/TZAPS17_fp_seed.tab"),
+                       header = TRUE,
+                       sep = "\t",
+                       quote = "")
+fp_rseed <- fp_rseed %>% filter(rseed1 == 1 & rseedseas == 1)
+```
+
+First thing to notice is that there is no reference to household index. So it will be necessary to rely on `fp_index` to merge it back to the main seed dataset `fp_seed`.
+
+```{r}
+colnames(fp_rseed)
+```
+
+It should also be noted that `fp_rseed` represents only an additional ``r nrow(fp_rseed)`` datapoints compare to the ``r  nrow(fp_seed)`` already present in `fp_seed`.
+
+Among those ``r nrow(fp_rseed)``, ``r length(intersect(fp_seed$fp_index, fp_rseed$fp_index))`` overlaps with `fp_index` in the main seed datasets `fp_seed`. This is not consistent with our understanding o fthe datasets. We would expect all the `fp_index` present in `fp_rseed` to be also present in `fp_seed`, if `fp_rseed` consisted indeed of additional information on the plot already described in `fp_seed`.
+
+There also appears to be complete overlaps between the two datasets, something we would hardly expect. Example:
+
+```{r}
+fp_rseed %>% 
+  filter(fp_index %in% c(23, 51)) %>%
+  select(fp_index, fpseed_index, starts_with("rseed"))
+```
+
+
+```{r}
+fp_seed %>% 
+  filter(fp_index %in% c(23, 51)) %>%
+  select(fp_index, starts_with("seed")) %>%
+  arrange(fp_index)
+```
+
+Giving the small number of extra data points provided by the seed specific dataset `fp_rseed` and the aforementioned inconsistencies we decided not to include it in our calculations.
+
+```{r}
+fp_seedsel <- fp_seed %>% select(hhid, fp_index)
+```
+
+#### Calculate seed amount in kg
+
+```{r}
+table(fp_seed$seed4)
+```
+
+99 is not an existing unit category:
+
+```{r}
+dics$unit$cat
+```
+
+Setting 99 to NA in `seed4`
+
+```{r}
+fp_seed$seed4[fp_seed$seed4 == 99] <- NA
+```
+
+
+Plot of amount of seed purchased:
+
+```{r}
+plot_var(fp_seed, seed3, plot.unit = "")
+```
+
+Removing some aberrant outliers. Those few points ranging a couple of order of magnitude away from the rest.
+NB: It is not a matter of the unit they are expressed in.
+
+```{r}
+fp_seed$seed3 <- outlier_to_NA(fp_seed$seed3, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seed3, plot.unit = "")
+```
+
+
+
+```{r}
+fp_seed <- fp_seed %>%
+  inner_join(dics$unit, by = c("seed4" = "cat")) %>%
+  mutate(seed_kg = ifelse(kg_maize > 0,
+                          seed3 * kg_maize,
+                          NA))
+```
+
+
+
+Calculate main season seed input per hectare
+
+```{r}
+fp_seed <- mutate(fp_seed, seed_ha = seed_kg / area_est)
+```
+
+Delete aberrant values and outliers
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seed_ha, plot.unit = "kg/ha")
+```
+
+```{r}
+fp_seed$seed_ha[fp_seed$seed_ha < 1] <- NA
+fp_seed$seed_ha <- outlier_to_NA(fp_seed$seed_ha, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seed_ha, plot.unit = "kg/ha")
+```
+
+Make seed type and source variables more explicit, by joining `fp_seed` with relevant dictionaries.
+
+```{r}
+fp_seed <- inner_join(fp_seed, dics$seedsource, by = "seed6")
+fp_seed <- full_join(fp_seed, dics$seedtype, by = "seed2")
+```
+
+Organize the final dataset: order and rename some columns.
+
+```{r}
+fp_seed <- fp_seed %>% 
+  select(hhid, seed_ha, type, source) %>%
+  rename(seedtype = type,
+         seedsource = source)
+```
+
+### Seed costs
+
+Looking only at plots where maize is the only crop grown (`mc_prop = 1`)
+during main season.
+
+```{r}
+fp_seedexp <- fp %>%
+  filter(seed1 == 1 & 
+           seedseas == 1 & 
+           mc_crop == "maize" & 
+           mc_prop == 1 & 
+           smc_crop == "") %>%
+  select(hhid, area_est, seedexp)
+```
+
+Calculate seed expenditures in Tsh per Hectares.
+
+```{r}
+fp_seedexp <- fp_seedexp %>% mutate(seedexp_ha  = seedexp / area_est)
+```
+
+and include that variables in the main seed dataset `fp_seed`. 
+
+```{r}
+fp_seed <- fp_seedexp %>% 
+  select(hhid, seedexp_ha) %>%
+  inner_join(fp_seed, ., by = "hhid")
+```
+
+Calculate seeds expenditures per kg
+
+```{r}
+fp_seed <- fp_seed %>% mutate(seedexp_kg = seedexp_ha / seed_ha)
+```
+
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
+```
+
+A lot of farmers did not purchase seeds leading to null seed expenditures (see above histogram). As a consequence we only keep expenditures for purchased seed.
+
+```{r}
+NA_exp <- fp_seed$seedtype %in% c("local, recycled", "improved, recycled")
+fp_seed$seedexp_kg[NA_exp] <- NA
+```
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
+```
+
+
+```{r}
+fp_seed$seedexp_kg <- outlier_to_NA(fp_seed$seedexp_kg, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
+```
+
+
+### Hybrid vs local
+
+Make two new variables containing the price of purchased seeds for both local (`seedprice_local `) and improved varieties (`seedprice_hybrid`).
+
+```{r}
+fp_seed$seedprice_hybrid <- NA
+id_hyb <- which(fp_seed$seedtype =="improved, purchased")
+fp_seed$seedprice_hybrid[id_hyb] <- fp_seed$seedexp_kg[id_hyb]
+```
+
+```{r}
+fp_seed$seedprice_local <- NA
+id_lcl <- which(fp_seed$seedtype =="local, purchased")
+fp_seed$seedprice_local[id_lcl] <- fp_seed$seedexp_kg[id_lcl]
+```
+
+
+## Pigeon Pea
+
+```{r}
+fp_pigeonpea <- fp %>% 
+  filter(seed1 == 9 & mc_crop == "pigeon_pea") %>%
+  select(hhid, mc_crop, seed1, seedseas, fp_index, area_est, 
+         seed2, seed3, seed4, seed5, seed6, seedexp)
+
+fp_pigeonpea %>%  select(hhid, mc_crop, seed1, seedseas, fp_index, area_est, seedexp)
+```
+
+Calculate seed cost in Tsh/ha (`seedexp_ha`) and Tsh/kg `seedexp_kg`.
+
+```{r}
+fp_pigeonpea %>% 
+  mutate(seed_kg = seed3 * dics$unit$kg_maize[which(dics$unit$cat == fp_pigeonpea$seed4)],
+         seedexp_ha  = seedexp / area_est,
+         seedexp_kg = seedexp / seed_kg,
+         seed_ha = seed_kg / area_est) %>%
+  select(hhid, mc_crop, seed_kg, seed_ha, seedexp_ha, seedexp_kg) 
+```
+
+Unfortunately there is only `r nrow(fp_pigeonpea)` household with data on pigeon pea...
+
+
+## Fertilizer
+
+### Select variables
+
+For maize grown in main season select useful variable:
+
+* `hhid`: household index.
+* `fp_index`: focal plot index.
+* `area_est`: farmer estimate of the focal plot area.
+* `fertilizer_bin`: was _**artificial**_ fertilizer applied on focal plot during main season 2016-2017.
+* `amnd0`: input type.
+* `amnd0b`: NPK type.
+* `amnd4`: amount applied.
+* `amnd5`: unit.
+* `inputexp`: cost of input in Tsh.
+
+```{r}
+fp_fert <- fp %>%
+  filter(mc_crop == "maize" & seed1 == 1 & seedseas == 1) %>% 
+  select(hhid, fp_index, area_est, fertilizer_bin, amnd0, amnd0b, amnd4, amnd5, inputexp)
+```
+
+Remove aberrant values for input expenditures
+
+```{r}
+fp_fert$inputexp[fp_fert$inputexp == -99] <- NA
+```
+
+One bizarre feature of this dataset is that ``r nrow(filter(fp_fert, amnd0 == 0 & inputexp != 0))`` focal plots said to have had no fertilizer input of any kind (`amnd0 == 0`), have non null fertilizing cost (`inputexp != 0`). See example
+
+```{r}
+fp_fert %>% 
+  filter(amnd0 == 0 & inputexp != 0) %>%
+  select(hhid, fp_index, amnd0, amnd0b, inputexp) %>%
+  head()
+```
+
+Having no idea regarding what might have caused these inconsistencies, we simply filter out the spurious focal plots.
+
+```{r}
+fp_fert <- fp_fert %>% 
+  filter(!(amnd0 == 0 & inputexp != 0))
+```
+
+### Calculate NPK input from input type and amount
+
+```{r}
+fp_fert <- inner_join(fp_fert, dics$inp, by = c("amnd0" = "cat"))
+fp_fert <- inner_join(fp_fert, dics$unit, by = c("amnd5" = "cat"))
+```
+
+Amount of NPK calculated in kg/ha.
+
+```{r}
+fp_fert <- fp_fert %>% mutate(amount = amnd4 * kg,
+                              N = (amount * Nconc) / area_est,
+                              P = (amount * Pconc) / area_est,
+                              K = (amount * Kconc) / area_est)
+```
+
+Set points with no input indicated by `"none"` to zero.
+
+```{r}
+fp_fert <- fp_fert %>% zero_if_no_input(c("N", "P", "K"), na_string = "none")
+```
+
+
+### Calculate additional inputs
+
+#### Load dataset
+
+```{r}
+fp_fert2 <- read.table(here("./data/TAMASA2017/TZAPS17_fp_othinp.tab"),
+                       header = TRUE,
+                       sep = "\t",
+                       quote = "")
+```
+
+
+#### Join other input and fertlizer datasets by focal plot index
+
+```{r}
+fp_fert2 <- inner_join(x = select(fp_fert, fp_index), 
+                       y = fp_fert2, 
+                       by = "fp_index")
+```
+
+
+#### Calculate NPK concentrations from input type
+
+```{r}
+fp_fert2 <- inner_join(fp_fert2, dics$inp, by = c("ramnd0" = "cat"))
+fp_fert2 <- inner_join(fp_fert2, dics$unit, by = c("ramnd5" = "cat"))
+fp_fert2 <- fp_fert2 %>% 
+  mutate(ramount = ramnd4 * kg) %>% 
+  select(fp_index, input, ramount, Nconc, Pconc, Kconc, ramnd0)
+```
+
+Prefix additional fertlizer variables with an "r" to be able to distinguish them from the initial variables.
+
+```{r}
+append_r <- str_which(names(fp_fert2), "input|conc")
+names(fp_fert2)[append_r] <- paste0("r", names(fp_fert2)[append_r])
+```
+
+#### Calculate total NPK inputs
+
+Join main and additional fertlizer datesets together, to have access to `area-est`.
+
+```{r}
+fp_fert2 <- full_join(fp_fert, fp_fert2, by = "fp_index")
+```
+
+Calculate additional NPK amounts in kg/ha.
+
+```{r}
+fp_fert2 <- fp_fert2 %>% mutate(rN = (ramount * rNconc) / area_est,
+                                rP = (ramount * rPconc) / area_est,
+                                rK = (ramount * rKconc) / area_est)
+```
+
+Add up additional NPK inputs per focal plot.
+
+```{r}
+fp_fert3 <- fp_fert2 %>%
+  select(fp_index, rN, rP, rK) %>%
+  group_by(fp_index) %>%
+  summarise_all(sum)
+```
+
+Put input types in one variable.
+
+```{r}
+fp_fert4 <- fp_fert2 %>%
+  select(fp_index, rinput, ramount) %>%
+  group_by(fp_index) %>%
+  summarise_all(~ paste0(., collapse = " ; "))
+```
+
+### Combine input types
+
+```{r}
+fp_fert <- fp_fert %>% 
+  select(hhid, fp_index, fertilizer_bin, inputexp, N, P, K, input, amount) %>%
+  inner_join(fp_fert3, by = "fp_index") %>%
+  inner_join(fp_fert4, by = "fp_index")
+```
+
+```{r}
+fp_fert <- fp_fert %>% zero_if_no_input(c("rN", "rP", "rK"), na_string = "NA")
+```
+
+Combine all NPK inputs into one variable.
+
+```{r}
+fp_fert <- add_fert_input(fp_fert)
+```
+
+
+```{r, warning = FALSE}
+plot_var_facet(fp_fert, 
+               vars = c("N", "P", "K"), 
+               plot.unit = "kg/ha", 
+               title = "Amount of N,P and K applied")
+```
+
+Cut off high values. K is left as is.
+
+```{r}
+fp_fert <- modify_at(.x = fp_fert,
+                     .at = c("N", "P"),
+                     .f = outlier_to_NA,
+                     quantile = 0.95)
+```
+
+
+```{r, warning = FALSE}
+plot_var_facet(fp_fert, 
+               vars = c("N", "P", "K"), 
+               plot.unit = "kg/ha", 
+               title = "Amount of N,P and K applied")
+```
+
+Put all input types in one variable, and the different amounts in another unique variable.
+
+```{r}
+fp_fert$input <- paste(fp_fert$input, fp_fert$rinput, sep = ", ")
+fp_fert$amount <- paste(fp_fert$amount, fp_fert$ramount, sep = ", ")
+```
+
+Finally, define relevant variable subset.
+
+```{r}
+fp_fert <- fp_fert %>% select(hhid, fertilizer_bin, input, amount, N, P, K, inputexp)
+```
+
+
+
+## Cost of hiring power sources
+
+Select only focal plots with maize grown as main crop in main season.
+
+Here all variables of interest are related to traction hence they all start with `trc_`.
+
+The middle part indicate the type of task:
+
+* `a1`: land clearing.
+* `a2`: ploughing.
+* `a3`: harrowing.
+* `a4`: planting.
+* `a5`: other activity described in `trc_a5_spec`.
+
+Whereas the suffix refers to the cost of hiring:
+
+* `ocost`: oxens.
+* `mcost`: a machine.
+
+Example: `trc_a2_ocost` corresponds to the cost of hiring oxens for ploughing.
+
+
+```{r}
+fp_hire <- fp %>%
+  filter(seed1 == 1 & seedseas == 1) %>%
+  select(hhid, area_est, ends_with("cost"), trc_a5_spec)
+```
+
+Add up oxen and machine hiring costs, then divide by area.
+
+```{r}
+trc_a <- str_which(colnames(fp_hire), "^trc_a\\d")
+x <- which(rowSums(is.na(fp_hire[trc_a])) < 11)
+fp_hire[x, "power_exp_ha"] <- rowSums(fp_hire[x, trc_a], na.rm = TRUE) / fp_hire$area_est[x]
+```
+
+```{r}
+fp_hire <- fp_hire %>% select(hhid, power_exp_ha)
+```
+
+
+## Merge
+
+Combine focal plot info, seed (amount + cost), fertilizer, traction cost data in one data.frame.
+
+```{r}
+focalplot <- reduce(list(fp_info, fp_seed, fp_fert, fp_hire),
+                    full_join, 
+                    by = "hhid")
+```
+
+Save intermediate dataset.
+
+```{r}
+write_csv(x = focalplot,
+          path = here("./data/extracted/focalplot.csv"))
+```
+
+
+## Recap
+
+```{r}
+read.csv(here("./tables/focalplot_recap_tab.csv")) %>%
+  knitr::kable()
+```
+

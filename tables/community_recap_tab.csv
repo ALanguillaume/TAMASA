@@ -1,0 +1,49 @@
+Variable,Description,Unit,Type
+cmty_index,community index,-,integer
+enum_date,survey date,-,date
+zone,zone,-,character
+region,region,-,character
+district,district,-,character
+site,site,-,character
+ward,ward,-,character
+village,village,-,character
+hamlet,hamlet,-,character
+comm_gps,latitude and longitude of community,-,coordonates
+vil_nhh,number of households in village,-,integer
+vil_npersons,number of persons in village,-,integer
+vil_acres,approximative village area,$acres$,integer
+acc_inp_km,distance to nearest input dealer,$km$,integer
+acc_inp_tsh,cost of transport to nearest input dealer,$Tsh$,integer
+maiprc_depot_q1,price 50kg bag of maize from large commercial depot for Apr-Jun 2016 (q1),$Tsh$,integer
+maiprc_depot_q2,same for  Jul-Sep 2016 (q2),$Tsh$,integer
+maiprc_depot_q3,same for Oct-Dec 2016 (q3,$Tsh$,integer
+maiprc_depot_q4,same forJan-Mar 2017 (q4),$Tsh$,integer
+maiprc_town_q1,price 50kg bag of maize from regular marketplace for Apr-Jun 2016 (q1),$Tsh$,integer
+maiprc_town_q2,same for  Jul-Sep 2016 (q2),$Tsh$,integer
+maiprc_town_q3,same for Oct-Dec 2016 (q3,$Tsh$,integer
+maiprc_town_q4,same forJan-Mar 2017 (q4),$Tsh$,integer
+price_basfert,price basal fertilizer (compound D) from nearest input dealer,$Tsh.kg^{-1}$,integer
+price_topfert,price top-dressing fertilizer (Urea) from nearest input dealer,$Tsh.kg^{-1}$,integer
+transp_price,transport cost per kg for fertilizer from the nearest input dealer to this village (price transport 50kg bag / 50),$Tsh.kg^{-1}$,integer
+price_pesticide,price at peak demand (aug-dec) for different inputs.,$Tsh.kg^{-1}$,integer
+price_herbicide,Calculated as:,$Tsh.kg^{-1}$,integer
+price_fungicide ,(Price / amount converted to kg) + transp_price,$Tsh.kg^{-1}$,integer
+price_SA,-,$Tsh.kg^{-1}$,integer
+price_DAP,-,$Tsh.kg^{-1}$,integer
+price_CAN,-,$Tsh.kg^{-1}$,integer
+price_Urea,-,$Tsh.kg^{-1}$,integer
+price_TSP,-,$Tsh.kg^{-1}$,integer
+price_ MinjinguMazao,-,$Tsh.kg^{-1}$,integer
+price_YaraMilaCereal,-,$Tsh.kg^{-1}$,integer
+price_YaraAmidas,-,$Tsh.kg^{-1}$,integer
+price_YaraMilaWinner,-,$Tsh.kg^{-1}$,integer
+price_other,-,$Tsh.kg^{-1}$,integer
+clearing_price,labour prices for different categories:  clearing,"$Tsh.work \, day^{-1}$",integer
+hoeing_price,hoeing,"$Tsh.work \, day^{-1}$",integer
+planting_price,planting,"$Tsh.work \, day^{-1}$",integer
+tillplnt_price,tilling and planting combined,"$Tsh.work \, day^{-1}$",integer
+fertapp_price,fertilizer application,"$Tsh.work \, day^{-1}$",integer
+weeding_price,weeding,"$Tsh.work \, day^{-1}$",integer
+pestapp_price,pesticide application,"$Tsh.work \, day^{-1}$",integer
+harvesting_price,harvesting,"$Tsh.work \, day^{-1}$",integer
+shelling_price,shelling /treshing,"$Tsh.work \, day^{-1}$",integer
