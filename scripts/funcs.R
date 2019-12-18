@@ -6,7 +6,7 @@
 
 list_datasets <- function(file){
   
-  path <- file.path(here::here("./rmd/"), file)
+  path <- here::here(file)
   df <- readLines(path) %>%
     str_subset("TZAPS17.") %>%
     str_subset("read") %>%
