@@ -1,50 +1,47 @@
 
-lab_data = hh_plot$tlab_h_ha
+library(tidyverse)
+library(here)
+source(here("./scripts/funcs.R"))
+source(here("./scripts/plot_funcs.R"))
+
+d_raw <- read_csv(here("./data/extracted/household.csv"), na = "NA")
+lab_data = d_raw$tlab_h_ha
+
 # harvest_lab_corretcion <- function(lab_data, hours.min,){
-  
+hours.max = 8
+hours.min = 2
 
   
-  xmax <- 8/hours.min # assuming 2 hours working day
-  xmin <- 1 # assuming 8 h working day
+  xmax <- 1
+  xmin <- hours.min / hours.max 
   
   d <- data.frame(lab_data, id = 1:length(lab_data))
-  d <- d[order(lab_data, decreasing = T), ]
+  d <- d[order(lab_data, decreasing = FALSE), ]
   d$x <- seq(xmax, xmin, length.out = length(lab_data))
-  d$yc <- d$lab_data *d$x
+  d$yc <- d$lab_data * d$x
   d <- d[order(d$id), ]
   
 # }
-  d <- mutate(d, y_dt = lab_data / hh_plot$yield, yc_dt = yc / hh_plot$yield)
+  d <- mutate(d, y_dt = lab_data / d_raw$yield, yc_dt = yc / d_raw$yield)
 # }
 # d$id <- NULL
 
-dl <- pivot_longer(d, cols = grep("id|x", colnames(d), invert = TRUE),
-                   names_to = "var", 
-                   values_to = "value")
-
-ggplot(dl)+
+d %>% 
+  pivot_longer(cols = grep("id|x", colnames(d), invert = TRUE),
+               names_to = "var", 
+               values_to = "value") %>%
+  ggplot()+
   aes(y = value, x = var, group = var, color = var, fill = var)+
   geom_violin(alpha = 0.5, na.rm = TRUE)+
   ggbeeswarm::geom_quasirandom(alpha = 0.5, na.rm = TRUE, groupOnX = TRUE)
 
-outlier_to_NA()
+d <- modify_at(d, c("y_dt", "yc_dt"), outlier_to_NA, quantile = 0.95)
 
-
-plot(x, y)
-
-b <- (max(y) - min(y)) / (xmax - xmin)
-
-a = min(y) - b
-
-abline(a = a, b = b)
-
-
-h <- b * x + a
-
-d <- data.frame(x, y)
-
-fit <- lm(y ~ I(x^5), d)
-
-plot(x, y)
-
-plot(x, predict(fit, newdata = d["y"]), type = "l")
+d %>% 
+  pivot_longer(cols = grep("id|x", colnames(d), invert = TRUE),
+               names_to = "var", 
+               values_to = "value") %>%
+  ggplot()+
+  aes(y = value, x = var, group = var, color = var, fill = var)+
+  geom_violin(alpha = 0.5, na.rm = TRUE)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5, na.rm = TRUE, groupOnX = TRUE)

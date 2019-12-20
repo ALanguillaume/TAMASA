@@ -1,0 +1,222 @@
+---
+title: "TAMASA - data cleaning summary"
+author: "Antoine Languillaume"
+date: "12/16/2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(here)
+source(here("./scripts/plot_funcs.R"))
+```
+
+
+```{r, message = FALSE}
+d <- read_csv(here("./data/extracted/household.csv"), na = "NA")
+```
+
+## Paul meta analysis experiments
+
+```{r, echo = FALSE}
+magick::image_read(here("./docs/schemes/experiment_sites.png")) %>%
+  magick::image_resize("200x200%")
+```
+
+## Where I started
+
+- Taking other Hilde.
+- Main problem: could not understand her work.
+- Some things done manually and not reproducible.
+
+## Methods brief
+
+- R markdown
+- Git via gitlab
+
+
+A necessity and not a luxury
+
+
+## Tanzania cropping season
+
+```{r, echo = FALSE}
+magick::image_read(here("./docs/schemes/growing_seasons.png")) %>%
+  magick::image_resize("60x60%")
+```
+
+## Enumeration data
+
+```{r, echo = FALSE}
+enum_date <- d %>% 
+  select(enum_date, zone) %>%
+  group_by(enum_date, zone) %>%
+  summarise(n = table(enum_date)) %>%
+  rename(date = enum_date)
+enum_date$n <- as.numeric(enum_date$n)
+enum_date$date <- lubridate::as_date(enum_date$date)
+enum_date <- enum_date[lubridate::year(enum_date$date) == 2017, ]
+```
+
+```{r, echo = FALSE}
+ggplot(enum_date)+
+  aes(x = date, y = n, group = 1, color = zone) +
+  geom_point()+ 
+  geom_segment(aes(xend = date, yend = 0))+
+  scale_x_date(date_breaks = "1 week", date_labels = "%b %d")+
+  ylab("Number of household interviewed")+
+  ggtitle("Enumeration date TAMASA survey")
+```
+
+
+## Inherant noise in the data
+
+
+Variables not measured but estimated by farmer:
+
+- plot size
+- yield (most of the time crop not harvested) 
+
+## Labour data
+
+```{r, warning = FALSE}
+labour_harvest_plot(d[!is.na(d$cropsys), ])
+```
+
+
+## Labour data vs Paul 
+
+```{r, warning = FALSE}
+labour_harvest_plot(d[!is.na(d$cropsys), ])+
+     geom_abline(slope = 0, intercept = 3, color = "red")
+```
+
+
+## Core of the problem
+
+Interpretation of the question:
+
+**actual time spent versus time range**
+
+
+## Esther experience
+
+In Eshter's plots it takes 5 men to harvest 1 acre / day of maize, with 8 hours worked per day.
+
+```{r, echo = TRUE}
+acres_day = 1/5
+ha_day = acres_day / 2.47
+day_ha = 1 / ha_day
+ton_ha = seq(1.5, 3.5, by = 0.1)
+```
+
+```{r}
+l = list(data.frame(dt_8 = day_ha / ton_ha),
+         data.frame(dtr_8 = day_ha / d$yield[d$yield > 1]),
+         data.frame(dtaps_8 = d$tlab_h_dt[d$crop == "maize"]))
+
+dt = plyr::rbind.fill(l)
+
+dt = dt %>% mutate(dt_h = dt_8 * 2, 
+                   dtr_h = dtr_8 * 2,
+                   dtaps_h = dtaps_8)
+```
+
+```{r}
+dt = pivot_longer(dt, cols = grep("dt", colnames(dt)),
+                  names_to = "type",
+                  values_to = "value")
+dt = separate(dt, 
+              col = type, 
+              into = c("source", "hours_per_day"),
+              sep = "_")
+```
+
+```{r}
+dt$source <- dt$source %>% 
+  fct_recode("Esther" = "dt",
+             "Esther - TAMASA yield" = "dtr",
+             "TAMASA - raw" = "dtaps") %>%
+  fct_relevel("Esther", "Esther - TAMASA yield", "TAMASA - raw")
+
+dt$hours_per_day <- dt$hours_per_day %>% fct_recode( "8h / day" = "8", "4h /day" = "h")
+```
+
+
+## Plot Esther experience
+
+```{r}
+dt %>%
+  filter(source != "TAMASA - raw") %>%
+ggplot()+
+  aes(y = value, x = source)+
+  geom_jitter(alpha = 0.5, na.rm = TRUE)+
+  geom_boxplot(na.rm = TRUE, alpha = 0.5)+
+  geom_abline(slope = 0, intercept = 3, color = "red")+
+  ylab(expression(days.ha^-1))+
+  facet_wrap(. ~ hours_per_day)
+```
+
+
+## Plot Esther experience vs TAMASA
+
+```{r, fig.width = 8}
+dt %>%
+ggplot()+
+  aes(y = value, x = source)+
+  geom_jitter(alpha = 0.5, na.rm = TRUE)+
+  geom_boxplot(na.rm = TRUE, alpha = 0.5)+
+  geom_abline(slope = 0, intercept = 3, color = "red")+
+  ylab(expression(days.ha^-1))+
+  facet_wrap(. ~ hours_per_day)
+```
+
+
+
+## Matrix plot per cropping system
+
+```{r}
+pal <- RColorBrewer::brewer.pal(n = 10, "RdYlGn")
+pal <- pal[length(pal):1]
+d %>% 
+  filter(zone == "N") %>%
+  select(hh_index, zone, tlab_h_ha, hlab_h_ha, flab_h_ha, plot_area, yield, cropsys, crop) %>%
+  pivot_longer(cols = str_subset(colnames(.), "lab"),
+               names_to = "bar", 
+               values_to = "value") %>% 
+  separate(bar, into = c("lab_cat", "task", "area"), sep = "\\_") %>%
+  ggplot()+
+  aes(y = value, x = plot_area, color = yield)+
+  geom_point(na.rm = TRUE)+
+  scale_color_gradientn(colours = pal )+
+  ylab(expression(days.ha^-1))+
+  facet_grid(lab_cat ~ cropsys+crop)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+```
+
+
+## Matrix Plot
+
+```{r, message = FALSE, warning = FALSE, fig.dim = c(7, 5), fig.align = 'center'}
+d %>% select(tlab_h_ha, tlab_h_dt, plot_area, yield) %>% GGally::scatmat()
+```
+
+```{r, }
+# d %>% 
+#   filter(zone == "N") %>%
+#   select(hh_index, plot_id, tlab_h_ha, tlab_h_dt, yield, crop, cropsys) %>%
+#   group_by(cropsys, crop) %>%
+#   summarise(mean_harvest_lab_ha = mean(tlab_h_ha, na.rm = TRUE),
+#             mean_harvest_lab_dt = mean(tlab_h_dt, na.rm = TRUE))
+```
+
+
+## What went wrong
+
+- Hidden layers of complexity
+- Should have contacted Jordan from the start
+
+
+# What's next

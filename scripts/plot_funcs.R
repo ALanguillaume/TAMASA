@@ -1,58 +1,12 @@
 
 
-#' Simple wrapper around ggplot histogram
-#'
-#' Can only deal with one variable
+#### General purpose plots ----
 
-phist <- function(df, var, bins = 50, fill = "darkgreen", alpha = 0.5,lab_unit = ""){
-  var <- rlang::enquo(var)
-  ggplot(df) +
-    aes(x = !!var) +
-    geom_histogram(bins = bins,
-                   fill = fill,
-                   colour = "black",
-                   alpha = alpha)+
-    xlab(lab_unit)+
-    ggtitle(sub("~", "", deparse(substitute(var))))
-}
-
-phist_string <- function(df, var, bins = 50, fill = "darkgreen", alpha = 0.5, lab_unit){
-  
-  
-  if(fill == "darkgreen"){
-    ggplot(df) +
-      aes_string(x = var) +
-      geom_histogram(bins = bins,
-                     fill = fill,
-                     colour = "black",
-                     alpha = alpha)+
-      labs(y = "", x = lab_unit)+
-      ggtitle(var)
-  } else {
-    ggplot(df) +
-      aes_string(x = var, fill = fill) +
-      geom_histogram(bins = bins,
-                     colour = "black",
-                     alpha = alpha)+
-      labs(y = "", x = lab_unit)+
-      ggtitle(var)
-  }
-  
-}
-
-phist_matrix <- function(df, vars, bins = 100, dim = c(4,4), 
-                         fill = "darkgreen", alpha = 0.5, lab_units){
-  
-  lp  <- as.list(rep(NA, length(vars)))
-  for (i in seq_along(vars)) { 
-    lp[[i]] <- phist_string(df, vars[[i]], bins = bins, fill = fill, alpha = alpha,
-                            lab_unit = lab_units[i])
-    
-  }
-  ggpubr::ggarrange(plotlist = lp, nrow = dim[1], ncol = dim[2],
-                    common.legend = TRUE, legend="bottom")
-}
-
+#' Produce plot for TAMASA
+#' 
+#' @param df data.frame containing the variables
+#' @param var variable name as symbol not string !
+#' @param plot.unit character, units of the corresponding variable
 
 plot_var <- function(df, var, plot.unit){
   var <- rlang::enquo(var)
@@ -69,6 +23,14 @@ plot_var <- function(df, var, plot.unit){
     ggtitle(var_nms)
 }
 
+
+#' Produce plots with a common y axis
+#' 
+#' @param df data.frame containing the variables
+#' @param var character vector with names of variables
+#' @param plot.unit character, units of the corresponding variable
+#' @param title character, title of the plot
+
 plot_var_facet <- function(df, vars, plot.unit, title){
   pivot_longer(df, cols = vars,
                names_to = "category",
@@ -80,35 +42,45 @@ plot_var_facet <- function(df, vars, plot.unit, title){
 }
 
 
+#' Matrix of plots with separate y-axis
+#'
+#' @param df data.frame containing the variables
+#' @param vars character vector with names of variables
+#' @param plot.unit character vector, units of the corresponding variable
+#' @param fill character names of the variable that is used to assign colors to
+#' elements of the plot.
+#' @param label.si logical, if TRUE, number of f-axis labels are abbreviated using 
+#' K for 10^{3} and M for 10^{6}.
 
-plot_var_string <- function(df, var, plot.unit, fill = "darkgreen", label.si = FALSE){
-  
-  if(fill == "darkgreen"){
-    p <- ggplot(df)+
-      aes_string(y = var, x = 1)+
-      geom_violin(fill = "darkgreen", alpha = 0.1, na.rm = TRUE)+
-      ggbeeswarm::geom_quasirandom(color = "darkgreen", alpha = 0.5, 
-                                   groupOnX = TRUE, na.rm = TRUE)
-  } else{
-    p <- ggplot(df)+
-      aes_string(y = var, x = fill, fill = fill, color = fill)+
-      geom_violin(alpha = 0.1, na.rm = TRUE)+
-      ggbeeswarm::geom_quasirandom(alpha = 0.5, 
-                                   groupOnX = TRUE, na.rm = TRUE)
-  }
-  
-  if(label.si == TRUE){
-    p <- p + scale_y_continuous(labels = scales::label_number_si())
-  }
-  p +
-    labs(x = "", y = plot.unit)+
-    theme(axis.ticks.x = element_blank(),
-          axis.text.x = element_blank(),
-          legend.position = "none")+
-    ggtitle(var)
-}
 
 plot_var_matrix <- function(df, vars, plot.unit, plot.dim, fill = "darkgreen", label.si = FALSE){
+  
+  plot_var_string <- function(df, var, plot.unit, fill = "darkgreen", label.si = FALSE){
+    
+    if(fill == "darkgreen"){
+      p <- ggplot(df)+
+        aes_string(y = var, x = 1)+
+        geom_violin(fill = "darkgreen", alpha = 0.1, na.rm = TRUE)+
+        ggbeeswarm::geom_quasirandom(color = "darkgreen", alpha = 0.5, 
+                                     groupOnX = TRUE, na.rm = TRUE)
+    } else{
+      p <- ggplot(df)+
+        aes_string(y = var, x = fill, fill = fill, color = fill)+
+        geom_violin(alpha = 0.1, na.rm = TRUE)+
+        ggbeeswarm::geom_quasirandom(alpha = 0.5, 
+                                     groupOnX = TRUE, na.rm = TRUE)
+    }
+    
+    if(label.si == TRUE){
+      p <- p + scale_y_continuous(labels = scales::label_number_si())
+    }
+    p +
+      labs(x = "", y = plot.unit)+
+      theme(axis.ticks.x = element_blank(),
+            axis.text.x = element_blank(),
+            legend.position = "none")+
+      ggtitle(var)
+  }
   
   lp <- pmap(.l = list(var = vars, plot.unit = plot.unit), 
              .f = plot_var_string, 
@@ -121,6 +93,13 @@ plot_var_matrix <- function(df, vars, plot.unit, plot.dim, fill = "darkgreen", l
                     ncol = plot.dim[2])
 }
 
+
+#### Functions dedicated to plot labour data -----
+
+
+#' Plot labour per category: family/hired
+#'
+#' @param df data.frame containing labour data
 
 labour_category_plot <- function(df){
   
@@ -159,6 +138,10 @@ labour_category_plot <- function(df){
     labs(y = expression(days.ha^-1), x = "Labour category")+
     ggtitle("Labour amount")
 }
+
+#' Plot hired labour price
+#'
+#' @param df data.frame containing labour data
 
 labour_price_plot <- function(df){
   
@@ -201,6 +184,10 @@ labour_price_plot <- function(df){
     labs(y = expression(Tsh.ha^-1), x = "")+
     ggtitle("Hiring price")
 }
+
+#' Plot labour uniquely for harvest
+#'
+#' @param df data.frame containing labour data
 
 labour_harvest_plot <- function(df){
   dl <- df %>% 

@@ -86,7 +86,7 @@ Key points:
 
 * As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.
 
-```{r, echo = FALSE}
+```{r, label = "growing season", echo = FALSE}
 magick::image_read(here("./docs/schemes/growing_seasons.png"))
 ```
 
@@ -101,7 +101,7 @@ enum_date$date <- lubridate::as_date(enum_date$date)
 enum_date <- enum_date[lubridate::year(enum_date$date) == 2017, ]
 ```
 
-```{r, echo = FALSE}
+```{r, label = "enum_date",  echo = FALSE}
 ggplot(enum_date)+
   aes(x = date, y = n, group = 1, color = zone) +
   geom_point()+ 

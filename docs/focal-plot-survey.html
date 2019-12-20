@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2019-12-18" />
+<meta name="date" content="2019-12-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -364,12 +364,12 @@ For example if different species were grown on the same focal plot, the enumerat
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1">fp_seed<span class="op">$</span>seed4[fp_seed<span class="op">$</span>seed4 <span class="op">==</span><span class="st"> </span><span class="dv">99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 <p>Plot of amount of seed purchased:</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed3, <span class="dt">plot.unit =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 <p>Removing some aberrant outliers. Those few points ranging a couple of order of magnitude away from the rest.
 NB: It is not a matter of the unit they are expressed in.</p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1">fp_seed<span class="op">$</span>seed3 &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seed3, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed3, <span class="dt">plot.unit =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb102-2" title="2"><span class="st">  </span><span class="kw">inner_join</span>(dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;seed4&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb102-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">seed_kg =</span> <span class="kw">ifelse</span>(kg_maize <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,</a>
@@ -379,11 +379,11 @@ NB: It is not a matter of the unit they are expressed in.</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1">fp_seed &lt;-<span class="st"> </span><span class="kw">mutate</span>(fp_seed, <span class="dt">seed_ha =</span> seed_kg <span class="op">/</span><span class="st"> </span>area_est)</a></code></pre></div>
 <p>Delete aberrant values and outliers</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed_ha, <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1">fp_seed<span class="op">$</span>seed_ha[fp_seed<span class="op">$</span>seed_ha <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb105-2" title="2">fp_seed<span class="op">$</span>seed_ha &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seed_ha, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">plot_var</span>(fp_seed, seed_ha, <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
 <p>Make seed type and source variables more explicit, by joining <code>fp_seed</code> with relevant dictionaries.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1">fp_seed &lt;-<span class="st"> </span><span class="kw">inner_join</span>(fp_seed, dics<span class="op">$</span>seedsource, <span class="dt">by =</span> <span class="st">&quot;seed6&quot;</span>)</a>
 <a class="sourceLine" id="cb107-2" title="2">fp_seed &lt;-<span class="st"> </span><span class="kw">full_join</span>(fp_seed, dics<span class="op">$</span>seedtype, <span class="dt">by =</span> <span class="st">&quot;seed2&quot;</span>)</a></code></pre></div>
@@ -414,15 +414,15 @@ during main season.</p>
 <p>Calculate seeds expenditures per kg</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1">fp_seed &lt;-<span class="st"> </span>fp_seed <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">seedexp_kg =</span> seedexp_ha <span class="op">/</span><span class="st"> </span>seed_ha)</a></code></pre></div>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
 <p>A lot of farmers did not purchase seeds leading to null seed expenditures (see above histogram). As a consequence we only keep expenditures for purchased seed.</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1">NA_exp &lt;-<span class="st"> </span>fp_seed<span class="op">$</span>seedtype <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;local, recycled&quot;</span>, <span class="st">&quot;improved, recycled&quot;</span>)</a>
 <a class="sourceLine" id="cb114-2" title="2">fp_seed<span class="op">$</span>seedexp_kg[NA_exp] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1">fp_seed<span class="op">$</span>seedexp_kg &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(fp_seed<span class="op">$</span>seedexp_kg, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">plot_var</span>(fp_seed, seedexp_kg, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 </div>
 <div id="hybrid-vs-local" class="section level3">
 <h3><span class="header-section-number">3.3.3</span> Hybrid vs local</h3>
@@ -568,7 +568,7 @@ during main season.</p>
 <a class="sourceLine" id="cb143-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), </a>
 <a class="sourceLine" id="cb143-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>, </a>
 <a class="sourceLine" id="cb143-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Amount of N,P and K applied&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
 <p>Cut off high values. K is left as is.</p>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">fp_fert &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> fp_fert,</a>
 <a class="sourceLine" id="cb144-2" title="2">                     <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>),</a>
@@ -578,7 +578,7 @@ during main season.</p>
 <a class="sourceLine" id="cb145-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;K&quot;</span>), </a>
 <a class="sourceLine" id="cb145-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;kg/ha&quot;</span>, </a>
 <a class="sourceLine" id="cb145-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Amount of N,P and K applied&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
 <p>Put all input types in one variable, and the different amounts in another unique variable.</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">fp_fert<span class="op">$</span>input &lt;-<span class="st"> </span><span class="kw">paste</span>(fp_fert<span class="op">$</span>input, fp_fert<span class="op">$</span>rinput, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</a>
 <a class="sourceLine" id="cb146-2" title="2">fp_fert<span class="op">$</span>amount &lt;-<span class="st"> </span><span class="kw">paste</span>(fp_fert<span class="op">$</span>amount, fp_fert<span class="op">$</span>ramount, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</a></code></pre></div>

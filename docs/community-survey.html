@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2019-12-18" />
+<meta name="date" content="2019-12-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -281,12 +281,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>and replace existing ones by NA.</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1">cmty_info[neg_val] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_info[neg_val], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">plot_var</span>(cmty_info, vil_nhh, <span class="dt">plot.unit =</span> <span class="st">&quot;nb of household&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-154-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="kw">plot_var_matrix</span>(<span class="dt">df =</span> cmty_info,</a>
 <a class="sourceLine" id="cb163-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
 <a class="sourceLine" id="cb163-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;nb of household&quot;</span>, <span class="st">&quot;nb of persons&quot;</span>, <span class="st">&quot;acres&quot;</span>),</a>
 <a class="sourceLine" id="cb163-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-155-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-153-1.png" width="672" /></p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">cmty_info &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_info,</a>
 <a class="sourceLine" id="cb164-2" title="2">                       <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
 <a class="sourceLine" id="cb164-3" title="3">                       <span class="dt">.f =</span> outlier_to_NA,</a>
@@ -303,14 +303,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb168-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;vil_nhh&quot;</span>, <span class="st">&quot;vil_npersons&quot;</span>, <span class="st">&quot;vil_acres&quot;</span>),</a>
 <a class="sourceLine" id="cb168-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;nb of household&quot;</span>, <span class="st">&quot;nb of persons&quot;</span>, <span class="st">&quot;acres&quot;</span>),</a>
 <a class="sourceLine" id="cb168-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">plot_var_matrix</span>(</a>
 <a class="sourceLine" id="cb169-2" title="2">  <span class="dt">df =</span> cmty_info,</a>
 <a class="sourceLine" id="cb169-3" title="3">  <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;acc_inp_km&quot;</span>, <span class="st">&quot;acc_inp_tsh&quot;</span>),</a>
 <a class="sourceLine" id="cb169-4" title="4">  <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;km&quot;</span>, <span class="st">&quot;tsh&quot;</span>),</a>
 <a class="sourceLine" id="cb169-5" title="5">  <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb169-6" title="6">)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
 <p>A number of communities are said to be located at a 0 km from an input dealer or to have null input transportation cost. It can be that these communities are indeed located nearby a supplier or most likely that they simply do not use additional inputs.</p>
 </div>
 <div id="seed-buying-prices" class="section level2">
@@ -368,7 +368,7 @@ Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh
 <a class="sourceLine" id="cb176-9" title="9"><span class="st">  </span><span class="kw">facet_grid</span>(place <span class="op">~</span><span class="st"> </span>trimester)<span class="op">+</span></a>
 <a class="sourceLine" id="cb176-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb176-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-164-1.png" width="672" /></p>
 <p>Replace extreme values by NA</p>
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" title="1">cmty_seed &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_seed,</a>
 <a class="sourceLine" id="cb177-2" title="2">                       <span class="dt">.at =</span> maiprc,</a>
@@ -391,7 +391,7 @@ Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh
 <a class="sourceLine" id="cb179-9" title="9"><span class="st">  </span><span class="kw">facet_grid</span>(place <span class="op">~</span><span class="st"> </span>trimester)<span class="op">+</span></a>
 <a class="sourceLine" id="cb179-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb179-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-167-1.png" width="672" /></p>
 </div>
 <div id="fertilizer-prices" class="section level2">
 <h2><span class="header-section-number">4.4</span> Fertilizer prices</h2>
@@ -529,10 +529,10 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <p>Transport price is assume to scale linearly with the amount being transported and is calculated by simply dividing the cost of transport of a 50kg fetlizer bag by 50.</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" title="1">cmty_fert &lt;-<span class="st"> </span>cmty_fert <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">transp_price =</span> fmkt_mkt_trp <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" title="1"><span class="kw">plot_var</span>(cmty_fert, <span class="dt">var =</span> transp_price, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-173-1.png" width="672" /></p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" title="1">cmty_fert<span class="op">$</span>transp_price[cmty_fert<span class="op">$</span>transp_price <span class="op">&gt;</span><span class="st"> </span><span class="dv">200</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" title="1"><span class="kw">plot_var</span>(cmty_fert, <span class="dt">var =</span> transp_price, <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-177-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
 </div>
 <div id="price-tshkg" class="section level4">
 <h4><span class="header-section-number">4.4.3.2</span> Price Tsh/kg</h4>
@@ -574,13 +574,13 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <a class="sourceLine" id="cb195-2" title="2">               <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;price_basfert&quot;</span>, <span class="st">&quot;price_topfert&quot;</span>), </a>
 <a class="sourceLine" id="cb195-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
 <a class="sourceLine" id="cb195-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Price base and top fertilizers&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-183-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-181-1.png" width="672" /></p>
 <div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" title="1">var_fert &lt;-<span class="st"> </span><span class="kw">map</span>(fertilizer, <span class="op">~</span><span class="st"> </span><span class="kw">grep</span>(.x, <span class="kw">colnames</span>(cmty_fert), <span class="dt">value =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</a>
 <a class="sourceLine" id="cb196-2" title="2"><span class="kw">plot_var_facet</span>(cmty_fert, </a>
 <a class="sourceLine" id="cb196-3" title="3">               <span class="dt">vars =</span> var_fert, </a>
 <a class="sourceLine" id="cb196-4" title="4">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
 <a class="sourceLine" id="cb196-5" title="5">               <span class="dt">title =</span> <span class="st">&quot;Price fertilizers&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-184-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
 <p><code>price_TSP</code>, all NA ?: <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" title="1">cmty <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb197-2" title="2"><span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;price_fert5&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -602,7 +602,7 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <a class="sourceLine" id="cb201-4" title="4">               <span class="dt">vars =</span> var_pest, </a>
 <a class="sourceLine" id="cb201-5" title="5">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh/kg&quot;</span>, </a>
 <a class="sourceLine" id="cb201-6" title="6">               <span class="dt">title =</span> <span class="st">&quot;Price inputs other than fertilizers&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-185-1.png" width="672" /></p>
 </div>
 </div>
 <div id="price-of-n-p-and-k-in-tsh.kg-1" class="section level3">
@@ -646,7 +646,7 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <a class="sourceLine" id="cb209-6" title="6"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>category)<span class="op">+</span></a>
 <a class="sourceLine" id="cb209-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb209-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Fertilizer price per isotope: N, P and K&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-195-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-193-1.png" width="672" /></p>
 </div>
 </div>
 <div id="labour-cost" class="section level2">
@@ -680,7 +680,7 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <a class="sourceLine" id="cb216-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh / work day&quot;</span>, </a>
 <a class="sourceLine" id="cb216-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Community labour prices&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb216-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number_si</span>())</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-201-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-199-1.png" width="672" /></p>
 <div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">cmty_labour &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_labour,</a>
 <a class="sourceLine" id="cb217-2" title="2">                         <span class="dt">.at =</span> lab_vars,</a>
 <a class="sourceLine" id="cb217-3" title="3">                         <span class="dt">.f =</span> outlier_to_NA,</a>
@@ -690,7 +690,7 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <a class="sourceLine" id="cb218-3" title="3">               <span class="dt">plot.unit =</span> <span class="st">&quot;Tsh / work day&quot;</span>, </a>
 <a class="sourceLine" id="cb218-4" title="4">               <span class="dt">title =</span> <span class="st">&quot;Community labour prices&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb218-5" title="5"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number_si</span>())</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-203-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-201-1.png" width="672" /></p>
 </div>
 </div>
 <div id="merge-2" class="section level2">
