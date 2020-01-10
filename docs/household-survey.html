@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2019-12-20" />
+<meta name="date" content="2020-01-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -293,7 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.</p></li>
 </ul>
 <p><img src="_main_files/figure-html/growing%20season-1.png" width="1334" /></p>
-<p><img src="_main_files/figure-html/enum_date_1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/enum_date-1.png" width="672" /></p>
 </div>
 </div>
 <div id="buying-prices-maize-at-nearest-local-market" class="section level2">
@@ -785,7 +785,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Combine household information, maize buying prices, plots (maize area + labour) and sales data together in one data.frame.</p>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">household &lt;-<span class="st"> </span><span class="kw">reduce2</span>(<span class="kw">list</span>(hh_info, hh_prices, hh_plot, hh_cropsales),</a>
 <a class="sourceLine" id="cb75-2" title="2">                     <span class="kw">as.list</span>(<span class="kw">rep</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="dv">3</span>)),</a>
-<a class="sourceLine" id="cb75-3" title="3">                     full_join)</a></code></pre></div>
+<a class="sourceLine" id="cb75-3" title="3">                     full_join)</a>
+<a class="sourceLine" id="cb75-4" title="4"></a>
+<a class="sourceLine" id="cb75-5" title="5"><span class="co"># household &lt;- full_join(household, hh_cropsales, </span></a>
+<a class="sourceLine" id="cb75-6" title="6"><span class="co">#                        by = c(&quot;hh_index&quot;, &quot;crop&quot; = &quot;crop_sold&quot;))</span></a>
+<a class="sourceLine" id="cb75-7" title="7"><span class="co"># </span></a>
+<a class="sourceLine" id="cb75-8" title="8"><span class="co"># dim(household)</span></a></code></pre></div>
 <p>Remove rows that have no hhid</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">household &lt;-<span class="st"> </span>household[<span class="op">!</span><span class="kw">is.na</span>(household<span class="op">$</span>hhid), ]</a></code></pre></div>
 <p>Save intermediate dataset.</p>
@@ -1115,13 +1120,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>ha: variable in working days / ha.</p></li>
 </ul>
 
-<!-- ```{r, message = FALSE} -->
-<!-- library(tidyverse) -->
-<!-- library(here) -->
-<!-- source(here("./scripts/funcs.R")) -->
-<!-- source(here("./scripts/plot_funcs.R")) -->
-<!-- dics <- create_conversion_dics() -->
-<!-- ``` -->
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb79-2" title="2"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb79-3" title="3"><span class="kw">source</span>(<span class="kw">here</span>(<span class="st">&quot;./scripts/funcs.R&quot;</span>))</a>
+<a class="sourceLine" id="cb79-4" title="4"><span class="kw">source</span>(<span class="kw">here</span>(<span class="st">&quot;./scripts/plot_funcs.R&quot;</span>))</a>
+<a class="sourceLine" id="cb79-5" title="5">dics &lt;-<span class="st"> </span><span class="kw">create_conversion_dics</span>()</a></code></pre></div>
 </div>
 </div>
             </section>

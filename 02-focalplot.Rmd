@@ -1,11 +1,11 @@
 
-<!-- ```{r, message = FALSE} -->
-<!-- library(tidyverse) -->
-<!-- library(here) -->
-<!-- source(here("./scripts/funcs.R")) -->
-<!-- source(here("./scripts/plot_funcs.R")) -->
-<!-- dics <- create_conversion_dics() -->
-<!-- ``` -->
+```{r, message = FALSE}
+library(tidyverse)
+library(here)
+source(here("./scripts/funcs.R"))
+source(here("./scripts/plot_funcs.R"))
+dics <- create_conversion_dics()
+```
 
 # Focal plot survey
 
@@ -147,7 +147,7 @@ It should also be noted that `fp_rseed` represents only an additional ``r nrow(f
 
 Among those ``r nrow(fp_rseed)``, ``r length(intersect(fp_seed$fp_index, fp_rseed$fp_index))`` overlaps with `fp_index` in the main seed datasets `fp_seed`. This is not consistent with our understanding o fthe datasets. We would expect all the `fp_index` present in `fp_rseed` to be also present in `fp_seed`, if `fp_rseed` consisted indeed of additional information on the plot already described in `fp_seed`.
 
-There also appears to be complete overlaps between the two datasets, something we would hardly expect. Example:
+There also appears to be a complete overlaps between the two datasets, something we would hardly expect. Example:
 
 ```{r}
 fp_rseed %>% 
@@ -164,10 +164,6 @@ fp_seed %>%
 ```
 
 Giving the small number of extra data points provided by the seed specific dataset `fp_rseed` and the aforementioned inconsistencies we decided not to include it in our calculations.
-
-```{r}
-fp_seedsel <- fp_seed %>% select(hhid, fp_index)
-```
 
 #### Calculate seed amount in kg
 
@@ -250,9 +246,23 @@ Organize the final dataset: order and rename some columns.
 ```{r}
 fp_seed <- fp_seed %>% 
   select(hhid, seed_ha, type, source) %>%
-  rename(seedtype = type,
-         seedsource = source)
+  rename(seedsource = source)
 ```
+
+Separate `seedtype` into two new variables `seedtype` and `purchased_bin`. 
+
+```{r}
+fp_seed <- fp_seed %>%
+  separate(type, into = c("seedtype", "purchased_bin"), sep = ",")
+fp_seed$purchased_bin <- trimws(fp_seed$purchased_bin)
+```
+
+```{r}
+fp_seed$purchased_bin <- abs(as.numeric(factor(fp_seed$purchased_bin))-2)
+fp_seed$purchased_bin <- factor(fp_seed$purchased_bin)
+```
+
+
 
 ### Seed costs
 
@@ -283,6 +293,19 @@ fp_seed <- fp_seedexp %>%
   inner_join(fp_seed, ., by = "hhid")
 ```
 
+```{r}
+seed_cost_plot(fp_seed, seedexp_ha, plot.unit = "Tsh/ha")
+```
+
+```{r}
+fp_seed$seedexp_ha <- outlier_to_NA(fp_seed$seedexp_ha, quantile = 0.95)
+```
+
+```{r, warning = FALSE}
+seed_cost_plot(fp_seed, seedexp_ha, plot.unit = "Tsh/ha")
+```
+
+
 Calculate seeds expenditures per kg
 
 ```{r}
@@ -291,28 +314,28 @@ fp_seed <- fp_seed %>% mutate(seedexp_kg = seedexp_ha / seed_ha)
 
 
 ```{r, warning = FALSE}
-plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
+seed_cost_plot(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
 ```
-
-A lot of farmers did not purchase seeds leading to null seed expenditures (see above histogram). As a consequence we only keep expenditures for purchased seed.
-
-```{r}
-NA_exp <- fp_seed$seedtype %in% c("local, recycled", "improved, recycled")
-fp_seed$seedexp_kg[NA_exp] <- NA
-```
-
-```{r, warning = FALSE}
-plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
-```
-
 
 ```{r}
 fp_seed$seedexp_kg <- outlier_to_NA(fp_seed$seedexp_kg, quantile = 0.95)
 ```
 
+
 ```{r, warning = FALSE}
-plot_var(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
+seed_cost_plot(fp_seed, seedexp_kg, plot.unit = "Tsh/kg")
 ```
+
+
+For a matter of consistency, we set the price of the non-purchased seeds to zero.
+
+```{r}
+id_zero <- fp_seed$purchased_bin == 0
+fp_seed$seedexp_ha[id_zero] <- ifelse(fp_seed$seedexp_ha[id_zero] > 0, 0, 0)
+fp_seed$seedexp_kg[id_zero] <- ifelse(fp_seed$seedexp_kg[id_zero] > 0, 0, 0)
+```
+
+Set local seeds price to zero ?
 
 
 ### Hybrid vs local
@@ -321,13 +344,13 @@ Make two new variables containing the price of purchased seeds for both local (`
 
 ```{r}
 fp_seed$seedprice_hybrid <- NA
-id_hyb <- which(fp_seed$seedtype =="improved, purchased")
+id_hyb <- which(fp_seed$seedtype == "improved")
 fp_seed$seedprice_hybrid[id_hyb] <- fp_seed$seedexp_kg[id_hyb]
 ```
 
 ```{r}
 fp_seed$seedprice_local <- NA
-id_lcl <- which(fp_seed$seedtype =="local, purchased")
+id_lcl <- which(fp_seed$seedtype =="local")
 fp_seed$seedprice_local[id_lcl] <- fp_seed$seedexp_kg[id_lcl]
 ```
 

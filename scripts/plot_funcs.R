@@ -93,8 +93,26 @@ plot_var_matrix <- function(df, vars, plot.unit, plot.dim, fill = "darkgreen", l
                     ncol = plot.dim[2])
 }
 
+#### Seed cost plot -----
 
-#### Functions dedicated to plot labour data -----
+seed_cost_plot <- function(df, var, plot.unit){
+  
+  var <- rlang::enquo(var)
+  var_nms <- sub("~", "", deparse(substitute(var)))
+  
+  ggplot(df)+
+    aes(y = !!var, x = 1, color = purchased_bin)+
+    ggbeeswarm::geom_quasirandom(alpha = 0.5, 
+                                 groupOnX = TRUE)+
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x = element_blank())+
+    labs(x = var_nms, y = plot.unit)+
+    ylim(0, NA)+
+    ggtitle(var_nms)+
+    facet_wrap(. ~ seedtype)
+}
+
+#### Labour data plots -----
 
 
 #' Plot labour per category: family/hired
@@ -207,6 +225,34 @@ labour_harvest_plot <- function(df){
     facet_grid(task ~ cropsys)+
     theme(legend.position = "none",
           panel.spacing.y = unit(1, "lines"))+
-    labs(y = expression(days.ha^-1), x = "Labour category")+
+    labs(y = expression(days.ton^-1), x = "Labour category")+
     ggtitle("Labour amount")
+}
+
+#### Latin hypercube diagnosis plots -----
+
+#' Plot samples derived by lhc sampling
+#' 
+#' also incudes corresponding raw data points (displayed in red) and
+#' raw data mean as an horizontal red line.
+#' 
+#' @param i numeric index of a given varaible to iterate through
+#' the columns of the data.frames containing: the sampled values,
+#' raw values and the mean.
+#'
+
+plot_sample_lhs <- function(i){
+  ggplot(sampled_data)+
+    aes_string(y = names(sampled_data)[i], x = 1)+
+    geom_violin(alpha = 0.3) +
+    ggbeeswarm::geom_quasirandom(alpha = 0.3) +
+    geom_hline(yintercept = vars_glb$mean[i], color = "red")+
+    expand_limits(y = 0)+
+    ggbeeswarm::geom_quasirandom(data = data.frame(y = vars_glb$values[[i]]), 
+                                 aes(y = y), 
+                                 color = "red",
+                                 size = 1.5)+
+    theme(axis.text.x = element_blank(),
+          axis.title.x = element_blank(),
+          axis.ticks.x = element_blank())
 }

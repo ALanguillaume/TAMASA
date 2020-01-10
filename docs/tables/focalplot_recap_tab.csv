@@ -12,6 +12,7 @@ irrig_bin,was the focal plot irrigated in any way,-,integer
 area_est,focal plot area estimated by farmer,$ha$,double
 seed_ha,amount of seed,$kg.ha^{-1}$,double
 seedtype,seed type:[improved|local] & [purchased|recycled],-,character
+purchased_bin,were the seed purchased,-,integer
 seedsource,seed origin/supplier,-,character
 seedexp_ha,seed expenditures per ha,$Tsh.ha^{-1}$,double
 seedexp_kg,seed expenditures per kg,$Tsh.kg^{-1}$,integer

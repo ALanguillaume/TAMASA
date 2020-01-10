@@ -786,6 +786,11 @@ Combine household information, maize buying prices, plots (maize area + labour) 
 household <- reduce2(list(hh_info, hh_prices, hh_plot, hh_cropsales),
                      as.list(rep("hh_index", 3)),
                      full_join)
+
+# household <- full_join(household, hh_cropsales, 
+#                        by = c("hh_index", "crop" = "crop_sold"))
+# 
+# dim(household)
 ```
 
 Remove rows that have no hhid

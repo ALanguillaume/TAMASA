@@ -154,7 +154,7 @@ ggplot()+
   geom_jitter(alpha = 0.5, na.rm = TRUE)+
   geom_boxplot(na.rm = TRUE, alpha = 0.5)+
   geom_abline(slope = 0, intercept = 3, color = "red")+
-  ylab(expression(days.ha^-1))+
+  ylab(expression(days.ton^-1))+
   facet_wrap(. ~ hours_per_day)
 ```
 
@@ -168,7 +168,7 @@ ggplot()+
   geom_jitter(alpha = 0.5, na.rm = TRUE)+
   geom_boxplot(na.rm = TRUE, alpha = 0.5)+
   geom_abline(slope = 0, intercept = 3, color = "red")+
-  ylab(expression(days.ha^-1))+
+  ylab(expression(days.ton^-1))+
   facet_wrap(. ~ hours_per_day)
 ```
 
