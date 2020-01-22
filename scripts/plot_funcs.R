@@ -241,18 +241,24 @@ labour_harvest_plot <- function(df){
 #' raw values and the mean.
 #'
 
-plot_sample_lhs <- function(i){
+plot_sample_lhs_atom <- function(i, vars_df, sampled_data){
   ggplot(sampled_data)+
     aes_string(y = names(sampled_data)[i], x = 1)+
     geom_violin(alpha = 0.3) +
     ggbeeswarm::geom_quasirandom(alpha = 0.3) +
-    geom_hline(yintercept = vars_glb$mean[i], color = "red")+
+    geom_hline(yintercept = vars_glb$mean[vars_glb$lhc_bin == 1][i], color = "red")+
     expand_limits(y = 0)+
-    ggbeeswarm::geom_quasirandom(data = data.frame(y = vars_glb$values[[i]]), 
+    ggbeeswarm::geom_quasirandom(data = data.frame(y = vars_glb$values[vars_glb$lhc_bin == 1][[i]]), 
                                  aes(y = y), 
                                  color = "red",
                                  size = 1.5)+
     theme(axis.text.x = element_blank(),
           axis.title.x = element_blank(),
           axis.ticks.x = element_blank())
+}
+
+
+plot_sample_lhs <- function(vars_df, sampled_data, plot.dim){
+  lp <- map(seq_along(sampled_data), plot_sample_lhs_atom, vars_df, sampled_data)
+  ggpubr::ggarrange(plotlist = lp, nrow = plot.dim[1], ncol = plot.dim[2])
 }

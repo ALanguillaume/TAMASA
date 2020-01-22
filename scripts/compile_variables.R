@@ -24,19 +24,22 @@ list2env(ld_N, envir = parent.frame())
 # Select relevant variables and remove duplicates
 # duplicates might have arisen from the way several data.frame where merged together.
 
-### Focal plot
+### Focal plot ----
+
+# keep only seed pirce for farmers who actually purchased seeds.
 vars_fp <- focalplot %>%
-  filter(purchased_bin == 1) %>%
+  filter(purchased_bin == 1) %>% 
   select(seedprice_hybrid, seedprice_local) %>%
   as.list
 
-### Community
+### Community ----
+
 vars_cmty <- as.list(select(community, price_Urea, price_CAN, price_DAP,
                             price_pesticide, price_fungicide, price_herbicide))
 
 vars_cmty_NPK <- as.list(select(community_NPK, N_price, P_price))
 
-### Household
+### Household ----
 
 # Unequal repartition of cropping sytsem between zones
 # Maize Pigeon pea intercrop over represented in the North 
@@ -48,41 +51,32 @@ table(ld[["household"]]$cropsys, ld[["household"]]$zone)
 household_lab <- household %>%
   select(hhid, plot_id, crop, cropsys, matches("^[a-z]lab_"))
 
-household_lab$lab_id <- paste0(household_lab$hhid, 
-                               household_lab$plot_id)
-
+# Create unique index in household data.frame
+household_lab$lab_id <- paste0(household_lab$hhid, household_lab$plot_id)
 household_lab <- household_lab[!duplicated(household_lab$lab_id), ]
 
+# Create list of all labour variables
 vars_lab <- household_lab %>%
   filter(!is.na(cropsys)) %>%
-  # select(cropsys, matches("^[a-z]lab_")) %>%
   pivot_wider(names_from = "cropsys", 
               values_from = matches("^[a-z]lab_")) %>%
   select(matches("^[a-z]lab_")) %>%
   as.list()
 
-foo <- map(vars_lab, ~ .x[!is.na(.x)]) %>% map_dbl(length)
+### Maize prices ----
 
 
-data.frame(param = names(foo), value = foo) %>%
-  separate(param, into = c("type", "task", "unit", "cropsys"), sep = "_")
+### Create summary tibble ----
 
-
-vars_hh <- as.list(select(household_lab, matches("^[a-z]lab_")))
-
-## Maize prices
-
-
-#### Contrust data.frame with variables names, values and summary statistics
-
-vars_glb_l <- c(vars_fp, vars_cmty, vars_cmty_NPK)
-vars_glb_l <- map(vars_glb_l, ~ .x[!is.na(.x)])
-
+vars_glb_l <- c(vars_fp, vars_cmty, vars_cmty_NPK, vars_lab)
+vars_glb_l <- map(vars_glb_l, ~ .x[!is.na(.x)]) # Get rid of NA
 vars_glb <- 
-  tibble(param = names(vars_glb), values = vars_glb) %>%
+  tibble(param = names(vars_glb_l), values = vars_glb_l) %>%
   mutate(count = map_dbl(values, length),
          mean = map_dbl(values, mean),
          sd = map_dbl(values, sd))
+
+vars_glb$lhc_bin <- map_int(vars_glb_l, ~ ifelse(length(.x) > 5, 1L, 0L))
 
 
 ##### Latin hypercube sampling --------------------------------------------------------------------
@@ -90,16 +84,36 @@ vars_glb <-
 # Numbers of sample to derive for each variable
 n <- 100
 
-### Construct lhc sampling matrix
+# Construct lhc sampling matrix
 # each column corresponds to a parameter
-lhc <- as.data.frame(lhs::randomLHS(n, nrow(vars_glb)))
-names(lhc) <- vars_glb$param
+nvar_lhc <- nrow(vars_glb) - sum(vars_glb$lhc_bin == 0)
+lhc <- as.data.frame(lhs::randomLHS(n, nvar_lhc))
+names(lhc) <- vars_glb$param[vars_glb$lhc_bin == 1]
 
 # Use lhc sampling matrix to sample gamma ditributions
-sampled_data <- map2_dfr(.x = vars_glb$values, 
-                         .y = lhc, 
-                         .f = ~ vars_sampling_gamma(.x, .y))
+sampled_data_lhc <- map2_dfr(.x = vars_glb$values[vars_glb$lhc_bin == 1], 
+                             .y = lhc, 
+                             .f = ~ vars_sampling_gamma(.x, .y))
 # Diagnosis plots
-lp <- map(seq_along(sampled_data), plot_sample_lhs)
-ggpubr::ggarrange(plotlist = lp, nrow = 2, ncol = 5)
+plot_sample_lhs(vars_glb$values[vars_glb$lhc_bin == 1], 
+                sampled_data_lhc, 
+                plot.dim = c(8, 7))
 
+sampled_data_rd <- map_df(.x = vars_glb$values[vars_glb$lhc_bin == 0], 
+                          .f = ~ sample(.x, size = n, replace = TRUE))
+
+# For variables with a less than 5 data points 
+# existing values are randomly sampled n times.
+sampled_data <- cbind(sampled_data_lhc, sampled_data_rd)
+colnames(sampled_data) <- colnames(sampled_data)[match(vars_glb$param, names(sampled_data))]
+
+# Add unique row id
+sampled_data$id <- 1:nrow(sampled_data)
+sampled_data <- select(sampled_data, id, everything())
+
+
+##### Save data -----------------------------------------------------------------------------------
+
+write.csv(sampled_data, 
+          file = "./data/sampled/TAMASA_sampled_vars.csv",
+          row.names = FALSE)
