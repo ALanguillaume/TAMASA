@@ -49,7 +49,7 @@ table(ld[["household"]]$cropsys, ld[["household"]]$zone)
 ## Labour
 
 household_lab <- household %>%
-  select(hhid, plot_id, crop, cropsys, matches("^[a-z]lab_"))
+  select(hhid, plot_id, crop, cropsys, matches("tlab_"))
 
 # Create unique index in household data.frame
 household_lab$lab_id <- paste0(household_lab$hhid, household_lab$plot_id)
@@ -97,7 +97,7 @@ sampled_data_lhc <- map2_dfr(.x = vars_glb$values[vars_glb$lhc_bin == 1],
 # Diagnosis plots
 plot_sample_lhs(vars_glb$values[vars_glb$lhc_bin == 1], 
                 sampled_data_lhc, 
-                plot.dim = c(8, 7))
+                plot.dim = c(4, 5))
 
 sampled_data_rd <- map_df(.x = vars_glb$values[vars_glb$lhc_bin == 0], 
                           .f = ~ sample(.x, size = n, replace = TRUE))
@@ -105,7 +105,7 @@ sampled_data_rd <- map_df(.x = vars_glb$values[vars_glb$lhc_bin == 0],
 # For variables with a less than 5 data points 
 # existing values are randomly sampled n times.
 sampled_data <- cbind(sampled_data_lhc, sampled_data_rd)
-colnames(sampled_data) <- colnames(sampled_data)[match(vars_glb$param, names(sampled_data))]
+sampled_data <- sampled_data[match(vars_glb$param, names(sampled_data))]
 
 # Add unique row id
 sampled_data$id <- 1:nrow(sampled_data)
@@ -117,3 +117,33 @@ sampled_data <- select(sampled_data, id, everything())
 write.csv(sampled_data, 
           file = "./data/sampled/TAMASA_sampled_vars.csv",
           row.names = FALSE)
+
+sampled_data_long <- sampled_data %>% 
+  select(matches("tlab_[a-z]_ha_[a-z]{3}")) %>%
+  pivot_longer(cols = matches("tlab_[a-z]_ha_[a-z]{3}"),
+               names_to = c(".value", "cropsys"),
+               names_pattern = "(tlab_[a-z]_ha)_([a-z]{3})$")
+
+dlab <- sampled_data_long %>%
+  split(foo$cropsys) %>%
+  map(~ select(.x, -cropsys)) %>%
+  map(rowSums) %>%
+  map(~ data.frame(days_ha = .x)) %>%
+  bind_rows(.id = "cropsys") %>%
+  mutate(hours_ha_4 = days_ha * 4,
+         hours_ha_6 = days_ha * 6,
+         hours_ha_8 = days_ha * 8) %>%
+  pivot_longer(cols = starts_with("hours_ha"),
+               names_to = c(".value", "nb_hours_per_day"),
+               names_pattern = "(.*)_(\\d)$")
+
+
+ggplot(dlab)+
+  aes(y = days_ha, x = 1)+
+  geom_violin(alpha = 0.3)+
+  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
+  # ylim(0, 1000)+
+  facet_grid(cropsys ~ nb_hours_per_day)+
+  xlab("")+
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
