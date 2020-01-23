@@ -375,23 +375,4 @@ check_unique <- function(x) length(x) == length(unique(x))
 dup_row <- function(df) nrow(df) != nrow(dplyr::distinct(df))
 
 
-#' Perform sampling from a gamma distribution using quantile 
-#' derive form a latin hypercube
-#'
-#' @param x numeric vector, variable to perfrom sampling for. 
-#' The raw values of the varirable x are used to compute its mean and standard-deviation 
-#' that are later used to derive the shape and scale of a gamma distribution.
-#' @param x_lhc numeric vector, quantiles derived from latin hypercuve. Effectively 
-#' one column of the matrix retrun by lhs::randomLHS()
-#'
-#' @return numeric vector of the same length as x_lhc containing the samples from 
-#' the resulting gamma distribution.
-
-vars_sampling_gamma <- function(x, x_lhc){
-  mean_x = mean(x, na.rm = TRUE)
-  sd_x = sd(x, na.rm = TRUE)
-  sc = sd_x^2 / mean_x
-  sh = mean_x^2 / sd_x^2 
-  qgamma(x_lhc, shape = sh, scale = sc)
-}
 

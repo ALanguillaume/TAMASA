@@ -1,8 +1,10 @@
 
-library(tidyverse)
+
+library(purrr)
+library(dplyr)
 library(here)
 
-source("./scripts/funcs.R")
+# source("./scripts/funcs.R")
 source("./scripts/plot_funcs.R")
 
 
@@ -65,10 +67,20 @@ vars_lab <- household_lab %>%
 
 ### Maize prices ----
 
+cmty_maize_prc <- community %>% 
+  select(starts_with("maiprc")) %>%
+  as.list()
+
+hh_maize_prc <- household %>% 
+  select(starts_with("mz_price")) %>%
+  as.list()
+
+vars_maize_prc <- c(cmty_maize_prc, hh_maize_prc)
+
 
 ### Create summary tibble ----
 
-vars_glb_l <- c(vars_fp, vars_cmty, vars_cmty_NPK, vars_lab)
+vars_glb_l <- c(vars_fp, vars_cmty, vars_cmty_NPK, vars_lab, vars_maize_prc)
 vars_glb_l <- map(vars_glb_l, ~ .x[!is.na(.x)]) # Get rid of NA
 vars_glb <- 
   tibble(param = names(vars_glb_l), values = vars_glb_l) %>%
@@ -81,7 +93,7 @@ vars_glb$lhc_bin <- map_int(vars_glb_l, ~ ifelse(length(.x) > 5, 1L, 0L))
 
 ##### Latin hypercube sampling --------------------------------------------------------------------
 
-# Numbers of sample to derive for each variable
+# Numbers of samples to derive for each variable
 n <- 100
 
 # Construct lhc sampling matrix
@@ -94,10 +106,6 @@ names(lhc) <- vars_glb$param[vars_glb$lhc_bin == 1]
 sampled_data_lhc <- map2_dfr(.x = vars_glb$values[vars_glb$lhc_bin == 1], 
                              .y = lhc, 
                              .f = ~ vars_sampling_gamma(.x, .y))
-# Diagnosis plots
-plot_sample_lhs(vars_glb$values[vars_glb$lhc_bin == 1], 
-                sampled_data_lhc, 
-                plot.dim = c(4, 5))
 
 sampled_data_rd <- map_df(.x = vars_glb$values[vars_glb$lhc_bin == 0], 
                           .f = ~ sample(.x, size = n, replace = TRUE))
@@ -112,38 +120,7 @@ sampled_data$id <- 1:nrow(sampled_data)
 sampled_data <- select(sampled_data, id, everything())
 
 
-##### Save data -----------------------------------------------------------------------------------
-
-write.csv(sampled_data, 
-          file = "./data/sampled/TAMASA_sampled_vars.csv",
-          row.names = FALSE)
-
-sampled_data_long <- sampled_data %>% 
-  select(matches("tlab_[a-z]_ha_[a-z]{3}")) %>%
-  pivot_longer(cols = matches("tlab_[a-z]_ha_[a-z]{3}"),
-               names_to = c(".value", "cropsys"),
-               names_pattern = "(tlab_[a-z]_ha)_([a-z]{3})$")
-
-dlab <- sampled_data_long %>%
-  split(foo$cropsys) %>%
-  map(~ select(.x, -cropsys)) %>%
-  map(rowSums) %>%
-  map(~ data.frame(days_ha = .x)) %>%
-  bind_rows(.id = "cropsys") %>%
-  mutate(hours_ha_4 = days_ha * 4,
-         hours_ha_6 = days_ha * 6,
-         hours_ha_8 = days_ha * 8) %>%
-  pivot_longer(cols = starts_with("hours_ha"),
-               names_to = c(".value", "nb_hours_per_day"),
-               names_pattern = "(.*)_(\\d)$")
-
-
-ggplot(dlab)+
-  aes(y = days_ha, x = 1)+
-  geom_violin(alpha = 0.3)+
-  ggbeeswarm::geom_quasirandom(alpha = 0.5)+
-  # ylim(0, 1000)+
-  facet_grid(cropsys ~ nb_hours_per_day)+
-  xlab("")+
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
+# Diagnosis plots
+plot_sample_lhc(vars_glb, 
+                sampled_data_lhc, 
+                plot.dim = c(6, 5))

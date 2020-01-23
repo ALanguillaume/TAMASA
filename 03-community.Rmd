@@ -150,7 +150,7 @@ plot_var_matrix(
 A number of communities are said to be located at a 0 km from an input dealer or to have null input transportation cost. It can be that these communities are indeed located nearby a supplier or most likely that they simply do not use additional inputs.
 
 
-## Seed buying prices
+## Maize buying prices
 
 The community datasets contains a varierty of variables related to maize prize.
 Those 9 variables, all prefixed by `maiprc`, provide the price in Tsh of a 50 kg bag of maize seeds at two possible locations (`depot` or `town`) in four different time periods (`q1`, `q2`, `q3` and `q4`).
@@ -168,34 +168,36 @@ Those 9 variables, all prefixed by `maiprc`, provide the price in Tsh of a 50 kg
 
 
 ```{r}
-cmty_seed <- cmty %>% 
+cmty_maiprc <- cmty %>% 
   select(cmty_index, starts_with("maiprc_"))
 ```
 
 ```{r}
-maiprc <- grep("^maiprc", colnames(cmty_seed), value = TRUE)
+maiprc <- grep("^maiprc", colnames(cmty_maiprc), value = TRUE)
 ```
 
 Is there any price variable wiht a negative price ?
 
 ```{r}
-cmty_seed[, maiprc] %>% any_negative()
+cmty_maiprc[, maiprc] %>% any_negative()
 ```
 
+Those were the -99 and -98 likely used as NA placeholder. Zeros are also present and will also be replaced by NA as a null price seems none sensical in that context.
+
 ```{r}
-cmty_seed[, maiprc] <- modify(cmty_seed[, maiprc], ~ ifelse(.x < 0, NA, .x))
+cmty_maiprc[, maiprc] <- modify(cmty_maiprc[, maiprc], ~ ifelse(.x <= 0, NA, .x))
 ```
 
 Convert price from Tsh/50 kg bag to Tsh/kg
 
 ```{r}
-cmty_seed[, maiprc] <- cmty_seed[, maiprc] / 50
+cmty_maiprc[, maiprc] <- cmty_maiprc[, maiprc] / 50
 ```
 
 ```{r, warning = FALSE}
 plot.unit = "Tsh/kg"
 title = "Maize price"
-cmty_seed %>%
+cmty_maiprc %>%
   pivot_longer(cols = maiprc,
                names_to = "category",
                values_to = "value") %>%
@@ -209,7 +211,7 @@ cmty_seed %>%
 Replace extreme values by NA
 
 ```{r}
-cmty_seed <- modify_at(.x = cmty_seed,
+cmty_maiprc <- modify_at(.x = cmty_maiprc,
                        .at = maiprc,
                        .f = outlier_to_NA,
                        quantile = 0.99)
@@ -218,18 +220,18 @@ cmty_seed <- modify_at(.x = cmty_seed,
 and delete any community harbouring NA for any variable
 
 ```{r}
-del_NA <- cmty_seed %>%
+del_NA <- cmty_maiprc %>%
   map(~ which(is.na(.x))) %>% 
   unlist() %>%
   unique()
-cmty_seed <- cmty_seed[-del_NA, ]
+cmty_maiprc <- cmty_maiprc[-del_NA, ]
 ```
 
 
 ```{r, warning = FALSE}
 plot.unit = "Tsh/kg"
 title = "Maize price"
-cmty_seed %>%
+cmty_maiprc %>%
   pivot_longer(cols = maiprc,
                names_to = "category",
                values_to = "value") %>%
@@ -579,7 +581,7 @@ plot_var_facet(cmty_labour,
 Merge together.
 
 ```{r}
-community <- reduce(list(cmty_info, cmty_seed, cmty_fert, cmty_labour),
+community <- reduce(list(cmty_info, cmty_maiprc, cmty_fert, cmty_labour),
                     inner_join,
                     by = "cmty_index")
 ```

@@ -15,7 +15,7 @@ plot_var <- function(df, var, plot.unit){
     aes(y = !!var, x = 1)+
     geom_violin(fill = "darkgreen", alpha = 0.1, na.rm = TRUE)+
     ggbeeswarm::geom_quasirandom(color = "darkgreen", alpha = 0.5, 
-                                 groupOnX = TRUE, na.rm = TRUE)+
+                                 groupOnX = TRUE)+
     theme(axis.ticks.x = element_blank(),
           axis.text.x = element_blank())+
     labs(x = var_nms, y = plot.unit)+
@@ -241,7 +241,7 @@ labour_harvest_plot <- function(df){
 #' raw values and the mean.
 #'
 
-plot_sample_lhs_atom <- function(i, vars_df, sampled_data){
+plot_sample_lhc_atom <- function(i, vars_df, sampled_data){
   ggplot(sampled_data)+
     aes_string(y = names(sampled_data)[i], x = 1)+
     geom_violin(alpha = 0.3) +
@@ -257,8 +257,8 @@ plot_sample_lhs_atom <- function(i, vars_df, sampled_data){
           axis.ticks.x = element_blank())
 }
 
-
-plot_sample_lhs <- function(vars_df, sampled_data, plot.dim){
-  lp <- map(seq_along(sampled_data), plot_sample_lhs_atom, vars_df, sampled_data)
+plot_sample_lhc <- function(vars_df, sampled_data, plot.dim){
+  vars_glb <- vars_glb$values[vars_glb$lhc_bin == 1]
+  lp <- map(seq_along(sampled_data), plot_sample_lhc_atom, vars_df, sampled_data)
   ggpubr::ggarrange(plotlist = lp, nrow = plot.dim[1], ncol = plot.dim[2])
 }

@@ -13,15 +13,15 @@ vil_nhh,number of households in village,-,integer
 vil_npersons,number of persons in village,-,integer
 vil_acres,approximative village area,$acres$,integer
 acc_inp_km,distance to nearest input dealer,$km$,integer
-acc_inp_tsh,cost of transport to nearest input dealer,$Tsh$,integer
-maiprc_depot_q1,price 50kg bag of maize from large commercial depot for Apr-Jun 2016 (q1),$Tsh$,integer
-maiprc_depot_q2,same for  Jul-Sep 2016 (q2),$Tsh$,integer
-maiprc_depot_q3,same for Oct-Dec 2016 (q3,$Tsh$,integer
-maiprc_depot_q4,same forJan-Mar 2017 (q4),$Tsh$,integer
-maiprc_town_q1,price 50kg bag of maize from regular marketplace for Apr-Jun 2016 (q1),$Tsh$,integer
-maiprc_town_q2,same for  Jul-Sep 2016 (q2),$Tsh$,integer
-maiprc_town_q3,same for Oct-Dec 2016 (q3,$Tsh$,integer
-maiprc_town_q4,same forJan-Mar 2017 (q4),$Tsh$,integer
+acc_inp_tsh,cost of transport to nearest input dealer,$Tsh.kg^{-1}$,integer
+maiprc_depot_q1,maize price per kg  from large commercial depot for Apr-Jun 2016 (q1),$Tsh.kg^{-1}$,integer
+maiprc_depot_q2,same for  Jul-Sep 2016 (q2),$Tsh.kg^{-1}$,integer
+maiprc_depot_q3,same for Oct-Dec 2016 (q3,$Tsh.kg^{-1}$,integer
+maiprc_depot_q4,same forJan-Mar 2017 (q4),$Tsh.kg^{-1}$,integer
+maiprc_town_q1,maize price per kg from regular marketplace for Apr-Jun 2016 (q1),$Tsh.kg^{-1}$,integer
+maiprc_town_q2,same for  Jul-Sep 2016 (q2),$Tsh.kg^{-1}$,integer
+maiprc_town_q3,same for Oct-Dec 2016 (q3,$Tsh.kg^{-1}$,integer
+maiprc_town_q4,same forJan-Mar 2017 (q4),$Tsh.kg^{-1}$,integer
 price_basfert,price basal fertilizer (compound D) from nearest input dealer,$Tsh.kg^{-1}$,integer
 price_topfert,price top-dressing fertilizer (Urea) from nearest input dealer,$Tsh.kg^{-1}$,integer
 transp_price,transport cost per kg for fertilizer from the nearest input dealer to this village (price transport 50kg bag / 50),$Tsh.kg^{-1}$,integer
