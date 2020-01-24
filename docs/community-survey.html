@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Community survey | TAMASA APS survey</title>
   <meta name="description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Community survey | TAMASA APS survey" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2020-01-10" />
+<meta name="date" content="2020-01-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -178,7 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a><ul>
 <li class="chapter" data-level="4.1" data-path="community-survey.html"><a href="community-survey.html#intervening-datasets-2"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
 <li class="chapter" data-level="4.2" data-path="community-survey.html"><a href="community-survey.html#prepare-dataset-1"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
-<li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#seed-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Seed buying prices</a></li>
+<li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#maize-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Maize buying prices</a></li>
 <li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a><ul>
 <li class="chapter" data-level="4.4.1" data-path="community-survey.html"><a href="community-survey.html#selected-variables"><i class="fa fa-check"></i><b>4.4.1</b> Selected variables</a></li>
 <li class="chapter" data-level="4.4.2" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame"><i class="fa fa-check"></i><b>4.4.2</b> Subset main community data.frame</a></li>
@@ -313,8 +313,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="_main_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
 <p>A number of communities are said to be located at a 0 km from an input dealer or to have null input transportation cost. It can be that these communities are indeed located nearby a supplier or most likely that they simply do not use additional inputs.</p>
 </div>
-<div id="seed-buying-prices" class="section level2">
-<h2><span class="header-section-number">4.3</span> Seed buying prices</h2>
+<div id="maize-buying-prices" class="section level2">
+<h2><span class="header-section-number">4.3</span> Maize buying prices</h2>
 <p>The community datasets contains a varierty of variables related to maize prize.
 Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh of a 50 kg bag of maize seeds at two possible locations (<code>depot</code> or <code>town</code>) in four different time periods (<code>q1</code>, <code>q2</code>, <code>q3</code> and <code>q4</code>).</p>
 <p><strong>Locations:</strong></p>
@@ -347,19 +347,20 @@ Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">cmty_seed &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">cmty_maiprc &lt;-<span class="st"> </span>cmty <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb174-2" title="2"><span class="st">  </span><span class="kw">select</span>(cmty_index, <span class="kw">starts_with</span>(<span class="st">&quot;maiprc_&quot;</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">maiprc &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^maiprc&quot;</span>, <span class="kw">colnames</span>(cmty_seed), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">maiprc &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^maiprc&quot;</span>, <span class="kw">colnames</span>(cmty_maiprc), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Is there any price variable wiht a negative price ?</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1">cmty_seed[, maiprc] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;maiprc_depot_q1&quot; &quot;maiprc_depot_q2&quot; &quot;maiprc_depot_q3&quot; &quot;maiprc_depot_q4&quot; &quot;maiprc_town_q1&quot;  &quot;maiprc_town_q2&quot; 
-## [7] &quot;maiprc_town_q3&quot;  &quot;maiprc_town_q4&quot;</code></pre>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" title="1">cmty_seed[, maiprc] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_seed[, maiprc], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1">cmty_maiprc[, maiprc] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;maiprc_depot_q1&quot; &quot;maiprc_depot_q2&quot; &quot;maiprc_depot_q3&quot; &quot;maiprc_depot_q4&quot; &quot;maiprc_town_q1&quot;  &quot;maiprc_town_q2&quot;  &quot;maiprc_town_q3&quot; 
+## [8] &quot;maiprc_town_q4&quot;</code></pre>
+<p>Those were the -99 and -98 likely used as NA placeholder. Zeros are also present and will also be replaced by NA as a null price seems none sensical in that context.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" title="1">cmty_maiprc[, maiprc] &lt;-<span class="st"> </span><span class="kw">modify</span>(cmty_maiprc[, maiprc], <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
 <p>Convert price from Tsh/50 kg bag to Tsh/kg</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" title="1">cmty_seed[, maiprc] &lt;-<span class="st"> </span>cmty_seed[, maiprc] <span class="op">/</span><span class="st"> </span><span class="dv">50</span></a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" title="1">cmty_maiprc[, maiprc] &lt;-<span class="st"> </span>cmty_maiprc[, maiprc] <span class="op">/</span><span class="st"> </span><span class="dv">50</span></a></code></pre></div>
 <div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
 <a class="sourceLine" id="cb180-2" title="2">title =<span class="st"> &quot;Maize price&quot;</span></a>
-<a class="sourceLine" id="cb180-3" title="3">cmty_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb180-3" title="3">cmty_maiprc <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb180-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> maiprc,</a>
 <a class="sourceLine" id="cb180-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
 <a class="sourceLine" id="cb180-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -370,19 +371,19 @@ Those 9 variables, all prefixed by <code>maiprc</code>, provide the price in Tsh
 <a class="sourceLine" id="cb180-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-168-1.png" width="672" /></p>
 <p>Replace extreme values by NA</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1">cmty_seed &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_seed,</a>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1">cmty_maiprc &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> cmty_maiprc,</a>
 <a class="sourceLine" id="cb181-2" title="2">                       <span class="dt">.at =</span> maiprc,</a>
 <a class="sourceLine" id="cb181-3" title="3">                       <span class="dt">.f =</span> outlier_to_NA,</a>
 <a class="sourceLine" id="cb181-4" title="4">                       <span class="dt">quantile =</span> <span class="fl">0.99</span>)</a></code></pre></div>
 <p>and delete any community harbouring NA for any variable</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" title="1">del_NA &lt;-<span class="st"> </span>cmty_seed <span class="op">%&gt;%</span></a>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" title="1">del_NA &lt;-<span class="st"> </span>cmty_maiprc <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb182-2" title="2"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="st"> </span><span class="kw">which</span>(<span class="kw">is.na</span>(.x))) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb182-3" title="3"><span class="st">  </span><span class="kw">unlist</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb182-4" title="4"><span class="st">  </span><span class="kw">unique</span>()</a>
-<a class="sourceLine" id="cb182-5" title="5">cmty_seed &lt;-<span class="st"> </span>cmty_seed[<span class="op">-</span>del_NA, ]</a></code></pre></div>
+<a class="sourceLine" id="cb182-5" title="5">cmty_maiprc &lt;-<span class="st"> </span>cmty_maiprc[<span class="op">-</span>del_NA, ]</a></code></pre></div>
 <div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
 <a class="sourceLine" id="cb183-2" title="2">title =<span class="st"> &quot;Maize price&quot;</span></a>
-<a class="sourceLine" id="cb183-3" title="3">cmty_seed <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb183-3" title="3">cmty_maiprc <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb183-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> maiprc,</a>
 <a class="sourceLine" id="cb183-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
 <a class="sourceLine" id="cb183-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -696,7 +697,7 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <div id="merge-2" class="section level2">
 <h2><span class="header-section-number">4.6</span> Merge</h2>
 <p>Merge together.</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1">community &lt;-<span class="st"> </span><span class="kw">reduce</span>(<span class="kw">list</span>(cmty_info, cmty_seed, cmty_fert, cmty_labour),</a>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1">community &lt;-<span class="st"> </span><span class="kw">reduce</span>(<span class="kw">list</span>(cmty_info, cmty_maiprc, cmty_fert, cmty_labour),</a>
 <a class="sourceLine" id="cb223-2" title="2">                    inner_join,</a>
 <a class="sourceLine" id="cb223-3" title="3">                    <span class="dt">by =</span> <span class="st">&quot;cmty_index&quot;</span>)</a></code></pre></div>
 <p>Save intermediate dataset.</p>
@@ -810,55 +811,55 @@ They all start with the prefix <code>price</code>. The middle part is then a cod
 <tr class="odd">
 <td align="left">acc_inp_tsh</td>
 <td align="left">cost of transport to nearest input dealer</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="even">
 <td align="left">maiprc_depot_q1</td>
-<td align="left">price 50kg bag of maize from large commercial depot for Apr-Jun 2016 (q1)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">maize price per kg from large commercial depot for Apr-Jun 2016 (q1)</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="odd">
 <td align="left">maiprc_depot_q2</td>
 <td align="left">same for Jul-Sep 2016 (q2)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="even">
 <td align="left">maiprc_depot_q3</td>
 <td align="left">same for Oct-Dec 2016 (q3</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="odd">
 <td align="left">maiprc_depot_q4</td>
 <td align="left">same forJan-Mar 2017 (q4)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="even">
 <td align="left">maiprc_town_q1</td>
-<td align="left">price 50kg bag of maize from regular marketplace for Apr-Jun 2016 (q1)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left">maize price per kg from regular marketplace for Apr-Jun 2016 (q1)</td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="odd">
 <td align="left">maiprc_town_q2</td>
 <td align="left">same for Jul-Sep 2016 (q2)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="even">
 <td align="left">maiprc_town_q3</td>
 <td align="left">same for Oct-Dec 2016 (q3</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="odd">
 <td align="left">maiprc_town_q4</td>
 <td align="left">same forJan-Mar 2017 (q4)</td>
-<td align="left"><span class="math inline">\(Tsh\)</span></td>
+<td align="left"><span class="math inline">\(Tsh.kg^{-1}\)</span></td>
 <td align="left">integer</td>
 </tr>
 <tr class="even">

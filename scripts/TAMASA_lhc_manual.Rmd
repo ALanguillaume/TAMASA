@@ -1,0 +1,36 @@
+---
+title: "TAMASA lhc manual"
+author: "Antoine Languillaume"
+date: "1/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+source(here("./scripts/TAMASA_lhc.R"))
+```
+
+
+
+
+```{r}
+path_tables <- "./docs/tables/"
+l_md <- list.files(path_tables) %>%
+  map(~ read_csv(here(path_tables, .)))
+
+l_md <- list.files(path_tables) %>%
+  str_extract(".*(?=_recap_tab.csv)") %>%
+  set_names(l_md, nm = .)
+
+md <- bind_rows(l_md, .id = "part")
+
+vars_glb <- TAMASA_prepare_lhc() 
+vars_nms <- str_remove(vars_glb$param, "(?<=tlab_[a-z]_[a-z]{2})_[a-z]{3}")
+
+md %>% 
+  filter(Variable %in% vars_nms) %>%
+  knitr::kable()
+```
+

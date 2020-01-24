@@ -166,13 +166,18 @@ vars_sampling_gamma <- function(x, x_lhc){
 #'
 
 plot_sample_lhs_atom <- function(i, vars_df, sampled_data){
+  
+  lhc_var <- vars_df$lhc_bin == 1
+  draw <- data.frame(y = vars_df$values[lhc_var][[i]])
+  dsp <-  names(sampled_data)[names(sampled_data) %in% vars_df$param[lhc_var]]
+  
   ggplot(sampled_data)+
-    aes_string(y = names(sampled_data)[i], x = 1)+
+    aes_string(y = dsp[i], x = 1)+
     geom_violin(alpha = 0.3) +
     ggbeeswarm::geom_quasirandom(alpha = 0.3) +
-    geom_hline(yintercept = vars_df$mean[vars_df$lhc_bin == 1][i], color = "red")+
+    geom_hline(yintercept = vars_df$mean[lhc_var][i], color = "red")+
     expand_limits(y = 0)+
-    ggbeeswarm::geom_quasirandom(data = data.frame(y = vars_df$values[vars_df$lhc_bin == 1][[i]]), 
+    ggbeeswarm::geom_quasirandom(data = draw, 
                                  aes(y = y), 
                                  color = "red",
                                  size = 1.5)+
@@ -182,8 +187,10 @@ plot_sample_lhs_atom <- function(i, vars_df, sampled_data){
 }
 
 
-TAMASA_plot_lhc <- function(vars_glb, sampled_data){
-  vars_df <- vars_glb$values[vars_glb$lhc_bin == 1]
-  lp <- map(seq_along(sampled_data), plot_sample_lhs_atom, vars_df, sampled_data)
+TAMASA_plot_lhc <- function(vars_df, sampled_data){
+  lhc_var <- vars_df$lhc_bin == 1
+  vars_p <- vars_df$values[vars_glb$lhc_bin == 1]
+  dsp <-  names(sampled_data)[names(sampled_data) %in% vars_df$param[lhc_var]]
+  lp <- map(seq_along(dsp), plot_sample_lhs_atom, vars_p, sampled_data)
   ggpubr::ggarrange(plotlist = lp, nrow = 6, ncol = 5)
 }
