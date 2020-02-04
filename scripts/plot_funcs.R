@@ -229,36 +229,3 @@ labour_harvest_plot <- function(df){
     ggtitle("Labour amount")
 }
 
-#### Latin hypercube diagnosis plots -----
-
-#' Plot samples derived by lhc sampling
-#' 
-#' also incudes corresponding raw data points (displayed in red) and
-#' raw data mean as an horizontal red line.
-#' 
-#' @param i numeric index of a given varaible to iterate through
-#' the columns of the data.frames containing: the sampled values,
-#' raw values and the mean.
-#'
-
-plot_sample_lhc_atom <- function(i, vars_df, sampled_data){
-  ggplot(sampled_data)+
-    aes_string(y = names(sampled_data)[i], x = 1)+
-    geom_violin(alpha = 0.3) +
-    ggbeeswarm::geom_quasirandom(alpha = 0.3) +
-    geom_hline(yintercept = vars_glb$mean[vars_glb$lhc_bin == 1][i], color = "red")+
-    expand_limits(y = 0)+
-    ggbeeswarm::geom_quasirandom(data = data.frame(y = vars_glb$values[vars_glb$lhc_bin == 1][[i]]), 
-                                 aes(y = y), 
-                                 color = "red",
-                                 size = 1.5)+
-    theme(axis.text.x = element_blank(),
-          axis.title.x = element_blank(),
-          axis.ticks.x = element_blank())
-}
-
-plot_sample_lhc <- function(vars_df, sampled_data, plot.dim){
-  vars_glb <- vars_glb$values[vars_glb$lhc_bin == 1]
-  lp <- map(seq_along(sampled_data), plot_sample_lhc_atom, vars_df, sampled_data)
-  ggpubr::ggarrange(plotlist = lp, nrow = plot.dim[1], ncol = plot.dim[2])
-}

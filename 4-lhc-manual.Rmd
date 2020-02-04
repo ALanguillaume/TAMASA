@@ -1,0 +1,105 @@
+
+# Manual Latin Hypercube Sampling
+
+```{r, include = FALSE}
+source(here::here("./scripts/TAMASA_lhc.R"))
+```
+
+This last section describes how to use the TAMASA tool kit to perform Latin Hypercube sampling.
+
+Make sure you have the required packages installed:
+
+```{r, eval = FALSE}
+packages <- c("lhs","ggplot2", "purrr", "dplyr", "here", "stringr", 
+             "tidyr", "tibble", "ggbeeswarm", "ggpubr")
+install.packages(packages, dependencies = TRUE)
+```
+
+## Using the TAMASA lhc kit.
+
+First `source` the `TAMASA_.*_lhc` functions into memory. You don't have to bother about loading the require packages using `library`, it will be done in the background for you.
+
+```{r, eval = FALSE}
+source("./scripts/TAMASA_lhc.R")
+```
+
+### TAMASA_prepare_lhc()
+
+The firs step is, to prepare a reference data.frame containing the values to feed to the lhc sampling function and some useful information.
+
+```{r}
+(vars_df <- TAMASA_prepare_lhc())
+```
+
+
+It contains the following columns:
+
+* `param`: character, variable name.
+* `values`: list column with all values.
+* `count`: numeric, number of data points per variable.
+* `mean`: numeric, average value.
+* `sd`: numeric, standard deviation.
+* `lhc_bin`: integer, indicating if lhc sampling should be perform for this variable (1) or not (0).
+
+If the number of data points (`count`) is less than 5, `lhc_bin` will be equal to 0. In that case, the exisiting data points will just be randomly sampled `n` times. 
+
+### TAMASA_sample_lhc()
+
+Once `vars_df` has been prepared, `TAMASA_sample_lhc` can be called to actually perform the lhc sampling.
+The argument `n` simply specifies the number of data points to be sampled from the underlying gamma distributions.
+
+```{r}
+sampled_data <- TAMASA_sample_lhc(vars_df, n = 100)
+```
+
+### TAMASA_plot_lhc()
+
+The sampled data can be checked as such. The grey data points correspond to the sampled data while the plain red onec represent the real data. The horizontal red line is the real data average.
+
+```{r, fig.dim = c(10, 8), fig.align = 'center'}
+TAMASA_plot_lhc(vars_df, sampled_data)
+```
+
+
+### Use that in code
+
+Upon integrating that code into a broader simulation scheme, you might want to store the data.frame harbouring the sampled data for each run. Below, a simple way to do that using a list.
+
+```{r, eval = FALSE}
+vars_df <- TAMASA_prepare_lhc()
+
+N_sim <- 100
+l_sampled_data <- as.list(rep(NA, N_sim))
+for(i in 1:N_sim){
+  
+  l_sampled_data[[i]] <- TAMASA_sample_lhc(vars_df, n = 100)
+  
+  ## Here plug in Paul's code 
+  
+}
+```
+
+
+## Recap table
+
+The table below summarizes all the variable extracted from the TAMASA APS 2017 survey for which latin hypercube sampling is performed.
+
+```{r, echo = FALSE, message = FALSE}
+path_tables <- "./docs/tables/"
+l_md <- list.files(path_tables) %>%
+  map(~ readr::read_csv(here(path_tables, .)))
+
+l_md <- list.files(path_tables) %>%
+  str_extract(".*(?=_recap_tab.csv)") %>%
+  set_names(l_md, nm = .)
+
+md <- bind_rows(l_md, .id = "From Section")
+
+vars_df <- TAMASA_prepare_lhc() 
+vars_nms <- str_remove(vars_df$param, "(?<=tlab_[a-z]_[a-z]{2})_[a-z]{3}")
+
+md %>% 
+  filter(Variable %in% vars_nms) %>%
+  knitr::kable()
+```
+
