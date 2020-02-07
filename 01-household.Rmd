@@ -76,15 +76,15 @@ hh_info <- hh %>%
 
 ### Growing Seasons
 
-Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (esther.mungi@wur.nl, a PhD student doing her research in Tanzania who also took part in the TAMASA survey.
+Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (esther.mungi@wur.nl), a PhD student doing her research in Tanzania who also took part in the TAMASA survey.
 
 Key points: 
 
-* The main season is when most of the precipitation occur and thus it is during the main season that most maize are grown. 
+* The main season is when most of the precipitation occur and thus it is during the main season that most maize is grown. 
 
-* Pigeon pea has the a much longer development cycle than maize, that last upon both main and short season. 
+* Pigeon pea has a much longer development cycle than maize, that lasts upon both main and short season. 
 
-* As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.
+* As we will later demonstrate, most maize and pigeon pea crops were not harvested upon enumeration.
 
 ```{r, label = "growing season", echo = FALSE}
 magick::image_read(here("./docs/schemes/growing_seasons.png"))
@@ -194,7 +194,7 @@ hh_prices %>%
 
 ## Plot data
 
-Correspond to a general inventory of the farm plots. We used plot data to first calculate plot areas per household. Then isolate the two cropping system of interest, maize monoculture (**mmc**) and maize pigeon pea intercropping (**mpp**). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.
+Correspond to a general inventory of the farm plots. We used plot data to first calculate plots area per household. Then isolate the two cropping system of interest, maize monoculture (**mmc**) and maize / pigeon pea intercropping (**mpp**). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.
 
 ### Plots area in hectares
 
@@ -286,8 +286,8 @@ From *hh_plotmcc*:
 * `mc8o`: other crops if crop grown is not present in enumerator's list.
 * `mc9`: Area under a given crop.
 * `mc10`:	Have you finished harvesting?
-* `mc11`:	Harvest quantity (Estimate expected harvest if harvesting has not been completed).
-* `mc12`:	Harvest unit (Estimate expected harvest if harvesting has not been completed).
+* `mc11`:	Harvest quantity (Estimate of expected harvest if harvesting has not been completed).
+* `mc12`:	Harvest unit (Estimate of expected harvest if harvesting has not been completed).
 
 
 *hh_plotmc* and *hh_plotmcc* can be merged on: `pmc_index`.
@@ -407,13 +407,13 @@ In most case harvest was not finished at enumeration date for both maize and pig
 
 We first calculate yield in $t.ha^{-1}$ to later be able to express harvest labour in $work \, days.t^{-1}$.
 
-`hh_area` and `plotd` need to be merged both on household index and plot index since we are working at the plot level.Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.
+`hh_area` and `plotd` need to be merged both on household index and plot index since we are working at the plot level. Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.
 
 ```{r}
 hh_plot <- inner_join(hh_area, plotd, by = c("hh_index", "plot_id" = "mc1"))
 ```
 
-Merge with proper dictionary to get convert units in kg and calculate yield in $t.ha^{-1}$.
+Merge with proper dictionary to convert units in kg and calculate yield in $t.ha^{-1}$.
 
 ```{r}
 hh_plot <- hh_plot %>%

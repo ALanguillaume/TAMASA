@@ -150,7 +150,7 @@ labour_category_plot <- function(df){
     ggbeeswarm::geom_quasirandom(data = filter(dl, value == 0), 
                                  color = "black",
                                  groupOnX = FALSE)+
-    facet_grid(task ~ cropsys +mc8)+
+    facet_grid(task ~ cropsys)+
     theme(legend.position = "none",
           panel.spacing.y = unit(1, "lines"))+
     labs(y = expression(days.ha^-1), x = "Labour category")+

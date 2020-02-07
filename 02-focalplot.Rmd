@@ -145,9 +145,9 @@ colnames(fp_rseed)
 
 It should also be noted that `fp_rseed` represents only an additional ``r nrow(fp_rseed)`` datapoints compare to the ``r  nrow(fp_seed)`` already present in `fp_seed`.
 
-Among those ``r nrow(fp_rseed)``, ``r length(intersect(fp_seed$fp_index, fp_rseed$fp_index))`` overlaps with `fp_index` in the main seed datasets `fp_seed`. This is not consistent with our understanding o fthe datasets. We would expect all the `fp_index` present in `fp_rseed` to be also present in `fp_seed`, if `fp_rseed` consisted indeed of additional information on the plot already described in `fp_seed`.
+Among those ``r nrow(fp_rseed)``, ``r length(intersect(fp_seed$fp_index, fp_rseed$fp_index))`` overlaps with `fp_index` in the main seed datasets `fp_seed`. This is not consistent with our understanding of the datasets. We would expect all the `fp_index` present in `fp_rseed` to be also present in `fp_seed`, if `fp_rseed` consisted indeed of additional information on the plot already described in `fp_seed`.
 
-There also appears to be a complete overlaps between the two datasets, something we would hardly expect. Example:
+There also appears to be some duplicated piece of information between the two datasets, something we would hardly expect. Example:
 
 ```{r}
 fp_rseed %>% 
@@ -402,7 +402,7 @@ fp_fert <- fp %>%
   select(hhid, fp_index, area_est, fertilizer_bin, amnd0, amnd0b, amnd4, amnd5, inputexp)
 ```
 
-Remove aberrant values for input expenditures
+Remove aberrant values for input expenditures.
 
 ```{r}
 fp_fert$inputexp[fp_fert$inputexp == -99] <- NA

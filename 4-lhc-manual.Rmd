@@ -7,6 +7,8 @@ source(here::here("./scripts/TAMASA_lhc.R"))
 
 This last section describes how to use the TAMASA tool kit to perform Latin Hypercube sampling.
 
+## Required packages
+
 Make sure you have the required packages installed:
 
 ```{r, eval = FALSE}
@@ -15,7 +17,7 @@ packages <- c("lhs","ggplot2", "purrr", "dplyr", "here", "stringr",
 install.packages(packages, dependencies = TRUE)
 ```
 
-## Using the TAMASA lhc kit.
+## Using the TAMASA lhc kit
 
 First `source` the `TAMASA_.*_lhc` functions into memory. You don't have to bother about loading the require packages using `library`, it will be done in the background for you.
 
@@ -54,7 +56,7 @@ sampled_data <- TAMASA_sample_lhc(vars_df, n = 100)
 
 ### TAMASA_plot_lhc()
 
-The sampled data can be checked as such. The grey data points correspond to the sampled data while the plain red onec represent the real data. The horizontal red line is the real data average.
+The sampled data can be checked as such. The grey data points correspond to the sampled data while the plain red ones represent the real data. The horizontal red line is the real data average.
 
 ```{r, fig.dim = c(10, 8), fig.align = 'center'}
 TAMASA_plot_lhc(vars_df, sampled_data)

@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2020-02-04" />
+<meta name="date" content="2020-02-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -196,13 +196,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html"><i class="fa fa-check"></i><b>5</b> Manual Latin Hypercube Sampling</a><ul>
-<li class="chapter" data-level="5.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit."><i class="fa fa-check"></i><b>5.1</b> Using the TAMASA lhc kit.</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_prepare_lhc"><i class="fa fa-check"></i><b>5.1.1</b> TAMASA_prepare_lhc()</a></li>
-<li class="chapter" data-level="5.1.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_sample_lhc"><i class="fa fa-check"></i><b>5.1.2</b> TAMASA_sample_lhc()</a></li>
-<li class="chapter" data-level="5.1.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_plot_lhc"><i class="fa fa-check"></i><b>5.1.3</b> TAMASA_plot_lhc()</a></li>
-<li class="chapter" data-level="5.1.4" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#use-that-in-code"><i class="fa fa-check"></i><b>5.1.4</b> Use that in code</a></li>
+<li class="chapter" data-level="5.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#required-packages"><i class="fa fa-check"></i><b>5.1</b> Required packages</a></li>
+<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit"><i class="fa fa-check"></i><b>5.2</b> Using the TAMASA lhc kit</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_prepare_lhc"><i class="fa fa-check"></i><b>5.2.1</b> TAMASA_prepare_lhc()</a></li>
+<li class="chapter" data-level="5.2.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_sample_lhc"><i class="fa fa-check"></i><b>5.2.2</b> TAMASA_sample_lhc()</a></li>
+<li class="chapter" data-level="5.2.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_plot_lhc"><i class="fa fa-check"></i><b>5.2.3</b> TAMASA_plot_lhc()</a></li>
+<li class="chapter" data-level="5.2.4" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#use-that-in-code"><i class="fa fa-check"></i><b>5.2.4</b> Use that in code</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#recap-table"><i class="fa fa-check"></i><b>5.2</b> Recap table</a></li>
+<li class="chapter" data-level="5.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#recap-table"><i class="fa fa-check"></i><b>5.3</b> Recap table</a></li>
 </ul></li>
 </ul>
 
@@ -294,12 +295,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">select</span>(hhid, hh_index, enum_date, zone, region, district, site, ward, village, hamlet)</a></code></pre></div>
 <div id="growing-seasons" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Growing Seasons</h3>
-<p>Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (<a href="mailto:esther.mungi@wur.nl" class="email">esther.mungi@wur.nl</a>, a PhD student doing her research in Tanzania who also took part in the TAMASA survey.</p>
+<p>Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (<a href="mailto:esther.mungi@wur.nl" class="email">esther.mungi@wur.nl</a>), a PhD student doing her research in Tanzania who also took part in the TAMASA survey.</p>
 <p>Key points:</p>
 <ul>
-<li><p>The main season is when most of the precipitation occur and thus it is during the main season that most maize are grown.</p></li>
-<li><p>Pigeon pea has the a much longer development cycle than maize, that last upon both main and short season.</p></li>
-<li><p>As we demonstrate later most maize and pigeon pea crops were not harvested upon enumeration.</p></li>
+<li><p>The main season is when most of the precipitation occur and thus it is during the main season that most maize is grown.</p></li>
+<li><p>Pigeon pea has a much longer development cycle than maize, that lasts upon both main and short season.</p></li>
+<li><p>As we will later demonstrate, most maize and pigeon pea crops were not harvested upon enumeration.</p></li>
 </ul>
 <p><img src="_main_files/figure-html/growing%20season-1.png" width="1334" /></p>
 <p><img src="_main_files/figure-html/enum_date-1.png" width="672" /></p>
@@ -400,7 +401,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="plot-data" class="section level2">
 <h2><span class="header-section-number">2.4</span> Plot data</h2>
-<p>Correspond to a general inventory of the farm plots. We used plot data to first calculate plot areas per household. Then isolate the two cropping system of interest, maize monoculture (<strong>mmc</strong>) and maize pigeon pea intercropping (<strong>mpp</strong>). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.</p>
+<p>Correspond to a general inventory of the farm plots. We used plot data to first calculate plots area per household. Then isolate the two cropping system of interest, maize monoculture (<strong>mmc</strong>) and maize / pigeon pea intercropping (<strong>mpp</strong>). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.</p>
 <div id="plots-area-in-hectares" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Plots area in hectares</h3>
 <p>Load the data set and subset relevant variables:</p>
@@ -464,8 +465,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>mc8o</code>: other crops if crop grown is not present in enumerator’s list.</li>
 <li><code>mc9</code>: Area under a given crop.</li>
 <li><code>mc10</code>: Have you finished harvesting?</li>
-<li><code>mc11</code>: Harvest quantity (Estimate expected harvest if harvesting has not been completed).</li>
-<li><code>mc12</code>: Harvest unit (Estimate expected harvest if harvesting has not been completed).</li>
+<li><code>mc11</code>: Harvest quantity (Estimate of expected harvest if harvesting has not been completed).</li>
+<li><code>mc12</code>: Harvest unit (Estimate of expected harvest if harvesting has not been completed).</li>
 </ul>
 <p><em>hh_plotmc</em> and <em>hh_plotmcc</em> can be merged on: <code>pmc_index</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">plotd &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plotmc, hh_plotmcc, <span class="dt">by =</span> <span class="st">&quot;pmc_index&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -545,9 +546,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="calculate-yield" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Calculate yield</h3>
 <p>We first calculate yield in <span class="math inline">\(t.ha^{-1}\)</span> to later be able to express harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span>.</p>
-<p><code>hh_area</code> and <code>plotd</code> need to be merged both on household index and plot index since we are working at the plot level.Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.</p>
+<p><code>hh_area</code> and <code>plotd</code> need to be merged both on household index and plot index since we are working at the plot level. Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">hh_plot &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_area, plotd, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="st">&quot;plot_id&quot;</span> =<span class="st"> &quot;mc1&quot;</span>))</a></code></pre></div>
-<p>Merge with proper dictionary to get convert units in kg and calculate yield in <span class="math inline">\(t.ha^{-1}\)</span>.</p>
+<p>Merge with proper dictionary to convert units in kg and calculate yield in <span class="math inline">\(t.ha^{-1}\)</span>.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb34-2" title="2"><span class="st">  </span><span class="kw">inner_join</span>(dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;mc12&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb34-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">harvest =</span> mc11 <span class="op">*</span><span class="st"> </span><span class="kw">ifelse</span>(mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>, kg_maize, kg_pp), </a>

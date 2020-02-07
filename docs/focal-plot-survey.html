@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2020-02-04" />
+<meta name="date" content="2020-02-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -196,13 +196,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html"><i class="fa fa-check"></i><b>5</b> Manual Latin Hypercube Sampling</a><ul>
-<li class="chapter" data-level="5.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit."><i class="fa fa-check"></i><b>5.1</b> Using the TAMASA lhc kit.</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_prepare_lhc"><i class="fa fa-check"></i><b>5.1.1</b> TAMASA_prepare_lhc()</a></li>
-<li class="chapter" data-level="5.1.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_sample_lhc"><i class="fa fa-check"></i><b>5.1.2</b> TAMASA_sample_lhc()</a></li>
-<li class="chapter" data-level="5.1.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_plot_lhc"><i class="fa fa-check"></i><b>5.1.3</b> TAMASA_plot_lhc()</a></li>
-<li class="chapter" data-level="5.1.4" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#use-that-in-code"><i class="fa fa-check"></i><b>5.1.4</b> Use that in code</a></li>
+<li class="chapter" data-level="5.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#required-packages"><i class="fa fa-check"></i><b>5.1</b> Required packages</a></li>
+<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit"><i class="fa fa-check"></i><b>5.2</b> Using the TAMASA lhc kit</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_prepare_lhc"><i class="fa fa-check"></i><b>5.2.1</b> TAMASA_prepare_lhc()</a></li>
+<li class="chapter" data-level="5.2.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_sample_lhc"><i class="fa fa-check"></i><b>5.2.2</b> TAMASA_sample_lhc()</a></li>
+<li class="chapter" data-level="5.2.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_plot_lhc"><i class="fa fa-check"></i><b>5.2.3</b> TAMASA_plot_lhc()</a></li>
+<li class="chapter" data-level="5.2.4" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#use-that-in-code"><i class="fa fa-check"></i><b>5.2.4</b> Use that in code</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#recap-table"><i class="fa fa-check"></i><b>5.2</b> Recap table</a></li>
+<li class="chapter" data-level="5.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#recap-table"><i class="fa fa-check"></i><b>5.3</b> Recap table</a></li>
 </ul></li>
 </ul>
 
@@ -342,8 +343,8 @@ For example if different species were grown on the same focal plot, the enumerat
 ## [13] &quot;fpseed_parent_table_name&quot; &quot;fpseed_parent_index&quot;      &quot;fpseed_tags&quot;              &quot;fpseed_notes&quot;            
 ## [17] &quot;fpseed_version&quot;           &quot;fpseed_duration&quot;          &quot;fpseed_submitted_by&quot;</code></pre>
 <p>It should also be noted that <code>fp_rseed</code> represents only an additional <code>20</code> datapoints compare to the <code>437</code> already present in <code>fp_seed</code>.</p>
-<p>Among those <code>20</code>, <code>11</code> overlaps with <code>fp_index</code> in the main seed datasets <code>fp_seed</code>. This is not consistent with our understanding o fthe datasets. We would expect all the <code>fp_index</code> present in <code>fp_rseed</code> to be also present in <code>fp_seed</code>, if <code>fp_rseed</code> consisted indeed of additional information on the plot already described in <code>fp_seed</code>.</p>
-<p>There also appears to be a complete overlaps between the two datasets, something we would hardly expect. Example:</p>
+<p>Among those <code>20</code>, <code>11</code> overlaps with <code>fp_index</code> in the main seed datasets <code>fp_seed</code>. This is not consistent with our understanding of the datasets. We would expect all the <code>fp_index</code> present in <code>fp_rseed</code> to be also present in <code>fp_seed</code>, if <code>fp_rseed</code> consisted indeed of additional information on the plot already described in <code>fp_seed</code>.</p>
+<p>There also appears to be some duplicated piece of information between the two datasets, something we would hardly expect. Example:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" title="1">fp_rseed <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb90-2" title="2"><span class="st">  </span><span class="kw">filter</span>(fp_index <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">51</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb90-3" title="3"><span class="st">  </span><span class="kw">select</span>(fp_index, fpseed_index, <span class="kw">starts_with</span>(<span class="st">&quot;rseed&quot;</span>))</a></code></pre></div>
@@ -497,7 +498,7 @@ during main season.</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">fp_fert &lt;-<span class="st"> </span>fp <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb128-2" title="2"><span class="st">  </span><span class="kw">filter</span>(mc_crop <span class="op">==</span><span class="st"> &quot;maize&quot;</span> <span class="op">&amp;</span><span class="st"> </span>seed1 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>seedseas <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb128-3" title="3"><span class="st">  </span><span class="kw">select</span>(hhid, fp_index, area_est, fertilizer_bin, amnd0, amnd0b, amnd4, amnd5, inputexp)</a></code></pre></div>
-<p>Remove aberrant values for input expenditures</p>
+<p>Remove aberrant values for input expenditures.</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1">fp_fert<span class="op">$</span>inputexp[fp_fert<span class="op">$</span>inputexp <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 <p>One bizarre feature of this dataset is that <code>59</code> focal plots said to have had no fertilizer input of any kind (<code>amnd0 == 0</code>), have non null fertilizing cost (<code>inputexp != 0</code>). See example</p>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1">fp_fert <span class="op">%&gt;%</span><span class="st"> </span></a>

@@ -7,23 +7,14 @@ output: bookdown::gitbook
 documentclass: book
 description: "This document presents the whole data cleaning workflow use for Hijbeek et al. 2019"
 ---
-
-```{r, message = FALSE}
-library(tidyverse)
-library(here)
-source(here("./scripts/funcs.R"))
-source(here("./scripts/plot_funcs.R"))
-dics <- create_conversion_dics()
-```
-
 # Introduction
 
-This document presents the whole data cleaning workflow use for Iemand et al. 2019
+This document illustarte the whole data cleaning workflow of the TAMASA Agronomy Panel Survey (APS) for the year 2017.
 
 The data can be download at:
 https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548038
 
-APS survey components:
+The survey was carried out at three distinct scales:
 
 * Household questionnaire – containing questions on household demography, agricultural landholdings, farm management, non-farm income sources, and other factors.
 
@@ -37,3 +28,11 @@ From TZAPS17_metadate.xlsx:
 Household and focal plot files can be merged on hhid (i.e. to merge TZAPS17_hh.dta and TZAPS17_fp.dta).
 
 Community data can be merged with household and focal plot data on site. 
+
+```{r, message = FALSE}
+library(tidyverse)
+library(here)
+source(here("./scripts/funcs.R"))
+source(here("./scripts/plot_funcs.R"))
+dics <- create_conversion_dics()
+```
