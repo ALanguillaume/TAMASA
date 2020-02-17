@@ -166,10 +166,10 @@ TAMASA_sample_lhc <- function(vars_df, n){
 #' @note This function is only meant to be used internally by TAMASA_sample_lhc.
 
 vars_sampling_gamma <- function(x, x_lhc){
-  mean_x = mean(x, na.rm = TRUE)
-  sd_x = sd(x, na.rm = TRUE)
-  sc = sd_x^2 / mean_x
-  sh = mean_x^2 / sd_x^2 
+  mean_x <- mean(x, na.rm = TRUE)
+  sd_x <- sd(x, na.rm = TRUE)
+  sc <- sd_x^2 / mean_x
+  sh <- mean_x^2 / sd_x^2 
   qgamma(x_lhc, shape = sh, scale = sc)
 }
 

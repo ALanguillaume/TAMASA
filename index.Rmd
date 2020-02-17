@@ -9,7 +9,7 @@ description: "This document presents the whole data cleaning workflow use for Hi
 ---
 # Introduction
 
-This document illustarte the whole data cleaning workflow of the TAMASA Agronomy Panel Survey (APS) for the year 2017.
+This document illustrates the whole data cleaning workflow of the TAMASA Agronomy Panel Survey (APS) for the year 2017.
 
 The data can be download at:
 https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548038

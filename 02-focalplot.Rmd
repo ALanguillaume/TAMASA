@@ -89,6 +89,19 @@ fp_info <- fp %>% select(hhid, enum_date, plotid, fp_index, fp_id, zone, region,
 
 Given that there is no duplicated `fp_index`, `fp_id` and `hhid` entry we can assume that one focal plot is indeed associated with one unique household index.
 
+## Plot area validation
+
+Enumerators were supposed to measure precisely the area of focal plot using GPS devices.
+Those measurements might have been a way for us to estimate the reliability of farmers' estimates of their plot areas. Unfortunately, it appears that no gps measurement has been done for the focal plot area. The columns of interest in the survey are only filled with place holder values: `999`.
+
+```{r}
+fp %>% select(matches("area")) %>% head(10)
+```
+
+```{r}
+fp %>% select(matches("area_gps")) %>% map_dbl(unique)
+```
+
 
 ## Seeds
 

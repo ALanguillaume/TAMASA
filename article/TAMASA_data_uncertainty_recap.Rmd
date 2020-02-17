@@ -1,0 +1,29 @@
+---
+title: "TAMASA - data uncertainty recap"
+author: "Antoine Languillaume"
+date: "2/17/2020"
+output: html_document
+---
+
+## issues
+
+## Problem mostly with labour data
+
+### farmer estimates 
+
+Inherent biais, no way to check the magnitude of it.
+
+#### area
+
+
+#### yield 
+
+### comparison wiht data from literatture
+
+## What is fine 
+prices data
+
+## What could be done next
+
+refactoring Paul's code to make it easily usable by anyone.
+couple it with sampling scheme, latin hypercube inspired by what Marloes and Renske did in collaboration with Guusje.
