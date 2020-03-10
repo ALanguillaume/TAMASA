@@ -66,7 +66,7 @@ TAMASA_prepare_lhc <- function(){
   # Unequal repartition of cropping sytsem between zones
   # Maize Pigeon pea intercrop over represented in the North 
   # mpp > 3 mmc
-  table(ld[["household"]]$cropsys, ld[["household"]]$zone)
+  # table(ld[["household"]]$cropsys, ld[["household"]]$zone)
   
   ## Labour
   

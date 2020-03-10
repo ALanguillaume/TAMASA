@@ -1,9 +1,6 @@
 
-
-
 library(tidyverse)
 library(here)
-
 
 source("./scripts/plot_funcs.R")
 source("./scripts/TAMASA_lhc.R")
@@ -44,7 +41,7 @@ sim_d_silva18 <- data.frame(silva_dha = rgamma(100, shape = sh, scale = sc))
 
 # cbind(sampled_data, sim_d_silva18)
 
-d_montt19 <- readxl::read_xlsx("./data/data_literature_financial return.xlsx", sheet = "Montt2019")
+d_montt19 <- readxl::read_xlsx("./data/Paul/data_literature_financial return.xlsx", sheet = "Montt2019")
 names(d_montt19) <- names(d_montt19) %>%
   str_remove(" \\(person days/ha\\)") %>%
   str_replace(" ", "_") %>% 

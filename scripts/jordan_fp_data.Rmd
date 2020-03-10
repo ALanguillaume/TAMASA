@@ -1,0 +1,70 @@
+---
+title: "TAMASA APS17 - Jordan Focal Plot data"
+author: "Antoine Languillaume"
+date: "09/03/20"
+output_type: html_document
+---
+
+```{r, message = FALSE}
+library(tidyverse)
+library(haven)
+library(here)
+library(broom)
+library(plotly)
+```
+
+### Read in data
+
+```{r}
+fp <- haven::read_stata(here("./data/Jordan/TZAPS17_fp.dta"))
+area <- fp %>% select(matches("area"))
+```
+
+`area` variables meta data:
+
+* `area_est`: plot area estimated by farmer in __acres__.
+* `area_gps`: gps reading in $m^{2}$.
+* `area_gps_calc`: plot area in acre calculated from GPS measurement.
+* `area_gps_conf`:	Was the plot polygon saved by the enumerator in his device.
+
+### Check reliability of the conversion.
+
+Were $m^{2}$ properly converted to acres ?
+
+```{r}
+area$area_calc_check <- area$area_gps / 4046.86
+range(na.omit(area$area_gps_calc - area$area_calc_check))
+```
+The answer is yes as the difference between the original variable `area_gps_calc` and the variable we computed `area_calc_check` amounts only to computer rounding errors.
+
+### Plotting data
+
+Let's assess the precision of the farmers' estimate by fitting a simple linear regression.
+
+```{r, warning = FALSE}
+area <- area %>% filter(!is.na(area_gps_calc))
+fit <- lm(area_gps_calc ~ area_est, data = area)
+pred <- as.data.frame(predict(fit, interval = "prediction", level = 0.95))
+adjr2 <- glance(fit) %>% select(matches("adj.r.squared")) %>%  deframe() %>% round(2)
+```
+
+**The adjusted $R^2$ for our model is `r adjr2`.** In comparison Marloes found $R^2$'s of 0.55 and 0.63 for the two sites she studied in Ethiopia.
+
+
+#### Interactive plot
+
+```{r, warning = FALSE, fig.width = 10}
+p <- plot_ly(x = ~ area_est, 
+        y = ~ area_gps_calc, 
+        type = "scatter",
+        mode = "markers",
+        data = area,
+        name = "raw data")
+p %>% 
+  add_lines(x = ~ area_est, y = fitted(fit), name = "lm") %>%
+  add_ribbons(x = ~ area_est, ymin = pred$lwr, ymax = pred$upr, name = "lm pred 95% CI")
+```
+
+
+
+
