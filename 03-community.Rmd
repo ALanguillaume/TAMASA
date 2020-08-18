@@ -198,7 +198,7 @@ cmty_maiprc[, maiprc] <- cmty_maiprc[, maiprc] / 50
 plot.unit = "Tsh/kg"
 title = "Maize price"
 cmty_maiprc %>%
-  pivot_longer(cols = maiprc,
+  pivot_longer(cols = all_of(maiprc),
                names_to = "category",
                values_to = "value") %>%
   separate(col = category, into = c("maiprc", "place", "trimester"), sep = "_") %>%
@@ -232,7 +232,7 @@ cmty_maiprc <- cmty_maiprc[-del_NA, ]
 plot.unit = "Tsh/kg"
 title = "Maize price"
 cmty_maiprc %>%
-  pivot_longer(cols = maiprc,
+  pivot_longer(cols = all_of(maiprc),
                names_to = "category",
                values_to = "value") %>%
   separate(col = category, into = c("maiprc", "place", "trimester"), sep = "_") %>%

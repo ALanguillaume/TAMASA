@@ -32,7 +32,7 @@ plot_var <- function(df, var, plot.unit){
 #' @param title character, title of the plot
 
 plot_var_facet <- function(df, vars, plot.unit, title){
-  pivot_longer(df, cols = vars,
+  pivot_longer(df, cols = all_of(vars),
                names_to = "category",
                values_to = "value") %>%
     plot_var(var = value, plot.unit = plot.unit)+

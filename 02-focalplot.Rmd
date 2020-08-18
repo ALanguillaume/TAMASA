@@ -1,11 +1,11 @@
 
-```{r, message = FALSE}
-library(tidyverse)
-library(here)
-source(here("./scripts/funcs.R"))
-source(here("./scripts/plot_funcs.R"))
-dics <- create_conversion_dics()
-```
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
 
 # Focal plot survey
 

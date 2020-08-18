@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Household survey | TAMASA APS survey</title>
   <meta name="description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Household survey | TAMASA APS survey" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2020-02-07" />
+<meta name="date" content="2020-08-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="focal-plot-survey.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,28 +51,30 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -128,76 +131,92 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="household-survey.html"><a href="household-survey.html"><i class="fa fa-check"></i><b>2</b> Household survey</a><ul>
+<li class="chapter" data-level="2" data-path="household-survey.html"><a href="household-survey.html"><i class="fa fa-check"></i><b>2</b> Household survey</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>2.1</b> Intervening datasets</a></li>
-<li class="chapter" data-level="2.2" data-path="household-survey.html"><a href="household-survey.html#main-household-dataset"><i class="fa fa-check"></i><b>2.2</b> Main household dataset</a><ul>
+<li class="chapter" data-level="2.2" data-path="household-survey.html"><a href="household-survey.html#main-household-dataset"><i class="fa fa-check"></i><b>2.2</b> Main household dataset</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="household-survey.html"><a href="household-survey.html#growing-seasons"><i class="fa fa-check"></i><b>2.2.1</b> Growing Seasons</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="household-survey.html"><a href="household-survey.html#buying-prices-maize-at-nearest-local-market"><i class="fa fa-check"></i><b>2.3</b> Buying prices maize at nearest local market</a></li>
-<li class="chapter" data-level="2.4" data-path="household-survey.html"><a href="household-survey.html#plot-data"><i class="fa fa-check"></i><b>2.4</b> Plot data</a><ul>
+<li class="chapter" data-level="2.4" data-path="household-survey.html"><a href="household-survey.html#plot-data"><i class="fa fa-check"></i><b>2.4</b> Plot data</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="household-survey.html"><a href="household-survey.html#plots-area-in-hectares"><i class="fa fa-check"></i><b>2.4.1</b> Plots area in hectares</a></li>
 <li class="chapter" data-level="2.4.2" data-path="household-survey.html"><a href="household-survey.html#define-cropping-systems"><i class="fa fa-check"></i><b>2.4.2</b> Define cropping systems</a></li>
 <li class="chapter" data-level="2.4.3" data-path="household-survey.html"><a href="household-survey.html#intermezzo-was-harvest-finished-at-enumeration-date"><i class="fa fa-check"></i><b>2.4.3</b> Intermezzo: was harvest finished at enumeration date ?</a></li>
 <li class="chapter" data-level="2.4.4" data-path="household-survey.html"><a href="household-survey.html#calculate-yield"><i class="fa fa-check"></i><b>2.4.4</b> Calculate yield</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="household-survey.html"><a href="household-survey.html#labour-in-main-season-only"><i class="fa fa-check"></i><b>2.5</b> Labour (in Main season only)</a><ul>
+<li class="chapter" data-level="2.5" data-path="household-survey.html"><a href="household-survey.html#labour-in-main-season-only"><i class="fa fa-check"></i><b>2.5</b> Labour (in Main season only)</a>
+<ul>
 <li class="chapter" data-level="2.5.1" data-path="household-survey.html"><a href="household-survey.html#combine-cropping-sytems-and-labour-data"><i class="fa fa-check"></i><b>2.5.1</b> Combine cropping sytems and labour data</a></li>
 <li class="chapter" data-level="2.5.2" data-path="household-survey.html"><a href="household-survey.html#aggregate-over-labour-category"><i class="fa fa-check"></i><b>2.5.2</b> Aggregate over labour category:</a></li>
 <li class="chapter" data-level="2.5.3" data-path="household-survey.html"><a href="household-survey.html#calculate-labour-and-wages-per-hectare"><i class="fa fa-check"></i><b>2.5.3</b> Calculate labour and wages per hectare</a></li>
 <li class="chapter" data-level="2.5.4" data-path="household-survey.html"><a href="household-survey.html#total-labour-input-per-ha"><i class="fa fa-check"></i><b>2.5.4</b> Total labour input per ha</a></li>
 <li class="chapter" data-level="2.5.5" data-path="household-survey.html"><a href="household-survey.html#harvest-labour-in-work-days.t-1"><i class="fa fa-check"></i><b>2.5.5</b> Harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="2.6" data-path="household-survey.html"><a href="household-survey.html#sales"><i class="fa fa-check"></i><b>2.6</b> Sales</a><ul>
+<li class="chapter" data-level="2.6" data-path="household-survey.html"><a href="household-survey.html#sales"><i class="fa fa-check"></i><b>2.6</b> Sales</a>
+<ul>
 <li class="chapter" data-level="2.6.1" data-path="household-survey.html"><a href="household-survey.html#relevant-crop-sales-variables"><i class="fa fa-check"></i><b>2.6.1</b> Relevant Crop sales variables:</a></li>
 <li class="chapter" data-level="2.6.2" data-path="household-survey.html"><a href="household-survey.html#calculate-per-kg"><i class="fa fa-check"></i><b>2.6.2</b> Calculate per kg</a></li>
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>2.7</b> Merge</a></li>
 <li class="chapter" data-level="2.8" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>2.8</b> Recap</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html"><i class="fa fa-check"></i><b>3</b> Focal plot survey</a><ul>
-<li class="chapter" data-level="3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#intervening-datasets-1"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
-<li class="chapter" data-level="3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>3.2</b> Prepare dataset</a><ul>
+<li class="chapter" data-level="3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html"><i class="fa fa-check"></i><b>3</b> Focal plot survey</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>3.2</b> Prepare dataset</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-useful-columns"><i class="fa fa-check"></i><b>3.2.1</b> Select useful columns</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seeds"><i class="fa fa-check"></i><b>3.3</b> Seeds</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-amounts"><i class="fa fa-check"></i><b>3.3.1</b> Seed Amounts</a></li>
-<li class="chapter" data-level="3.3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-costs"><i class="fa fa-check"></i><b>3.3.2</b> Seed costs</a></li>
-<li class="chapter" data-level="3.3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#hybrid-vs-local"><i class="fa fa-check"></i><b>3.3.3</b> Hybrid vs local</a></li>
+<li class="chapter" data-level="3.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#plot-area-validation"><i class="fa fa-check"></i><b>3.3</b> Plot area validation</a></li>
+<li class="chapter" data-level="3.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seeds"><i class="fa fa-check"></i><b>3.4</b> Seeds</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-amounts"><i class="fa fa-check"></i><b>3.4.1</b> Seed Amounts</a></li>
+<li class="chapter" data-level="3.4.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#seed-costs"><i class="fa fa-check"></i><b>3.4.2</b> Seed costs</a></li>
+<li class="chapter" data-level="3.4.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#hybrid-vs-local"><i class="fa fa-check"></i><b>3.4.3</b> Hybrid vs local</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#pigeon-pea"><i class="fa fa-check"></i><b>3.4</b> Pigeon Pea</a></li>
-<li class="chapter" data-level="3.5" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#fertilizer"><i class="fa fa-check"></i><b>3.5</b> Fertilizer</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-variables"><i class="fa fa-check"></i><b>3.5.1</b> Select variables</a></li>
-<li class="chapter" data-level="3.5.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-npk-input-from-input-type-and-amount"><i class="fa fa-check"></i><b>3.5.2</b> Calculate NPK input from input type and amount</a></li>
-<li class="chapter" data-level="3.5.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-additional-inputs"><i class="fa fa-check"></i><b>3.5.3</b> Calculate additional inputs</a></li>
-<li class="chapter" data-level="3.5.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#combine-input-types"><i class="fa fa-check"></i><b>3.5.4</b> Combine input types</a></li>
+<li class="chapter" data-level="3.5" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#pigeon-pea"><i class="fa fa-check"></i><b>3.5</b> Pigeon Pea</a></li>
+<li class="chapter" data-level="3.6" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#fertilizer"><i class="fa fa-check"></i><b>3.6</b> Fertilizer</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-variables"><i class="fa fa-check"></i><b>3.6.1</b> Select variables</a></li>
+<li class="chapter" data-level="3.6.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-npk-input-from-input-type-and-amount"><i class="fa fa-check"></i><b>3.6.2</b> Calculate NPK input from input type and amount</a></li>
+<li class="chapter" data-level="3.6.3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#calculate-additional-inputs"><i class="fa fa-check"></i><b>3.6.3</b> Calculate additional inputs</a></li>
+<li class="chapter" data-level="3.6.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#combine-input-types"><i class="fa fa-check"></i><b>3.6.4</b> Combine input types</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#cost-of-hiring-power-sources"><i class="fa fa-check"></i><b>3.6</b> Cost of hiring power sources</a></li>
-<li class="chapter" data-level="3.7" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#merge-1"><i class="fa fa-check"></i><b>3.7</b> Merge</a></li>
-<li class="chapter" data-level="3.8" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#recap-1"><i class="fa fa-check"></i><b>3.8</b> Recap</a></li>
+<li class="chapter" data-level="3.7" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#cost-of-hiring-power-sources"><i class="fa fa-check"></i><b>3.7</b> Cost of hiring power sources</a></li>
+<li class="chapter" data-level="3.8" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>3.8</b> Merge</a></li>
+<li class="chapter" data-level="3.9" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>3.9</b> Recap</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a><ul>
-<li class="chapter" data-level="4.1" data-path="community-survey.html"><a href="community-survey.html#intervening-datasets-2"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
-<li class="chapter" data-level="4.2" data-path="community-survey.html"><a href="community-survey.html#prepare-dataset-1"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
+<li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
 <li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#maize-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Maize buying prices</a></li>
-<li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a><ul>
+<li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a>
+<ul>
 <li class="chapter" data-level="4.4.1" data-path="community-survey.html"><a href="community-survey.html#selected-variables"><i class="fa fa-check"></i><b>4.4.1</b> Selected variables</a></li>
 <li class="chapter" data-level="4.4.2" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame"><i class="fa fa-check"></i><b>4.4.2</b> Subset main community data.frame</a></li>
 <li class="chapter" data-level="4.4.3" data-path="community-survey.html"><a href="community-survey.html#calculate-price-in-tshkg-for-each-fertilizer"><i class="fa fa-check"></i><b>4.4.3</b> Calculate price in Tsh/kg for each fertilizer</a></li>
 <li class="chapter" data-level="4.4.4" data-path="community-survey.html"><a href="community-survey.html#price-of-n-p-and-k-in-tsh.kg-1"><i class="fa fa-check"></i><b>4.4.4</b> Price of N, P and K in <span class="math inline">\(Tsh.kg^{-1}\)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="community-survey.html"><a href="community-survey.html#labour-cost"><i class="fa fa-check"></i><b>4.5</b> Labour cost</a><ul>
+<li class="chapter" data-level="4.5" data-path="community-survey.html"><a href="community-survey.html#labour-cost"><i class="fa fa-check"></i><b>4.5</b> Labour cost</a>
+<ul>
 <li class="chapter" data-level="4.5.1" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame-1"><i class="fa fa-check"></i><b>4.5.1</b> Subset main community data.frame</a></li>
 <li class="chapter" data-level="4.5.2" data-path="community-survey.html"><a href="community-survey.html#visual-exploration-1"><i class="fa fa-check"></i><b>4.5.2</b> Visual exploration</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="community-survey.html"><a href="community-survey.html#merge-2"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
-<li class="chapter" data-level="4.7" data-path="community-survey.html"><a href="community-survey.html#recap-2"><i class="fa fa-check"></i><b>4.7</b> Recap</a><ul>
+<li class="chapter" data-level="4.6" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
+<li class="chapter" data-level="4.7" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>4.7</b> Recap</a>
+<ul>
 <li class="chapter" data-level="4.7.1" data-path="community-survey.html"><a href="community-survey.html#community-general-dataset"><i class="fa fa-check"></i><b>4.7.1</b> Community general dataset</a></li>
 <li class="chapter" data-level="4.7.2" data-path="community-survey.html"><a href="community-survey.html#fertilizer-isotope-prices"><i class="fa fa-check"></i><b>4.7.2</b> Fertilizer isotope prices</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html"><i class="fa fa-check"></i><b>5</b> Manual Latin Hypercube Sampling</a><ul>
+<li class="chapter" data-level="5" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html"><i class="fa fa-check"></i><b>5</b> Manual Latin Hypercube Sampling</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#required-packages"><i class="fa fa-check"></i><b>5.1</b> Required packages</a></li>
-<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit"><i class="fa fa-check"></i><b>5.2</b> Using the TAMASA lhc kit</a><ul>
+<li class="chapter" data-level="5.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#using-the-tamasa-lhc-kit"><i class="fa fa-check"></i><b>5.2</b> Using the TAMASA lhc kit</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_prepare_lhc"><i class="fa fa-check"></i><b>5.2.1</b> TAMASA_prepare_lhc()</a></li>
 <li class="chapter" data-level="5.2.2" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_sample_lhc"><i class="fa fa-check"></i><b>5.2.2</b> TAMASA_sample_lhc()</a></li>
 <li class="chapter" data-level="5.2.3" data-path="manual-latin-hypercube-sampling.html"><a href="manual-latin-hypercube-sampling.html#tamasa_plot_lhc"><i class="fa fa-check"></i><b>5.2.3</b> TAMASA_plot_lhc()</a></li>
@@ -222,9 +241,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="household-survey" class="section level1">
+<div id="household-survey" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Household survey</h1>
-<div id="intervening-datasets" class="section level2">
+<div id="intervening-datasets" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Intervening datasets</h2>
 <table>
 <thead>
@@ -265,12 +284,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="main-household-dataset" class="section level2">
+<div id="main-household-dataset" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Main household dataset</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">hh &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb2-2" title="2">                 <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb2-3" title="3">                 <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb2-4" title="4">                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="household-survey.html#cb2-1"></a>hh &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh.tab&quot;</span>),</span>
+<span id="cb2-2"><a href="household-survey.html#cb2-2"></a>                 <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb2-3"><a href="household-survey.html#cb2-3"></a>                 <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb2-4"><a href="household-survey.html#cb2-4"></a>                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Make a subset of informative variables regarding the household location: <code>hh_info</code>:</p>
 <ul>
 <li><code>hhid</code>: character, general household index starts with <code>S</code> or <code>N</code> depending on whether the household is located in the <code>Southern</code> or <code>Northen</code> zone. This variable can be used to merge household and focal plot files or records from year 2016 and 2017, cf <code>TZAPS17_metadata.xlsxl</code>, sheet <code>FILELIST</code>. Unique values: TRUE.</li>
@@ -279,21 +298,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>zone</code> &gt; <code>region</code> &gt; <code>district</code> &gt; <code>site</code> &gt; <code>ward</code> &gt; <code>village</code> &gt; <code>hamlet</code>: character, spatial hierachy.</li>
 </ul>
 <p>Set zone, region and district as factors with meaningful levels.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">md_geo &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/metadata/TZAPS17_ODK_hh.xls&quot;</span>),</a>
-<a class="sourceLine" id="cb3-2" title="2">                           <span class="dt">sheet =</span> <span class="st">&quot;external_choices&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3">md_region  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;regions&quot;</span>)</a>
-<a class="sourceLine" id="cb3-4" title="4">md_district  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;districts&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">hh<span class="op">$</span>zone &lt;-<span class="st"> </span><span class="kw">factor</span>(hh<span class="op">$</span>zone, <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;S&quot;</span>))</a>
-<a class="sourceLine" id="cb4-2" title="2">hh<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">factor</span>(hh<span class="op">$</span>rcode,</a>
-<a class="sourceLine" id="cb4-3" title="3">                    <span class="dt">levels =</span> md_region<span class="op">$</span>name,</a>
-<a class="sourceLine" id="cb4-4" title="4">                    <span class="dt">labels =</span> md_region<span class="op">$</span>label)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="household-survey.html#cb3-1"></a>md_geo &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/metadata/TZAPS17_ODK_hh.xls&quot;</span>),</span>
+<span id="cb3-2"><a href="household-survey.html#cb3-2"></a>                           <span class="dt">sheet =</span> <span class="st">&quot;external_choices&quot;</span>)</span>
+<span id="cb3-3"><a href="household-survey.html#cb3-3"></a>md_region  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;regions&quot;</span>)</span>
+<span id="cb3-4"><a href="household-survey.html#cb3-4"></a>md_district  &lt;-<span class="st"> </span>md_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(list_name <span class="op">==</span><span class="st"> &quot;districts&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="household-survey.html#cb4-1"></a>hh<span class="op">$</span>zone &lt;-<span class="st"> </span><span class="kw">factor</span>(hh<span class="op">$</span>zone, <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;S&quot;</span>))</span>
+<span id="cb4-2"><a href="household-survey.html#cb4-2"></a>hh<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">factor</span>(hh<span class="op">$</span>rcode,</span>
+<span id="cb4-3"><a href="household-survey.html#cb4-3"></a>                    <span class="dt">levels =</span> md_region<span class="op">$</span>name,</span>
+<span id="cb4-4"><a href="household-survey.html#cb4-4"></a>                    <span class="dt">labels =</span> md_region<span class="op">$</span>label)</span></code></pre></div>
 <p>Fill in village and hamlet name for those filed under “other”</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">hh<span class="op">$</span>village[hh<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>hh<span class="op">$</span>village_alt[hh<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</a>
-<a class="sourceLine" id="cb5-2" title="2">hh<span class="op">$</span>hamlet[hh<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>hh<span class="op">$</span>hamlet_alt[hh<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="household-survey.html#cb5-1"></a>hh<span class="op">$</span>village[hh<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>hh<span class="op">$</span>village_alt[hh<span class="op">$</span>village <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</span>
+<span id="cb5-2"><a href="household-survey.html#cb5-2"></a>hh<span class="op">$</span>hamlet[hh<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>] &lt;-<span class="st"> </span>hh<span class="op">$</span>hamlet_alt[hh<span class="op">$</span>hamlet <span class="op">==</span><span class="st"> &quot;OTHER&quot;</span>]</span></code></pre></div>
 <p>Select informative variables</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">hh_info &lt;-<span class="st"> </span>hh <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">select</span>(hhid, hh_index, enum_date, zone, region, district, site, ward, village, hamlet)</a></code></pre></div>
-<div id="growing-seasons" class="section level3">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="household-survey.html#cb6-1"></a>hh_info &lt;-<span class="st"> </span>hh <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-2"><a href="household-survey.html#cb6-2"></a><span class="st">  </span><span class="kw">select</span>(hhid, hh_index, enum_date, zone, region, district, site, ward, village, hamlet)</span></code></pre></div>
+<div id="growing-seasons" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Growing Seasons</h3>
 <p>Below, is a scheme of the cropping calendar in Tanzania. This scheme was constructed based on the field knowledge of Esther Mungi (<a href="mailto:esther.mungi@wur.nl" class="email">esther.mungi@wur.nl</a>), a PhD student doing her research in Tanzania who also took part in the TAMASA survey.</p>
 <p>Key points:</p>
@@ -303,10 +322,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>As we will later demonstrate, most maize and pigeon pea crops were not harvested upon enumeration.</p></li>
 </ul>
 <p><img src="_main_files/figure-html/growing%20season-1.png" width="1334" /></p>
+<pre><code>## `summarise()` regrouping output by &#39;enum_date&#39; (override with `.groups` argument)</code></pre>
 <p><img src="_main_files/figure-html/enum_date-1.png" width="672" /></p>
 </div>
 </div>
-<div id="buying-prices-maize-at-nearest-local-market" class="section level2">
+<div id="buying-prices-maize-at-nearest-local-market" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Buying prices maize at nearest local market</h2>
 <p>Extract the data in household survey regarding maize price at the nearest local market in Tsh/kg for the three available periods:</p>
 <table>
@@ -357,52 +377,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">hh_prices &lt;-<span class="st"> </span>hh <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">select</span>(hh_index, <span class="kw">starts_with</span>(<span class="st">&quot;pric&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">as_tibble</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="household-survey.html#cb8-1"></a>hh_prices &lt;-<span class="st"> </span>hh <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb8-2"><a href="household-survey.html#cb8-2"></a><span class="st">  </span><span class="kw">select</span>(hh_index, <span class="kw">starts_with</span>(<span class="st">&quot;pric&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb8-3"><a href="household-survey.html#cb8-3"></a><span class="st">  </span><span class="kw">as_tibble</span>()</span></code></pre></div>
 <p>Remove negative prices and values without corresponding household index <code>hhid</code></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">hh_prices[<span class="kw">which</span>(hh_prices <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dt">arr.ind =</span> <span class="ot">TRUE</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb8-2" title="2">hh_prices &lt;-<span class="st"> </span>hh_prices[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_prices<span class="op">$</span>hh_index)), ]</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="household-survey.html#cb9-1"></a>hh_prices &lt;-<span class="st"> </span><span class="kw">modify</span>(hh_prices, <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</span>
+<span id="cb9-2"><a href="household-survey.html#cb9-2"></a>hh_prices &lt;-<span class="st"> </span>hh_prices[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_prices<span class="op">$</span>hh_index)), ]</span></code></pre></div>
 <p>Convert all price to Tsh/kg:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">hh_prices &lt;-<span class="st"> </span><span class="kw">convert_prices_tsh_kg</span>(hh_prices,</a>
-<a class="sourceLine" id="cb9-2" title="2">                                   <span class="dt">from =</span> <span class="kw">paste0</span>(<span class="st">&quot;pric&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="st">&quot;b&quot;</span>),</a>
-<a class="sourceLine" id="cb9-3" title="3">                                   <span class="dt">to =</span>  <span class="kw">paste0</span>(<span class="st">&quot;mz_price_&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;may16&quot;</span>, <span class="st">&quot;dec17&quot;</span>, <span class="st">&quot;feb17&quot;</span>)))</a>
-<a class="sourceLine" id="cb9-4" title="4">hh_prices &lt;-<span class="st"> </span>hh_prices <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, <span class="kw">starts_with</span>(<span class="st">&quot;mz_price_&quot;</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">idc_price &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^mz_price&quot;</span>, <span class="kw">colnames</span>(hh_prices)) </a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
-<a class="sourceLine" id="cb11-2" title="2">title =<span class="st"> &quot;Maize price at nearest local market&quot;</span></a>
-<a class="sourceLine" id="cb11-3" title="3">hh_prices <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">colnames</span>(hh_prices)[idc_price],</a>
-<a class="sourceLine" id="cb11-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
-<a class="sourceLine" id="cb11-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-7" title="7"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;mz&quot;</span>, <span class="st">&quot;pr&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-8" title="8"><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></a>
-<a class="sourceLine" id="cb11-9" title="9"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>month)<span class="op">+</span></a>
-<a class="sourceLine" id="cb11-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb11-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="household-survey.html#cb10-1"></a>hh_prices &lt;-<span class="st"> </span><span class="kw">convert_prices_tsh_kg</span>(hh_prices,</span>
+<span id="cb10-2"><a href="household-survey.html#cb10-2"></a>                                   <span class="dt">from =</span> <span class="kw">paste0</span>(<span class="st">&quot;pric&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="st">&quot;b&quot;</span>),</span>
+<span id="cb10-3"><a href="household-survey.html#cb10-3"></a>                                   <span class="dt">to =</span>  <span class="kw">paste0</span>(<span class="st">&quot;mz_price_&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;may16&quot;</span>, <span class="st">&quot;dec17&quot;</span>, <span class="st">&quot;feb17&quot;</span>)))</span>
+<span id="cb10-4"><a href="household-survey.html#cb10-4"></a>hh_prices &lt;-<span class="st"> </span>hh_prices <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, <span class="kw">starts_with</span>(<span class="st">&quot;mz_price_&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="household-survey.html#cb11-1"></a>idc_price &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^mz_price&quot;</span>, <span class="kw">colnames</span>(hh_prices)) </span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="household-survey.html#cb12-1"></a>plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></span>
+<span id="cb12-2"><a href="household-survey.html#cb12-2"></a>title =<span class="st"> &quot;Maize price at nearest local market&quot;</span></span>
+<span id="cb12-3"><a href="household-survey.html#cb12-3"></a>hh_prices <span class="op">%&gt;%</span></span>
+<span id="cb12-4"><a href="household-survey.html#cb12-4"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">colnames</span>(hh_prices)[idc_price],</span>
+<span id="cb12-5"><a href="household-survey.html#cb12-5"></a>               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</span>
+<span id="cb12-6"><a href="household-survey.html#cb12-6"></a>               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb12-7"><a href="household-survey.html#cb12-7"></a><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;mz&quot;</span>, <span class="st">&quot;pr&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb12-8"><a href="household-survey.html#cb12-8"></a><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></span>
+<span id="cb12-9"><a href="household-survey.html#cb12-9"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>month)<span class="op">+</span></span>
+<span id="cb12-10"><a href="household-survey.html#cb12-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-11"><a href="household-survey.html#cb12-11"></a><span class="st">  </span><span class="kw">ggtitle</span>(title)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Set maximum price to 2000 Tsh/kg</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">hh_prices &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_prices,</a>
-<a class="sourceLine" id="cb12-2" title="2">                       <span class="dt">.at =</span> idc_price,</a>
-<a class="sourceLine" id="cb12-3" title="3">                       <span class="dt">.f =</span> outlier_to_NA, </a>
-<a class="sourceLine" id="cb12-4" title="4">                       <span class="dt">threshold =</span> <span class="dv">2000</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></a>
-<a class="sourceLine" id="cb13-2" title="2">title =<span class="st"> &quot;Maize price at nearest local market&quot;</span></a>
-<a class="sourceLine" id="cb13-3" title="3">hh_prices <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">colnames</span>(hh_prices)[idc_price],</a>
-<a class="sourceLine" id="cb13-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
-<a class="sourceLine" id="cb13-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;mz&quot;</span>, <span class="st">&quot;pr&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-8" title="8"><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></a>
-<a class="sourceLine" id="cb13-9" title="9"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>month)<span class="op">+</span></a>
-<a class="sourceLine" id="cb13-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb13-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(title)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="household-survey.html#cb13-1"></a>hh_prices &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_prices,</span>
+<span id="cb13-2"><a href="household-survey.html#cb13-2"></a>                       <span class="dt">.at =</span> idc_price,</span>
+<span id="cb13-3"><a href="household-survey.html#cb13-3"></a>                       <span class="dt">.f =</span> outlier_to_NA, </span>
+<span id="cb13-4"><a href="household-survey.html#cb13-4"></a>                       <span class="dt">threshold =</span> <span class="dv">2000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="household-survey.html#cb14-1"></a>plot.unit =<span class="st"> &quot;Tsh/kg&quot;</span></span>
+<span id="cb14-2"><a href="household-survey.html#cb14-2"></a>title =<span class="st"> &quot;Maize price at nearest local market&quot;</span></span>
+<span id="cb14-3"><a href="household-survey.html#cb14-3"></a>hh_prices <span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="household-survey.html#cb14-4"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">colnames</span>(hh_prices)[idc_price],</span>
+<span id="cb14-5"><a href="household-survey.html#cb14-5"></a>               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</span>
+<span id="cb14-6"><a href="household-survey.html#cb14-6"></a>               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb14-7"><a href="household-survey.html#cb14-7"></a><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> category, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;mz&quot;</span>, <span class="st">&quot;pr&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb14-8"><a href="household-survey.html#cb14-8"></a><span class="st">  </span><span class="kw">plot_var</span>(<span class="dt">var =</span> value, <span class="dt">plot.unit =</span> plot.unit)<span class="op">+</span></span>
+<span id="cb14-9"><a href="household-survey.html#cb14-9"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>month)<span class="op">+</span></span>
+<span id="cb14-10"><a href="household-survey.html#cb14-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb14-11"><a href="household-survey.html#cb14-11"></a><span class="st">  </span><span class="kw">ggtitle</span>(title)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div id="plot-data" class="section level2">
+<div id="plot-data" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Plot data</h2>
 <p>Correspond to a general inventory of the farm plots. We used plot data to first calculate plots area per household. Then isolate the two cropping system of interest, maize monoculture (<strong>mmc</strong>) and maize / pigeon pea intercropping (<strong>mpp</strong>). We then calculate yield for each plot and lastly gather information on labour input per ha for each cropping system.</p>
-<div id="plots-area-in-hectares" class="section level3">
+<div id="plots-area-in-hectares" class="section level3" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> Plots area in hectares</h3>
 <p>Load the data set and subset relevant variables:</p>
 <ul>
@@ -412,43 +432,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>plot_area_a</code>: plot area amount (numerical value).</li>
 <li><code>plot_area_u</code>: plot area unit (corresponding unit).</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">hh_plot &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plot.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb14-2" title="2">                      <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb14-3" title="3">                      <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb14-4" title="4">                      <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb14-5" title="5">hh_area &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, plot_index, plot_id, plot_area_a, plot_area_u)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="household-survey.html#cb15-1"></a>hh_plot &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plot.tab&quot;</span>),</span>
+<span id="cb15-2"><a href="household-survey.html#cb15-2"></a>                      <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb15-3"><a href="household-survey.html#cb15-3"></a>                      <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb15-4"><a href="household-survey.html#cb15-4"></a>                      <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb15-5"><a href="household-survey.html#cb15-5"></a>hh_area &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, plot_index, plot_id, plot_area_a, plot_area_u)</span></code></pre></div>
 <p>Convert each plot area to hectares</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">hh_area &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_area, </a>
-<a class="sourceLine" id="cb15-2" title="2">                      dics<span class="op">$</span>areaunit, </a>
-<a class="sourceLine" id="cb15-3" title="3">                      <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;plot_area_u&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</a>
-<a class="sourceLine" id="cb15-4" title="4">hh_area &lt;-<span class="st"> </span>hh_area <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">plot_area =</span> plot_area_a <span class="op">*</span><span class="st"> </span>hectares)</a></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">plot_var</span>(hh_area, </a>
-<a class="sourceLine" id="cb16-2" title="2">         <span class="dt">var =</span>plot_area, </a>
-<a class="sourceLine" id="cb16-3" title="3">         <span class="dt">plot.unit =</span> <span class="st">&quot;ha&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="household-survey.html#cb16-1"></a>hh_area &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_area, </span>
+<span id="cb16-2"><a href="household-survey.html#cb16-2"></a>                      dics<span class="op">$</span>areaunit, </span>
+<span id="cb16-3"><a href="household-survey.html#cb16-3"></a>                      <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;plot_area_u&quot;</span> =<span class="st"> &quot;cat&quot;</span>))</span>
+<span id="cb16-4"><a href="household-survey.html#cb16-4"></a>hh_area &lt;-<span class="st"> </span>hh_area <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">plot_area =</span> plot_area_a <span class="op">*</span><span class="st"> </span>hectares)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="household-survey.html#cb17-1"></a><span class="kw">plot_var</span>(hh_area, </span>
+<span id="cb17-2"><a href="household-survey.html#cb17-2"></a>         <span class="dt">var =</span>plot_area, </span>
+<span id="cb17-3"><a href="household-survey.html#cb17-3"></a>         <span class="dt">plot.unit =</span> <span class="st">&quot;ha&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Plots with area &gt; 5 ha are considered as outliers and replace by NA.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># hh_area$plot_area[hh_area$plot_area &gt; 5] &lt;- NA</span></a>
-<a class="sourceLine" id="cb17-2" title="2">hh_area<span class="op">$</span>plot_area &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_area<span class="op">$</span>plot_area, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">plot_var</span>(hh_area, </a>
-<a class="sourceLine" id="cb18-2" title="2">         <span class="dt">var =</span>plot_area, </a>
-<a class="sourceLine" id="cb18-3" title="3">         <span class="dt">plot.unit =</span> <span class="st">&quot;ha&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="household-survey.html#cb18-1"></a><span class="co"># hh_area$plot_area[hh_area$plot_area &gt; 5] &lt;- NA</span></span>
+<span id="cb18-2"><a href="household-survey.html#cb18-2"></a>hh_area<span class="op">$</span>plot_area &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_area<span class="op">$</span>plot_area, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="household-survey.html#cb19-1"></a><span class="kw">plot_var</span>(hh_area, </span>
+<span id="cb19-2"><a href="household-survey.html#cb19-2"></a>         <span class="dt">var =</span>plot_area, </span>
+<span id="cb19-3"><a href="household-survey.html#cb19-3"></a>         <span class="dt">plot.unit =</span> <span class="st">&quot;ha&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">hh_area &lt;-<span class="st"> </span>hh_area <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, plot_id, plot_area)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="household-survey.html#cb20-1"></a>hh_area &lt;-<span class="st"> </span>hh_area <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, plot_id, plot_area)</span></code></pre></div>
 </div>
-<div id="define-cropping-systems" class="section level3">
+<div id="define-cropping-systems" class="section level3" number="2.4.2">
 <h3><span class="header-section-number">2.4.2</span> Define cropping systems</h3>
-<div id="relevant-datasets" class="section level4">
+<div id="relevant-datasets" class="section level4" number="2.4.2.1">
 <h4><span class="header-section-number">2.4.2.1</span> Relevant datasets</h4>
 <p><strong>Plot management in main season</strong></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">hh_plotmc &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotmc.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb20-2" title="2">                        <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb20-3" title="3">                        <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb20-4" title="4">                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="household-survey.html#cb21-1"></a>hh_plotmc &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotmc.tab&quot;</span>),</span>
+<span id="cb21-2"><a href="household-survey.html#cb21-2"></a>                        <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb21-3"><a href="household-survey.html#cb21-3"></a>                        <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb21-4"><a href="household-survey.html#cb21-4"></a>                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><strong>Crops grown in main season</strong></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">hh_plotmcc &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotmcc.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb21-2" title="2">                         <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb21-3" title="3">                         <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb21-4" title="4">                         <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="household-survey.html#cb22-1"></a>hh_plotmcc &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotmcc.tab&quot;</span>),</span>
+<span id="cb22-2"><a href="household-survey.html#cb22-2"></a>                         <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb22-3"><a href="household-survey.html#cb22-3"></a>                         <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb22-4"><a href="household-survey.html#cb22-4"></a>                         <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Merge together management and crop data for plots in main season and keep only relevant variables:</p>
 <p>From <em>hh_plotmc</em>:</p>
 <ul>
@@ -469,28 +489,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>mc12</code>: Harvest unit (Estimate of expected harvest if harvesting has not been completed).</li>
 </ul>
 <p><em>hh_plotmc</em> and <em>hh_plotmcc</em> can be merged on: <code>pmc_index</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">plotd &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plotmc, hh_plotmcc, <span class="dt">by =</span> <span class="st">&quot;pmc_index&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="st">  </span><span class="kw">select</span>(hh_index, pmc_index, pmcc_index, </a>
-<a class="sourceLine" id="cb22-3" title="3">         mc1, mc5, mc6, mc8, mc9, mc10, mc11, mc12)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="household-survey.html#cb23-1"></a>plotd &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plotmc, hh_plotmcc, <span class="dt">by =</span> <span class="st">&quot;pmc_index&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb23-2"><a href="household-survey.html#cb23-2"></a><span class="st">  </span><span class="kw">select</span>(hh_index, pmc_index, pmcc_index, </span>
+<span id="cb23-3"><a href="household-survey.html#cb23-3"></a>         mc1, mc5, mc6, mc8, mc9, mc10, mc11, mc12)</span></code></pre></div>
 </div>
-<div id="extract-infomation" class="section level4">
+<div id="extract-infomation" class="section level4" number="2.4.2.2">
 <h4><span class="header-section-number">2.4.2.2</span> Extract infomation</h4>
 <p>Get plots with intercropping (<code>mc5 == 1</code>) and only two crops (<code>mc6 == 2</code>).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">plotd_2c &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">filter</span>(mc6 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, mc5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="st">  </span><span class="kw">select</span>(pmc_index, mc6,  mc8)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="household-survey.html#cb24-1"></a>plotd_2c &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-2"><a href="household-survey.html#cb24-2"></a><span class="st">  </span><span class="kw">filter</span>(mc6 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, mc5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
+<span id="cb24-3"><a href="household-survey.html#cb24-3"></a><span class="st">  </span><span class="kw">select</span>(pmc_index, mc6,  mc8)</span></code></pre></div>
 <p>Get main season plot index (<code>pmc_index</code>) of plots harbouring maize with pigeon pea intercrop.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">l_plotd_2c &lt;-<span class="st"> </span><span class="kw">split</span>(plotd_2c, plotd_2c<span class="op">$</span>pmc_index)</a>
-<a class="sourceLine" id="cb24-2" title="2">mpp_pmc_index &lt;-<span class="st"> </span><span class="kw">map</span>(l_plotd_2c, <span class="st">&quot;mc8&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">map</span>( <span class="op">~</span><span class="st"> </span><span class="kw">intersect</span>(.x, <span class="kw">c</span>(<span class="st">&quot;maize&quot;</span>, <span class="st">&quot;pigeon_pea&quot;</span>))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-4" title="4"><span class="st">  </span><span class="kw">keep</span>( <span class="op">~</span><span class="st"> </span><span class="kw">length</span>(.x) <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb24-5" title="5"><span class="st">  </span><span class="kw">names</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="household-survey.html#cb25-1"></a>l_plotd_2c &lt;-<span class="st"> </span><span class="kw">split</span>(plotd_2c, plotd_2c<span class="op">$</span>pmc_index)</span>
+<span id="cb25-2"><a href="household-survey.html#cb25-2"></a>mpp_pmc_index &lt;-<span class="st"> </span><span class="kw">map</span>(l_plotd_2c, <span class="st">&quot;mc8&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-3"><a href="household-survey.html#cb25-3"></a><span class="st">  </span><span class="kw">map</span>( <span class="op">~</span><span class="st"> </span><span class="kw">intersect</span>(.x, <span class="kw">c</span>(<span class="st">&quot;maize&quot;</span>, <span class="st">&quot;pigeon_pea&quot;</span>))) <span class="op">%&gt;%</span></span>
+<span id="cb25-4"><a href="household-survey.html#cb25-4"></a><span class="st">  </span><span class="kw">keep</span>( <span class="op">~</span><span class="st"> </span><span class="kw">length</span>(.x) <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-5"><a href="household-survey.html#cb25-5"></a><span class="st">  </span><span class="kw">names</span>()</span></code></pre></div>
 <p>Get <code>pmc_index</code> of plots under maize monoculture .i.e without intercropping (<code>mc5 == 0</code>).</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">lgl_unique &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="op">!</span>x <span class="op">%in%</span><span class="st"> </span>x[<span class="kw">which</span>(<span class="kw">duplicated</span>(x))]</a>
-<a class="sourceLine" id="cb25-2" title="2">mmc_pmc_index &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">lgl_unique</span>(pmc_index), mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>, mc5 <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-4" title="4"><span class="st">  </span><span class="kw">select</span>(pmc_index) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-5" title="5"><span class="st">  </span><span class="kw">deframe</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="household-survey.html#cb26-1"></a>lgl_unique &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="op">!</span>x <span class="op">%in%</span><span class="st"> </span>x[<span class="kw">which</span>(<span class="kw">duplicated</span>(x))]</span>
+<span id="cb26-2"><a href="household-survey.html#cb26-2"></a>mmc_pmc_index &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span></span>
+<span id="cb26-3"><a href="household-survey.html#cb26-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="kw">lgl_unique</span>(pmc_index), mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>, mc5 <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></span>
+<span id="cb26-4"><a href="household-survey.html#cb26-4"></a><span class="st">  </span><span class="kw">select</span>(pmc_index) <span class="op">%&gt;%</span></span>
+<span id="cb26-5"><a href="household-survey.html#cb26-5"></a><span class="st">  </span><span class="kw">deframe</span>()</span></code></pre></div>
 <p>Create new variable indicating the type of cropping system of each plot: <code>cropsys</code>.</p>
 <table>
 <thead>
@@ -510,71 +530,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">plotd<span class="op">$</span>cropsys &lt;-<span class="st"> &quot;other&quot;</span></a>
-<a class="sourceLine" id="cb26-2" title="2">plotd<span class="op">$</span>cropsys[plotd<span class="op">$</span>pmc_index <span class="op">%in%</span><span class="st"> </span>mmc_pmc_index] &lt;-<span class="st"> &quot;mmc&quot;</span></a>
-<a class="sourceLine" id="cb26-3" title="3">plotd<span class="op">$</span>cropsys[plotd<span class="op">$</span>pmc_index <span class="op">%in%</span><span class="st"> </span>mpp_pmc_index] &lt;-<span class="st"> &quot;mpp&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="household-survey.html#cb27-1"></a>plotd<span class="op">$</span>cropsys &lt;-<span class="st"> &quot;other&quot;</span></span>
+<span id="cb27-2"><a href="household-survey.html#cb27-2"></a>plotd<span class="op">$</span>cropsys[plotd<span class="op">$</span>pmc_index <span class="op">%in%</span><span class="st"> </span>mmc_pmc_index] &lt;-<span class="st"> &quot;mmc&quot;</span></span>
+<span id="cb27-3"><a href="household-survey.html#cb27-3"></a>plotd<span class="op">$</span>cropsys[plotd<span class="op">$</span>pmc_index <span class="op">%in%</span><span class="st"> </span>mpp_pmc_index] &lt;-<span class="st"> &quot;mpp&quot;</span></span></code></pre></div>
 <p>Checking if maize / pigeon pea intercrop plots <code>pmc_index</code> appear exactly two times.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">mpp &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="st">  </span><span class="kw">filter</span>(mc5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, cropsys <span class="op">==</span><span class="st"> &quot;mpp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span><span class="kw">select</span>(pmc_index) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">deframe</span>()</a>
-<a class="sourceLine" id="cb27-5" title="5"><span class="kw">table</span>(<span class="kw">table</span>(mpp))</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="household-survey.html#cb28-1"></a>mpp &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-2"><a href="household-survey.html#cb28-2"></a><span class="st">  </span><span class="kw">filter</span>(mc5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, cropsys <span class="op">==</span><span class="st"> &quot;mpp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-3"><a href="household-survey.html#cb28-3"></a><span class="st">  </span><span class="kw">select</span>(pmc_index) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb28-4"><a href="household-survey.html#cb28-4"></a><span class="st">  </span><span class="kw">deframe</span>()</span>
+<span id="cb28-5"><a href="household-survey.html#cb28-5"></a><span class="kw">table</span>(<span class="kw">table</span>(mpp))</span></code></pre></div>
 <pre><code>## 
 ##   2   4 
 ## 156   1</code></pre>
 <p>One <code>pmc_index</code> appears four times. It seems also to include beans.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">susp &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(<span class="kw">table</span>(mpp) <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb29-2" title="2">plotd <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb29-3" title="3"><span class="st">  </span><span class="kw">filter</span>(pmc_index <span class="op">%in%</span><span class="st"> </span>susp) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb29-4" title="4"><span class="st">  </span><span class="kw">select</span>(hh_index, pmc_index, pmcc_index, mc5, mc6, mc8, mc9)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="household-survey.html#cb30-1"></a>susp &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(<span class="kw">table</span>(mpp) <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>))</span>
+<span id="cb30-2"><a href="household-survey.html#cb30-2"></a>plotd <span class="op">%&gt;%</span></span>
+<span id="cb30-3"><a href="household-survey.html#cb30-3"></a><span class="st">  </span><span class="kw">filter</span>(pmc_index <span class="op">%in%</span><span class="st"> </span>susp) <span class="op">%&gt;%</span></span>
+<span id="cb30-4"><a href="household-survey.html#cb30-4"></a><span class="st">  </span><span class="kw">select</span>(hh_index, pmc_index, pmcc_index, mc5, mc6, mc8, mc9)</span></code></pre></div>
 <pre><code>##   hh_index pmc_index pmcc_index mc5 mc6        mc8 mc9
 ## 1       36       179        220   1   2      maize   3
 ## 2       36       179        221   1   2 pigeon_pea   3
 ## 3       36       179        222   1   2      beans   4
 ## 4       36       179        223   1   2 pigeon_pea   4</code></pre>
 <p>This irrelevant plot is discarded.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">plotd &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>pmc_index <span class="op">%in%</span><span class="st"> </span>susp)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="household-survey.html#cb32-1"></a>plotd &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span>(pmc_index <span class="op">%in%</span><span class="st"> </span>.env<span class="op">$</span>susp))</span></code></pre></div>
 <p>Keep only plots with the two cropping systems of interest.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">plotd &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(cropsys <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mmc&quot;</span>, <span class="st">&quot;mpp&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="household-survey.html#cb33-1"></a>plotd &lt;-<span class="st"> </span>plotd <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(cropsys <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mmc&quot;</span>, <span class="st">&quot;mpp&quot;</span>))</span></code></pre></div>
 </div>
 </div>
-<div id="intermezzo-was-harvest-finished-at-enumeration-date" class="section level3">
+<div id="intermezzo-was-harvest-finished-at-enumeration-date" class="section level3" number="2.4.3">
 <h3><span class="header-section-number">2.4.3</span> Intermezzo: was harvest finished at enumeration date ?</h3>
+<pre><code>## `summarise()` regrouping output by &#39;enum_date&#39;, &#39;zone&#39;, &#39;mc10&#39; (override with `.groups` argument)</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>In most case harvest was not finished at enumeration date for both maize and pigeon pea.</p>
 </div>
-<div id="calculate-yield" class="section level3">
+<div id="calculate-yield" class="section level3" number="2.4.4">
 <h3><span class="header-section-number">2.4.4</span> Calculate yield</h3>
 <p>We first calculate yield in <span class="math inline">\(t.ha^{-1}\)</span> to later be able to express harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span>.</p>
 <p><code>hh_area</code> and <code>plotd</code> need to be merged both on household index and plot index since we are working at the plot level. Jordan Chamberlain gave us the trick. Plot index variable names are inconsistent between datsets.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">hh_plot &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_area, plotd, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="st">&quot;plot_id&quot;</span> =<span class="st"> &quot;mc1&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="household-survey.html#cb35-1"></a>hh_plot &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_area, plotd, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="st">&quot;plot_id&quot;</span> =<span class="st"> &quot;mc1&quot;</span>))</span></code></pre></div>
 <p>Merge with proper dictionary to convert units in kg and calculate yield in <span class="math inline">\(t.ha^{-1}\)</span>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-2" title="2"><span class="st">  </span><span class="kw">inner_join</span>(dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;mc12&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">harvest =</span> mc11 <span class="op">*</span><span class="st"> </span><span class="kw">ifelse</span>(mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>, kg_maize, kg_pp), </a>
-<a class="sourceLine" id="cb34-4" title="4">         <span class="dt">yield =</span> harvest <span class="op">/</span><span class="st"> </span>(plot_area <span class="op">*</span><span class="st"> </span><span class="dv">1000</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ggplot</span>(hh_plot) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb35-2" title="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> yield, <span class="dt">x =</span> mc8, <span class="dt">fill =</span> mc8, <span class="dt">color =</span> mc8) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb35-3" title="3"><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb35-4" title="4"><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb35-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>cropsys)<span class="op">+</span></a>
-<a class="sourceLine" id="cb35-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;yield (t/ha)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="household-survey.html#cb36-1"></a>hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span></span>
+<span id="cb36-2"><a href="household-survey.html#cb36-2"></a><span class="st">  </span><span class="kw">inner_join</span>(dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;mc12&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb36-3"><a href="household-survey.html#cb36-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">harvest =</span> mc11 <span class="op">*</span><span class="st"> </span><span class="kw">ifelse</span>(mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>, kg_maize, kg_pp), </span>
+<span id="cb36-4"><a href="household-survey.html#cb36-4"></a>         <span class="dt">yield =</span> harvest <span class="op">/</span><span class="st"> </span>(plot_area <span class="op">*</span><span class="st"> </span><span class="dv">1000</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="household-survey.html#cb37-1"></a><span class="kw">ggplot</span>(hh_plot) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb37-2"><a href="household-survey.html#cb37-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> yield, <span class="dt">x =</span> mc8, <span class="dt">fill =</span> mc8, <span class="dt">color =</span> mc8) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb37-3"><a href="household-survey.html#cb37-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb37-4"><a href="household-survey.html#cb37-4"></a><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb37-5"><a href="household-survey.html#cb37-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>cropsys)<span class="op">+</span></span>
+<span id="cb37-6"><a href="household-survey.html#cb37-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;yield (t/ha)&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>Based on the knowledge of Esther Mungi who is an agronomist working in Tanzania and who participated to the TAMASA survey as an enumerator, we fixed the upper limit for maize yield to 8 <span class="math inline">\(t.ha^{-1}\)</span> and 3 <span class="math inline">\(t.ha^{-1}\)</span> for pigeon pea.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>] &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>], </a>
-<a class="sourceLine" id="cb36-2" title="2">                                                       <span class="dt">threshold =</span> <span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb36-3" title="3">hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>] &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>], </a>
-<a class="sourceLine" id="cb36-4" title="4">                                                            <span class="dt">threshold =</span> <span class="dv">3</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">ggplot</span>(hh_plot) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb37-2" title="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> yield, <span class="dt">x =</span> mc8, <span class="dt">fill =</span> mc8, <span class="dt">color =</span> mc8) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb37-3" title="3"><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb37-4" title="4"><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb37-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>cropsys)<span class="op">+</span></a>
-<a class="sourceLine" id="cb37-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;yield (t/ha)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="household-survey.html#cb38-1"></a>hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>] &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;maize&quot;</span>], </span>
+<span id="cb38-2"><a href="household-survey.html#cb38-2"></a>                                                       <span class="dt">threshold =</span> <span class="dv">7</span>)</span>
+<span id="cb38-3"><a href="household-survey.html#cb38-3"></a>hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>] &lt;-<span class="st"> </span><span class="kw">outlier_to_NA</span>(hh_plot<span class="op">$</span>yield[hh_plot<span class="op">$</span>mc8 <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>], </span>
+<span id="cb38-4"><a href="household-survey.html#cb38-4"></a>                                                            <span class="dt">threshold =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="household-survey.html#cb39-1"></a><span class="kw">ggplot</span>(hh_plot) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb39-2"><a href="household-survey.html#cb39-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> yield, <span class="dt">x =</span> mc8, <span class="dt">fill =</span> mc8, <span class="dt">color =</span> mc8) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb39-3"><a href="household-survey.html#cb39-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb39-4"><a href="household-survey.html#cb39-4"></a><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb39-5"><a href="household-survey.html#cb39-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>cropsys)<span class="op">+</span></span>
+<span id="cb39-6"><a href="household-survey.html#cb39-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;yield (t/ha)&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 </div>
 </div>
-<div id="labour-in-main-season-only" class="section level2">
+<div id="labour-in-main-season-only" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Labour (in Main season only)</h2>
 <p>All labour variables are measured in days.</p>
 <p>Labour variables typology:</p>
@@ -582,139 +603,139 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>prefix</strong>lab_<strong>suffix1suffix2</strong></p>
 </blockquote>
 <ul>
-<li><strong>prefix</strong>: labour category</li>
-<li>h = hired</li>
+<li><p><strong>prefix</strong>: labour category</p></li>
+<li><p>h = hired</p></li>
 <li><p>f = family</p></li>
-<li><strong>suffix1</strong>: task</li>
-<li>l = land preparation</li>
-<li>p = planting</li>
-<li>r = fertilizing</li>
-<li>w = weeding</li>
+<li><p><strong>suffix1</strong>: task</p></li>
+<li><p>l = land preparation</p></li>
+<li><p>p = planting</p></li>
+<li><p>r = fertilizing</p></li>
+<li><p>w = weeding</p></li>
 <li><p>h = harvesting</p></li>
-<li><strong>suffix2</strong>: worker type or price in Tsh</li>
-<li>m = man</li>
-<li>w or f = women, <em>not consistent ! depends on labour category</em> (w if family and f if hired)</li>
-<li>w = price in Tsh <em>only for hired labour</em>, then correspond to total wages.</li>
+<li><p><strong>suffix2</strong>: worker type or price in Tsh</p></li>
+<li><p>m = man</p></li>
+<li><p>w or f = women, <em>not consistent ! depends on labour category</em> (w if family and f if hired)</p></li>
+<li><p>w = price in Tsh <em>only for hired labour</em>, then correspond to total wages.</p></li>
 <li><p>c = child</p></li>
 </ul>
 <p><strong>Labour data main season</strong></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">hh_plotml &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotml.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb38-2" title="2">                        <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb38-3" title="3">                        <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb38-4" title="4">hh_plotml &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb38-5" title="5"><span class="st">  </span><span class="kw">select</span>(hh_index, pl1, pml_index,</a>
-<a class="sourceLine" id="cb38-6" title="6">         <span class="kw">matches</span>(<span class="st">&quot;^flab_[a-z]{2}$&quot;</span>),</a>
-<a class="sourceLine" id="cb38-7" title="7">         <span class="kw">matches</span>(<span class="st">&quot;^hlab_[a-z]{2}$&quot;</span>))</a></code></pre></div>
-<div id="combine-cropping-sytems-and-labour-data" class="section level3">
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="household-survey.html#cb40-1"></a>hh_plotml &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_plotml.tab&quot;</span>),</span>
+<span id="cb40-2"><a href="household-survey.html#cb40-2"></a>                        <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb40-3"><a href="household-survey.html#cb40-3"></a>                        <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb40-4"><a href="household-survey.html#cb40-4"></a>hh_plotml &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span></span>
+<span id="cb40-5"><a href="household-survey.html#cb40-5"></a><span class="st">  </span><span class="kw">select</span>(hh_index, pl1, pml_index,</span>
+<span id="cb40-6"><a href="household-survey.html#cb40-6"></a>         <span class="kw">matches</span>(<span class="st">&quot;^flab_[a-z]{2}$&quot;</span>),</span>
+<span id="cb40-7"><a href="household-survey.html#cb40-7"></a>         <span class="kw">matches</span>(<span class="st">&quot;^hlab_[a-z]{2}$&quot;</span>))</span></code></pre></div>
+<div id="combine-cropping-sytems-and-labour-data" class="section level3" number="2.5.1">
 <h3><span class="header-section-number">2.5.1</span> Combine cropping sytems and labour data</h3>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">hh_plotml &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plotml, </a>
-<a class="sourceLine" id="cb39-2" title="2">                        <span class="kw">distinct</span>(<span class="kw">select</span>(plotd, hh_index, mc1, cropsys)),</a>
-<a class="sourceLine" id="cb39-3" title="3">                        <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="st">&quot;pl1&quot;</span> =<span class="st"> &quot;mc1&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="household-survey.html#cb41-1"></a>hh_plotml &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plotml, </span>
+<span id="cb41-2"><a href="household-survey.html#cb41-2"></a>                        <span class="kw">distinct</span>(<span class="kw">select</span>(plotd, hh_index, mc1, cropsys)),</span>
+<span id="cb41-3"><a href="household-survey.html#cb41-3"></a>                        <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="st">&quot;pl1&quot;</span> =<span class="st"> &quot;mc1&quot;</span>))</span></code></pre></div>
 <p>Do any of those labour variables harbour negative values ?</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">lab_vars_neg &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="household-survey.html#cb42-1"></a>lab_vars_neg &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;No variable with negative values&quot;</code></pre>
 <!-- Replace negative data points by NA. -->
 <!-- ```{r} -->
 <!-- # hh_plotml[lab_vars_neg] <- modify(hh_plotml[lab_vars_neg], ~ ifelse(.x < 0, NA, .x)) -->
 <!-- ``` -->
 </div>
-<div id="aggregate-over-labour-category" class="section level3">
+<div id="aggregate-over-labour-category" class="section level3" number="2.5.2">
 <h3><span class="header-section-number">2.5.2</span> Aggregate over labour category:</h3>
 <p>Reminder: Labour category correpsond to the variable prefix: h for hired and f for family.</p>
 <p>First split by labour category prefix.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">lab_cat &lt;-<span class="st"> </span><span class="kw">split.default</span>(<span class="dt">x =</span> hh_plotml,</a>
-<a class="sourceLine" id="cb42-2" title="2">                         <span class="dt">f =</span> <span class="kw">str_extract</span>(<span class="kw">colnames</span>(hh_plotml), <span class="st">&quot;^.lab&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="household-survey.html#cb44-1"></a>lab_cat &lt;-<span class="st"> </span><span class="kw">split.default</span>(<span class="dt">x =</span> hh_plotml,</span>
+<span id="cb44-2"><a href="household-survey.html#cb44-2"></a>                         <span class="dt">f =</span> <span class="kw">str_extract</span>(<span class="kw">colnames</span>(hh_plotml), <span class="st">&quot;^.lab&quot;</span>))</span></code></pre></div>
 <p>Then sum over work type (suffix2).</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">lab_task &lt;-<span class="st"> </span><span class="kw">map_dfc</span>(lab_cat, sum_worker_type)</a>
-<a class="sourceLine" id="cb43-2" title="2">lab_task &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">add_column</span>(lab_task, <span class="dt">pml_index =</span> hh_plotml<span class="op">$</span>pml_index)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="household-survey.html#cb45-1"></a>lab_task &lt;-<span class="st"> </span><span class="kw">map_dfc</span>(lab_cat, sum_worker_type)</span>
+<span id="cb45-2"><a href="household-survey.html#cb45-2"></a>lab_task &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">add_column</span>(lab_task, <span class="dt">pml_index =</span> hh_plotml<span class="op">$</span>pml_index)</span></code></pre></div>
 </div>
-<div id="calculate-labour-and-wages-per-hectare" class="section level3">
+<div id="calculate-labour-and-wages-per-hectare" class="section level3" number="2.5.3">
 <h3><span class="header-section-number">2.5.3</span> Calculate labour and wages per hectare</h3>
 <p>Combine hired labour price and labour variables in one data.frame.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">hlab_price &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, pl1, pml_index, cropsys, <span class="kw">matches</span>(<span class="st">&quot;^hlab_.w$&quot;</span>))</a>
-<a class="sourceLine" id="cb44-2" title="2">lab_data &lt;-<span class="st"> </span><span class="kw">inner_join</span>(lab_task, hlab_price, <span class="dt">by =</span> <span class="st">&quot;pml_index&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="household-survey.html#cb46-1"></a>hlab_price &lt;-<span class="st"> </span>hh_plotml <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(hh_index, pl1, pml_index, cropsys, <span class="kw">matches</span>(<span class="st">&quot;^hlab_.w$&quot;</span>))</span>
+<span id="cb46-2"><a href="household-survey.html#cb46-2"></a>lab_data &lt;-<span class="st"> </span><span class="kw">inner_join</span>(lab_task, hlab_price, <span class="dt">by =</span> <span class="st">&quot;pml_index&quot;</span>)</span></code></pre></div>
 <p>Update plot data with labour data.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">hh_plot &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plot, </a>
-<a class="sourceLine" id="cb45-2" title="2">                      lab_data, </a>
-<a class="sourceLine" id="cb45-3" title="3">                      <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>,</a>
-<a class="sourceLine" id="cb45-4" title="4">                             <span class="st">&quot;plot_id&quot;</span> =<span class="st"> &quot;pl1&quot;</span>,</a>
-<a class="sourceLine" id="cb45-5" title="5">                             <span class="st">&quot;cropsys&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="household-survey.html#cb47-1"></a>hh_plot &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hh_plot, </span>
+<span id="cb47-2"><a href="household-survey.html#cb47-2"></a>                      lab_data, </span>
+<span id="cb47-3"><a href="household-survey.html#cb47-3"></a>                      <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;hh_index&quot;</span>,</span>
+<span id="cb47-4"><a href="household-survey.html#cb47-4"></a>                             <span class="st">&quot;plot_id&quot;</span> =<span class="st"> &quot;pl1&quot;</span>,</span>
+<span id="cb47-5"><a href="household-survey.html#cb47-5"></a>                             <span class="st">&quot;cropsys&quot;</span>))</span></code></pre></div>
 <p>Calculate labour and wages per hectare.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">lab_vars &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^[a-z]lab_[a-z]*&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb46-2" title="2"><span class="cf">for</span> (var <span class="cf">in</span> lab_vars) {</a>
-<a class="sourceLine" id="cb46-3" title="3">  hh_plot[, <span class="kw">paste0</span>(var, <span class="st">&quot;_ha&quot;</span>)] &lt;-<span class="st"> </span>hh_plot[[var]] <span class="op">/</span><span class="st"> </span>hh_plot<span class="op">$</span>plot_area</a>
-<a class="sourceLine" id="cb46-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="household-survey.html#cb48-1"></a>lab_vars &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^[a-z]lab_[a-z]*&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb48-2"><a href="household-survey.html#cb48-2"></a><span class="cf">for</span> (var <span class="cf">in</span> lab_vars) {</span>
+<span id="cb48-3"><a href="household-survey.html#cb48-3"></a>  hh_plot[, <span class="kw">paste0</span>(var, <span class="st">&quot;_ha&quot;</span>)] &lt;-<span class="st"> </span>hh_plot[[var]] <span class="op">/</span><span class="st"> </span>hh_plot<span class="op">$</span>plot_area</span>
+<span id="cb48-4"><a href="household-survey.html#cb48-4"></a>}</span></code></pre></div>
 <p>Drop original variables.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>lab_vars)</a></code></pre></div>
-<div id="visual-inspection" class="section level4">
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="household-survey.html#cb49-1"></a>hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">all_of</span>(lab_vars))</span></code></pre></div>
+<div id="visual-inspection" class="section level4" number="2.5.3.1">
 <h4><span class="header-section-number">2.5.3.1</span> Visual inspection</h4>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">labour_category_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="household-survey.html#cb50-1"></a><span class="kw">labour_category_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">labour_price_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="household-survey.html#cb51-1"></a><span class="kw">labour_price_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-48-2.png" width="672" /></p>
 <p>Cut off high outliers &gt;95th percentile of variables per hectare.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">lab_vars_ha &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_.*_ha$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb50-2" title="2">hh_plot &lt;-<span class="st"> </span><span class="kw">modify_at</span>(hh_plot, lab_vars_ha, outlier_to_NA, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">labour_category_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="household-survey.html#cb52-1"></a>lab_vars_ha &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_.*_ha$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb52-2"><a href="household-survey.html#cb52-2"></a>hh_plot &lt;-<span class="st"> </span><span class="kw">modify_at</span>(hh_plot, lab_vars_ha, outlier_to_NA, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="household-survey.html#cb53-1"></a><span class="kw">labour_category_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">labour_price_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="household-survey.html#cb54-1"></a><span class="kw">labour_price_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-50-2.png" width="672" /></p>
 </div>
 </div>
-<div id="total-labour-input-per-ha" class="section level3">
+<div id="total-labour-input-per-ha" class="section level3" number="2.5.4">
 <h3><span class="header-section-number">2.5.4</span> Total labour input per ha</h3>
 <p>We now sum hired and family labour to get the total labour per ha for each task (planting, weeding…).</p>
 <p>Note that in the dedicated function <code>sum_category</code>, the argument pattern is matching the suffix coding for task type (planting, weeding,…). This is because the task is the labour type we want our variable to be aggregated on. The function will then recognize all variables corresponding to a given task and add them together.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">lab_vars_ha &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_.*_ha$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb53-2" title="2">tlab_ha &lt;-<span class="st"> </span><span class="kw">sum_category</span>(hh_plot[, lab_vars_ha],</a>
-<a class="sourceLine" id="cb53-3" title="3">                        <span class="dt">pattern =</span> <span class="st">&quot;(?&lt;=_).(?=_)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="household-survey.html#cb55-1"></a>lab_vars_ha &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_.*_ha$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb55-2"><a href="household-survey.html#cb55-2"></a>tlab_ha &lt;-<span class="st"> </span><span class="kw">sum_category</span>(hh_plot[, lab_vars_ha],</span>
+<span id="cb55-3"><a href="household-survey.html#cb55-3"></a>                        <span class="dt">pattern =</span> <span class="st">&quot;(?&lt;=_).(?=_)&quot;</span>)</span></code></pre></div>
 <p>Append <code>_ha</code> at the end of the labour variables.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="kw">colnames</span>(tlab_ha) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;tlab_&quot;</span>, <span class="kw">colnames</span>(tlab_ha), <span class="st">&quot;_ha&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="household-survey.html#cb56-1"></a><span class="kw">colnames</span>(tlab_ha) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;tlab_&quot;</span>, <span class="kw">colnames</span>(tlab_ha), <span class="st">&quot;_ha&quot;</span>)</span></code></pre></div>
 <p>Update <code>hh_plot</code> with final labour per ha variable aggregated by tasks.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-2" title="2"><span class="st">  </span><span class="kw">cbind</span>(tlab_ha) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_index))  </a></code></pre></div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="kw">labour_category_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="household-survey.html#cb57-1"></a>hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb57-2"><a href="household-survey.html#cb57-2"></a><span class="st">  </span><span class="kw">cbind</span>(tlab_ha) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb57-3"><a href="household-survey.html#cb57-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_index))  </span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="household-survey.html#cb58-1"></a><span class="kw">labour_category_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
 </div>
-<div id="harvest-labour-in-work-days.t-1" class="section level3">
+<div id="harvest-labour-in-work-days.t-1" class="section level3" number="2.5.5">
 <h3><span class="header-section-number">2.5.5</span> Harvest labour in <span class="math inline">\(work \, days.t^{-1}\)</span></h3>
 <p><span class="math display">\[
 \frac{[days.ha^{-1}]}{[kg.ha^{-1}]} \rightarrow [days.kg^{-1}] \times 10^3 \rightarrow [days.t^{-1}]
 \]</span></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb57-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">flab_h_dt =</span> (flab_h_ha <span class="op">/</span><span class="st"> </span>yield),</a>
-<a class="sourceLine" id="cb57-3" title="3">         <span class="dt">hlab_h_dt =</span> (hlab_h_ha <span class="op">/</span><span class="st"> </span>yield),</a>
-<a class="sourceLine" id="cb57-4" title="4">         <span class="dt">tlab_h_dt =</span> (tlab_h_ha <span class="op">/</span><span class="st"> </span>yield)) </a></code></pre></div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">labour_harvest_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="household-survey.html#cb59-1"></a>hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span></span>
+<span id="cb59-2"><a href="household-survey.html#cb59-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">flab_h_dt =</span> (flab_h_ha <span class="op">/</span><span class="st"> </span>yield),</span>
+<span id="cb59-3"><a href="household-survey.html#cb59-3"></a>         <span class="dt">hlab_h_dt =</span> (hlab_h_ha <span class="op">/</span><span class="st"> </span>yield),</span>
+<span id="cb59-4"><a href="household-survey.html#cb59-4"></a>         <span class="dt">tlab_h_dt =</span> (tlab_h_ha <span class="op">/</span><span class="st"> </span>yield)) </span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="household-survey.html#cb60-1"></a><span class="kw">labour_harvest_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">lab_vars_dt &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_h_dt$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb59-2" title="2">hh_plot &lt;-<span class="st"> </span><span class="kw">modify_at</span>(hh_plot, lab_vars_dt, outlier_to_NA, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">labour_harvest_plot</span>(hh_plot)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="household-survey.html#cb61-1"></a>lab_vars_dt &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;^.lab_h_dt$&quot;</span>, <span class="kw">names</span>(hh_plot), <span class="dt">value =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb61-2"><a href="household-survey.html#cb61-2"></a>hh_plot &lt;-<span class="st"> </span><span class="kw">modify_at</span>(hh_plot, lab_vars_dt, outlier_to_NA, <span class="dt">quantile =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="household-survey.html#cb62-1"></a><span class="kw">labour_harvest_plot</span>(hh_plot)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
-<div id="plot-data-relevant-variables" class="section level4">
+<div id="plot-data-relevant-variables" class="section level4" number="2.5.5.1">
 <h4><span class="header-section-number">2.5.5.1</span> Plot data: relevant variables</h4>
 <p>Keep only relevant variable for plot data and give some more informative names.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1">hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-2" title="2"><span class="st">  </span><span class="kw">select</span>(hh_index, plot_id, </a>
-<a class="sourceLine" id="cb61-3" title="3">         mc5, mc6, mc8, mc10, cropsys, </a>
-<a class="sourceLine" id="cb61-4" title="4">         plot_area, yield,</a>
-<a class="sourceLine" id="cb61-5" title="5">         <span class="kw">matches</span>(<span class="st">&quot;^[a-z]lab_[a-z]*_[a-z]*$&quot;</span>)</a>
-<a class="sourceLine" id="cb61-6" title="6">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb61-7" title="7"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">intercrop_bin =</span> mc5,</a>
-<a class="sourceLine" id="cb61-8" title="8">         <span class="dt">nb_crops =</span> mc6,</a>
-<a class="sourceLine" id="cb61-9" title="9">         <span class="dt">crop =</span> mc8,</a>
-<a class="sourceLine" id="cb61-10" title="10">         <span class="dt">harvested_bin =</span> mc10</a>
-<a class="sourceLine" id="cb61-11" title="11">  )</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="household-survey.html#cb63-1"></a>hh_plot &lt;-<span class="st"> </span>hh_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb63-2"><a href="household-survey.html#cb63-2"></a><span class="st">  </span><span class="kw">select</span>(hh_index, plot_id, </span>
+<span id="cb63-3"><a href="household-survey.html#cb63-3"></a>         mc5, mc6, mc8, mc10, cropsys, </span>
+<span id="cb63-4"><a href="household-survey.html#cb63-4"></a>         plot_area, yield,</span>
+<span id="cb63-5"><a href="household-survey.html#cb63-5"></a>         <span class="kw">matches</span>(<span class="st">&quot;^[a-z]lab_[a-z]*_[a-z]*$&quot;</span>)</span>
+<span id="cb63-6"><a href="household-survey.html#cb63-6"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb63-7"><a href="household-survey.html#cb63-7"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">intercrop_bin =</span> mc5,</span>
+<span id="cb63-8"><a href="household-survey.html#cb63-8"></a>         <span class="dt">nb_crops =</span> mc6,</span>
+<span id="cb63-9"><a href="household-survey.html#cb63-9"></a>         <span class="dt">crop =</span> mc8,</span>
+<span id="cb63-10"><a href="household-survey.html#cb63-10"></a>         <span class="dt">harvested_bin =</span> mc10</span>
+<span id="cb63-11"><a href="household-survey.html#cb63-11"></a>  )</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="sales" class="section level2">
+<div id="sales" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Sales</h2>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1">hh_cropsales &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_cropsales.tab&quot;</span>),</a>
-<a class="sourceLine" id="cb62-2" title="2">                           <span class="dt">header =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb62-3" title="3">                           <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</a></code></pre></div>
-<div id="relevant-crop-sales-variables" class="section level3">
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="household-survey.html#cb64-1"></a>hh_cropsales &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">here</span>(<span class="st">&quot;./data/TAMASA2017/TZAPS17_hh_cropsales.tab&quot;</span>),</span>
+<span id="cb64-2"><a href="household-survey.html#cb64-2"></a>                           <span class="dt">header =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb64-3"><a href="household-survey.html#cb64-3"></a>                           <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="relevant-crop-sales-variables" class="section level3" number="2.6.1">
 <h3><span class="header-section-number">2.6.1</span> Relevant Crop sales variables:</h3>
 <ul>
 <li><code>csal2c</code>: crop sold</li>
@@ -725,93 +746,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>csal7</code>: price per unit at largest sale (Tsh). Terminology from: <code>TZAPS17_ODK_hh.xls</code>. Largest sale = peak sales ?</li>
 </ul>
 <p>Select only the cropsales for maize and pigeon pea and create a subset of relevant variables.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1">hh_cropsales &lt;-<span class="st">  </span>hh_cropsales <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb63-2" title="2"><span class="st">  </span><span class="kw">filter</span>(csal2c <span class="op">==</span><span class="st"> &quot;maize&quot;</span><span class="op">|</span><span class="st"> </span>csal2c <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb63-3" title="3"><span class="st">  </span><span class="kw">select</span>(hh_index, cropsales_index, csal2c,  csal3, csal4, csal5, csal6, csal7)</a></code></pre></div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1">(neg_var_sales &lt;-<span class="st"> </span>hh_cropsales <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="household-survey.html#cb65-1"></a>hh_cropsales &lt;-<span class="st">  </span>hh_cropsales <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb65-2"><a href="household-survey.html#cb65-2"></a><span class="st">  </span><span class="kw">filter</span>(csal2c <span class="op">==</span><span class="st"> &quot;maize&quot;</span><span class="op">|</span><span class="st"> </span>csal2c <span class="op">==</span><span class="st"> &quot;pigeon_pea&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb65-3"><a href="household-survey.html#cb65-3"></a><span class="st">  </span><span class="kw">select</span>(hh_index, cropsales_index, csal2c,  csal3, csal4, csal5, csal6, csal7)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="household-survey.html#cb66-1"></a>(neg_var_sales &lt;-<span class="st"> </span>hh_cropsales <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">any_negative</span>())</span></code></pre></div>
 <pre><code>## [1] &quot;csal3&quot; &quot;csal5&quot;</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">hh_cropsales[neg_var_sales] &lt;-<span class="st"> </span><span class="kw">modify</span>(hh_cropsales[neg_var_sales ],</a>
-<a class="sourceLine" id="cb66-2" title="2">                                      <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</a></code></pre></div>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1">hh_cropsales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb67-2" title="2"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>),</a>
-<a class="sourceLine" id="cb67-3" title="3">               <span class="dt">names_to =</span> <span class="st">&quot;var&quot;</span>,</a>
-<a class="sourceLine" id="cb67-4" title="4">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb67-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb67-6" title="6"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> csal2c, <span class="dt">group =</span> csal2c, <span class="dt">fill =</span> csal2c, <span class="dt">color =</span> csal2c)<span class="op">+</span></a>
-<a class="sourceLine" id="cb67-7" title="7"><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb67-8" title="8"><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb67-9" title="9"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>var)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="household-survey.html#cb68-1"></a>hh_cropsales[neg_var_sales] &lt;-<span class="st"> </span><span class="kw">modify</span>(hh_cropsales[neg_var_sales ],</span>
+<span id="cb68-2"><a href="household-survey.html#cb68-2"></a>                                      <span class="op">~</span><span class="st"> </span><span class="kw">ifelse</span>(.x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, .x))</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="household-survey.html#cb69-1"></a>hh_cropsales <span class="op">%&gt;%</span></span>
+<span id="cb69-2"><a href="household-survey.html#cb69-2"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>),</span>
+<span id="cb69-3"><a href="household-survey.html#cb69-3"></a>               <span class="dt">names_to =</span> <span class="st">&quot;var&quot;</span>,</span>
+<span id="cb69-4"><a href="household-survey.html#cb69-4"></a>               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb69-5"><a href="household-survey.html#cb69-5"></a><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb69-6"><a href="household-survey.html#cb69-6"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> csal2c, <span class="dt">group =</span> csal2c, <span class="dt">fill =</span> csal2c, <span class="dt">color =</span> csal2c)<span class="op">+</span></span>
+<span id="cb69-7"><a href="household-survey.html#cb69-7"></a><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb69-8"><a href="household-survey.html#cb69-8"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb69-9"><a href="household-survey.html#cb69-9"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>var)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1">hh_cropsales &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_cropsales,</a>
-<a class="sourceLine" id="cb68-2" title="2">                          <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>, <span class="st">&quot;csal7&quot;</span>),</a>
-<a class="sourceLine" id="cb68-3" title="3">                          <span class="dt">.f =</span> outlier_to_NA,</a>
-<a class="sourceLine" id="cb68-4" title="4">                          <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1">hh_cropsales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-2" title="2"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>),</a>
-<a class="sourceLine" id="cb69-3" title="3">               <span class="dt">names_to =</span> <span class="st">&quot;var&quot;</span>,</a>
-<a class="sourceLine" id="cb69-4" title="4">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb69-6" title="6"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> csal2c, <span class="dt">group =</span> csal2c, <span class="dt">fill =</span> csal2c, <span class="dt">color =</span> csal2c)<span class="op">+</span></a>
-<a class="sourceLine" id="cb69-7" title="7"><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb69-8" title="8"><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb69-9" title="9"><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>var)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="household-survey.html#cb70-1"></a>hh_cropsales &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_cropsales,</span>
+<span id="cb70-2"><a href="household-survey.html#cb70-2"></a>                          <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>, <span class="st">&quot;csal7&quot;</span>),</span>
+<span id="cb70-3"><a href="household-survey.html#cb70-3"></a>                          <span class="dt">.f =</span> outlier_to_NA,</span>
+<span id="cb70-4"><a href="household-survey.html#cb70-4"></a>                          <span class="dt">quantile =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="household-survey.html#cb71-1"></a>hh_cropsales <span class="op">%&gt;%</span></span>
+<span id="cb71-2"><a href="household-survey.html#cb71-2"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;csal3&quot;</span>, <span class="st">&quot;csal5&quot;</span>),</span>
+<span id="cb71-3"><a href="household-survey.html#cb71-3"></a>               <span class="dt">names_to =</span> <span class="st">&quot;var&quot;</span>,</span>
+<span id="cb71-4"><a href="household-survey.html#cb71-4"></a>               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb71-5"><a href="household-survey.html#cb71-5"></a><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb71-6"><a href="household-survey.html#cb71-6"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> csal2c, <span class="dt">group =</span> csal2c, <span class="dt">fill =</span> csal2c, <span class="dt">color =</span> csal2c)<span class="op">+</span></span>
+<span id="cb71-7"><a href="household-survey.html#cb71-7"></a><span class="st">  </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb71-8"><a href="household-survey.html#cb71-8"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb71-9"><a href="household-survey.html#cb71-9"></a><span class="st">  </span><span class="kw">facet_wrap</span>(. <span class="op">~</span><span class="st"> </span>var)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
 </div>
-<div id="calculate-per-kg" class="section level3">
+<div id="calculate-per-kg" class="section level3" number="2.6.2">
 <h3><span class="header-section-number">2.6.2</span> Calculate per kg</h3>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">hh_cropsales &lt;-<span class="st"> </span><span class="kw">full_join</span>(hh_cropsales, dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;csal6&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb70-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sold_kg =</span> csal5 <span class="op">*</span><span class="st"> </span>kg_maize,</a>
-<a class="sourceLine" id="cb70-3" title="3">         <span class="dt">price_kg =</span> csal7 <span class="op">/</span><span class="st"> </span>kg_maize,</a>
-<a class="sourceLine" id="cb70-4" title="4">         <span class="dt">revenue =</span> csal5 <span class="op">*</span><span class="st"> </span>csal7) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-5" title="5"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">kg_maize_s =</span> kg_maize,</a>
-<a class="sourceLine" id="cb70-6" title="6">         <span class="dt">unit_s =</span> unit,</a>
-<a class="sourceLine" id="cb70-7" title="7">         <span class="dt">crop_sold =</span> csal2c) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-8" title="8"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>kg)</a></code></pre></div>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">hh_cropsales &lt;-<span class="st"> </span>hh_cropsales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-2" title="2"><span class="st">  </span><span class="kw">select</span>(hh_index, crop_sold, sold_kg, price_kg, revenue) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_index))</a></code></pre></div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1"><span class="kw">plot_var_matrix</span>(hh_cropsales,</a>
-<a class="sourceLine" id="cb72-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>),</a>
-<a class="sourceLine" id="cb72-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;kg&quot;</span>, <span class="st">&quot;Tsh/kg&quot;</span>, <span class="st">&quot;Tsh&quot;</span>),</a>
-<a class="sourceLine" id="cb72-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb72-5" title="5">                <span class="dt">fill =</span> <span class="st">&quot;crop_sold&quot;</span>,</a>
-<a class="sourceLine" id="cb72-6" title="6">                <span class="dt">label.si =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="household-survey.html#cb72-1"></a>hh_cropsales &lt;-<span class="st"> </span><span class="kw">full_join</span>(hh_cropsales, dics<span class="op">$</span>unit, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;csal6&quot;</span> =<span class="st"> &quot;cat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb72-2"><a href="household-survey.html#cb72-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sold_kg =</span> csal5 <span class="op">*</span><span class="st"> </span>kg_maize,</span>
+<span id="cb72-3"><a href="household-survey.html#cb72-3"></a>         <span class="dt">price_kg =</span> csal7 <span class="op">/</span><span class="st"> </span>kg_maize,</span>
+<span id="cb72-4"><a href="household-survey.html#cb72-4"></a>         <span class="dt">revenue =</span> csal5 <span class="op">*</span><span class="st"> </span>csal7) <span class="op">%&gt;%</span></span>
+<span id="cb72-5"><a href="household-survey.html#cb72-5"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">kg_maize_s =</span> kg_maize,</span>
+<span id="cb72-6"><a href="household-survey.html#cb72-6"></a>         <span class="dt">unit_s =</span> unit,</span>
+<span id="cb72-7"><a href="household-survey.html#cb72-7"></a>         <span class="dt">crop_sold =</span> csal2c) <span class="op">%&gt;%</span></span>
+<span id="cb72-8"><a href="household-survey.html#cb72-8"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>kg)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="household-survey.html#cb73-1"></a>hh_cropsales &lt;-<span class="st"> </span>hh_cropsales <span class="op">%&gt;%</span></span>
+<span id="cb73-2"><a href="household-survey.html#cb73-2"></a><span class="st">  </span><span class="kw">select</span>(hh_index, crop_sold, sold_kg, price_kg, revenue) <span class="op">%&gt;%</span></span>
+<span id="cb73-3"><a href="household-survey.html#cb73-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hh_index))</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="household-survey.html#cb74-1"></a><span class="kw">plot_var_matrix</span>(hh_cropsales,</span>
+<span id="cb74-2"><a href="household-survey.html#cb74-2"></a>                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>),</span>
+<span id="cb74-3"><a href="household-survey.html#cb74-3"></a>                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;kg&quot;</span>, <span class="st">&quot;Tsh/kg&quot;</span>, <span class="st">&quot;Tsh&quot;</span>),</span>
+<span id="cb74-4"><a href="household-survey.html#cb74-4"></a>                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb74-5"><a href="household-survey.html#cb74-5"></a>                <span class="dt">fill =</span> <span class="st">&quot;crop_sold&quot;</span>,</span>
+<span id="cb74-6"><a href="household-survey.html#cb74-6"></a>                <span class="dt">label.si =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1">hh_cropsales &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_cropsales,</a>
-<a class="sourceLine" id="cb73-2" title="2">                          <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>, <span class="st">&quot;harvest&quot;</span>),</a>
-<a class="sourceLine" id="cb73-3" title="3">                          <span class="dt">.f =</span> outlier_to_NA,</a>
-<a class="sourceLine" id="cb73-4" title="4">                          <span class="dt">quantile =</span> <span class="fl">0.95</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw">plot_var_matrix</span>(hh_cropsales,</a>
-<a class="sourceLine" id="cb74-2" title="2">                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>),</a>
-<a class="sourceLine" id="cb74-3" title="3">                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;kg&quot;</span>, <span class="st">&quot;Tsh/kg&quot;</span>, <span class="st">&quot;Tsh&quot;</span>),</a>
-<a class="sourceLine" id="cb74-4" title="4">                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb74-5" title="5">                <span class="dt">fill =</span> <span class="st">&quot;crop_sold&quot;</span>,</a>
-<a class="sourceLine" id="cb74-6" title="6">                <span class="dt">label.si =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="household-survey.html#cb75-1"></a>hh_cropsales &lt;-<span class="st"> </span><span class="kw">modify_at</span>(<span class="dt">.x =</span> hh_cropsales,</span>
+<span id="cb75-2"><a href="household-survey.html#cb75-2"></a>                          <span class="dt">.at =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>, <span class="st">&quot;harvest&quot;</span>),</span>
+<span id="cb75-3"><a href="household-survey.html#cb75-3"></a>                          <span class="dt">.f =</span> outlier_to_NA,</span>
+<span id="cb75-4"><a href="household-survey.html#cb75-4"></a>                          <span class="dt">quantile =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="household-survey.html#cb76-1"></a><span class="kw">plot_var_matrix</span>(hh_cropsales,</span>
+<span id="cb76-2"><a href="household-survey.html#cb76-2"></a>                <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;sold_kg&quot;</span>, <span class="st">&quot;price_kg&quot;</span>, <span class="st">&quot;revenue&quot;</span>),</span>
+<span id="cb76-3"><a href="household-survey.html#cb76-3"></a>                <span class="dt">plot.unit =</span> <span class="kw">c</span>(<span class="st">&quot;kg&quot;</span>, <span class="st">&quot;Tsh/kg&quot;</span>, <span class="st">&quot;Tsh&quot;</span>),</span>
+<span id="cb76-4"><a href="household-survey.html#cb76-4"></a>                <span class="dt">plot.dim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb76-5"><a href="household-survey.html#cb76-5"></a>                <span class="dt">fill =</span> <span class="st">&quot;crop_sold&quot;</span>,</span>
+<span id="cb76-6"><a href="household-survey.html#cb76-6"></a>                <span class="dt">label.si =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 </div>
 </div>
-<div id="merge" class="section level2">
+<div id="merge" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Merge</h2>
 <p>Combine household information, maize buying prices, plots (maize area + labour) and sales data together in one data.frame.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">household &lt;-<span class="st"> </span><span class="kw">reduce2</span>(<span class="kw">list</span>(hh_info, hh_prices, hh_plot, hh_cropsales),</a>
-<a class="sourceLine" id="cb75-2" title="2">                     <span class="kw">as.list</span>(<span class="kw">rep</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="dv">3</span>)),</a>
-<a class="sourceLine" id="cb75-3" title="3">                     full_join)</a>
-<a class="sourceLine" id="cb75-4" title="4"></a>
-<a class="sourceLine" id="cb75-5" title="5"><span class="co"># household &lt;- full_join(household, hh_cropsales, </span></a>
-<a class="sourceLine" id="cb75-6" title="6"><span class="co">#                        by = c(&quot;hh_index&quot;, &quot;crop&quot; = &quot;crop_sold&quot;))</span></a>
-<a class="sourceLine" id="cb75-7" title="7"><span class="co"># </span></a>
-<a class="sourceLine" id="cb75-8" title="8"><span class="co"># dim(household)</span></a></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="household-survey.html#cb77-1"></a>household &lt;-<span class="st"> </span><span class="kw">reduce2</span>(<span class="kw">list</span>(hh_info, hh_prices, hh_plot, hh_cropsales),</span>
+<span id="cb77-2"><a href="household-survey.html#cb77-2"></a>                     <span class="kw">as.list</span>(<span class="kw">rep</span>(<span class="st">&quot;hh_index&quot;</span>, <span class="dv">3</span>)),</span>
+<span id="cb77-3"><a href="household-survey.html#cb77-3"></a>                     full_join)</span>
+<span id="cb77-4"><a href="household-survey.html#cb77-4"></a></span>
+<span id="cb77-5"><a href="household-survey.html#cb77-5"></a><span class="co"># household &lt;- full_join(household, hh_cropsales, </span></span>
+<span id="cb77-6"><a href="household-survey.html#cb77-6"></a><span class="co">#                        by = c(&quot;hh_index&quot;, &quot;crop&quot; = &quot;crop_sold&quot;))</span></span>
+<span id="cb77-7"><a href="household-survey.html#cb77-7"></a><span class="co"># </span></span>
+<span id="cb77-8"><a href="household-survey.html#cb77-8"></a><span class="co"># dim(household)</span></span></code></pre></div>
 <p>Remove rows that have no hhid</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">household &lt;-<span class="st"> </span>household[<span class="op">!</span><span class="kw">is.na</span>(household<span class="op">$</span>hhid), ]</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="household-survey.html#cb78-1"></a>household &lt;-<span class="st"> </span>household[<span class="op">!</span><span class="kw">is.na</span>(household<span class="op">$</span>hhid), ]</span></code></pre></div>
 <p>Save intermediate dataset.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1"><span class="kw">write_csv</span>(<span class="dt">x =</span> household,</a>
-<a class="sourceLine" id="cb77-2" title="2">          <span class="dt">path =</span> <span class="kw">here</span>(<span class="st">&quot;./data/extracted/household.csv&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="household-survey.html#cb79-1"></a><span class="kw">write_csv</span>(<span class="dt">x =</span> household,</span>
+<span id="cb79-2"><a href="household-survey.html#cb79-2"></a>          <span class="dt">path =</span> <span class="kw">here</span>(<span class="st">&quot;./data/extracted/household.csv&quot;</span>))</span></code></pre></div>
 </div>
-<div id="recap" class="section level2">
+<div id="recap" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Recap</h2>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="kw">read.csv</span>(<span class="kw">here</span>(<span class="st">&quot;./docs/tables/household_recap_tab.csv&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb78-2" title="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="household-survey.html#cb80-1"></a><span class="kw">read.csv</span>(<span class="kw">here</span>(<span class="st">&quot;./docs/tables/household_recap_tab.csv&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb80-2"><a href="household-survey.html#cb80-2"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
+<colgroup>
+<col width="8%" />
+<col width="68%" />
+<col width="17%" />
+<col width="5%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Variable</th>
@@ -1116,25 +1143,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>prefix</strong>lab_<strong>suffix1</strong>(w)_ha</p>
 </blockquote>
 <ul>
-<li><strong>prefix</strong>: labour category</li>
-<li>h = hired</li>
-<li>f = family</li>
+<li><p><strong>prefix</strong>: labour category</p></li>
+<li><p>h = hired</p></li>
+<li><p>f = family</p></li>
 <li><p>t = total</p></li>
-<li><strong>suffix1</strong>: task</li>
-<li>l = land preparation</li>
-<li>p = planting</li>
-<li>r = fertilizing</li>
-<li>w = weeding</li>
+<li><p><strong>suffix1</strong>: task</p></li>
+<li><p>l = land preparation</p></li>
+<li><p>p = planting</p></li>
+<li><p>r = fertilizing</p></li>
+<li><p>w = weeding</p></li>
 <li><p>h = harvesting</p></li>
 <li><p>w: total wages for hired labour in Tsh</p></li>
 <li><p>ha: variable in working days / ha.</p></li>
 </ul>
 
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb79-2" title="2"><span class="kw">library</span>(here)</a>
-<a class="sourceLine" id="cb79-3" title="3"><span class="kw">source</span>(<span class="kw">here</span>(<span class="st">&quot;./scripts/funcs.R&quot;</span>))</a>
-<a class="sourceLine" id="cb79-4" title="4"><span class="kw">source</span>(<span class="kw">here</span>(<span class="st">&quot;./scripts/plot_funcs.R&quot;</span>))</a>
-<a class="sourceLine" id="cb79-5" title="5">dics &lt;-<span class="st"> </span><span class="kw">create_conversion_dics</span>()</a></code></pre></div>
+<!-- ```{r, message = FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(here) -->
+<!-- source(here("./scripts/funcs.R")) -->
+<!-- source(here("./scripts/plot_funcs.R")) -->
+<!-- dics <- create_conversion_dics() -->
+<!-- ``` -->
 </div>
 </div>
             </section>

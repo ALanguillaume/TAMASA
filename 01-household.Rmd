@@ -137,7 +137,7 @@ hh_prices <- hh %>%
 Remove negative prices and values without corresponding household index `hhid`
 
 ```{r}
-hh_prices[which(hh_prices < 0, arr.ind = TRUE)] <- NA
+hh_prices <- modify(hh_prices, ~ ifelse(.x < 0, NA, .x))
 hh_prices <- hh_prices[which(!is.na(hh_prices$hh_index)), ]
 ```
 
@@ -364,7 +364,7 @@ plotd %>%
 This irrelevant plot is discarded.
 
 ```{r}
-plotd <- plotd %>% filter(! pmc_index %in% susp)
+plotd <- plotd %>% filter(!(pmc_index %in% .env$susp))
 ```
 
 Keep only plots with the two cropping systems of interest.
@@ -560,7 +560,7 @@ for (var in lab_vars) {
 Drop original variables.
 
 ```{r}
-hh_plot <- hh_plot %>% select(-lab_vars)
+hh_plot <- hh_plot %>% select(-all_of(lab_vars))
 ```
 
 #### Visual inspection
