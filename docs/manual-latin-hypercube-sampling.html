@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Manual Latin Hypercube Sampling | TAMASA APS survey</title>
   <meta name="description" content="This document presents the whole data cleaning workflow use for Hijbeek et al. 2019" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Manual Latin Hypercube Sampling | TAMASA APS survey" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Antoine Languillaume" />
 
 
-<meta name="date" content="2020-08-18" />
+<meta name="date" content="2021-04-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="community-survey.html"/>
 
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 <style type="text/css">
@@ -164,7 +163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html"><i class="fa fa-check"></i><b>3</b> Focal plot survey</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="3.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#intervening-datasets-1"><i class="fa fa-check"></i><b>3.1</b> Intervening datasets</a></li>
 <li class="chapter" data-level="3.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>3.2</b> Prepare dataset</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#select-useful-columns"><i class="fa fa-check"></i><b>3.2.1</b> Select useful columns</a></li>
@@ -185,13 +184,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.6.4" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#combine-input-types"><i class="fa fa-check"></i><b>3.6.4</b> Combine input types</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#cost-of-hiring-power-sources"><i class="fa fa-check"></i><b>3.7</b> Cost of hiring power sources</a></li>
-<li class="chapter" data-level="3.8" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>3.8</b> Merge</a></li>
-<li class="chapter" data-level="3.9" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>3.9</b> Recap</a></li>
+<li class="chapter" data-level="3.8" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#merge-1"><i class="fa fa-check"></i><b>3.8</b> Merge</a></li>
+<li class="chapter" data-level="3.9" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#recap-1"><i class="fa fa-check"></i><b>3.9</b> Recap</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="community-survey.html"><a href="community-survey.html"><i class="fa fa-check"></i><b>4</b> Community survey</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="household-survey.html"><a href="household-survey.html#intervening-datasets"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
-<li class="chapter" data-level="4.2" data-path="focal-plot-survey.html"><a href="focal-plot-survey.html#prepare-dataset"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
+<li class="chapter" data-level="4.1" data-path="community-survey.html"><a href="community-survey.html#intervening-datasets-2"><i class="fa fa-check"></i><b>4.1</b> Intervening datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="community-survey.html"><a href="community-survey.html#prepare-dataset-1"><i class="fa fa-check"></i><b>4.2</b> Prepare dataset</a></li>
 <li class="chapter" data-level="4.3" data-path="community-survey.html"><a href="community-survey.html#maize-buying-prices"><i class="fa fa-check"></i><b>4.3</b> Maize buying prices</a></li>
 <li class="chapter" data-level="4.4" data-path="community-survey.html"><a href="community-survey.html#fertilizer-prices"><i class="fa fa-check"></i><b>4.4</b> Fertilizer prices</a>
 <ul>
@@ -205,8 +204,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.1" data-path="community-survey.html"><a href="community-survey.html#subset-main-community-data.frame-1"><i class="fa fa-check"></i><b>4.5.1</b> Subset main community data.frame</a></li>
 <li class="chapter" data-level="4.5.2" data-path="community-survey.html"><a href="community-survey.html#visual-exploration-1"><i class="fa fa-check"></i><b>4.5.2</b> Visual exploration</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="household-survey.html"><a href="household-survey.html#merge"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
-<li class="chapter" data-level="4.7" data-path="household-survey.html"><a href="household-survey.html#recap"><i class="fa fa-check"></i><b>4.7</b> Recap</a>
+<li class="chapter" data-level="4.6" data-path="community-survey.html"><a href="community-survey.html#merge-2"><i class="fa fa-check"></i><b>4.6</b> Merge</a></li>
+<li class="chapter" data-level="4.7" data-path="community-survey.html"><a href="community-survey.html#recap-2"><i class="fa fa-check"></i><b>4.7</b> Recap</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="community-survey.html"><a href="community-survey.html#community-general-dataset"><i class="fa fa-check"></i><b>4.7.1</b> Community general dataset</a></li>
 <li class="chapter" data-level="4.7.2" data-path="community-survey.html"><a href="community-survey.html#fertilizer-isotope-prices"><i class="fa fa-check"></i><b>4.7.2</b> Fertilizer isotope prices</a></li>
@@ -247,18 +246,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="required-packages" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Required packages</h2>
 <p>Make sure you have the required packages installed:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="manual-latin-hypercube-sampling.html#cb233-1"></a>packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lhs&quot;</span>,<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;purrr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;here&quot;</span>, <span class="st">&quot;stringr&quot;</span>, </span>
-<span id="cb233-2"><a href="manual-latin-hypercube-sampling.html#cb233-2"></a>             <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;tibble&quot;</span>, <span class="st">&quot;ggbeeswarm&quot;</span>, <span class="st">&quot;ggpubr&quot;</span>)</span>
-<span id="cb233-3"><a href="manual-latin-hypercube-sampling.html#cb233-3"></a><span class="kw">install.packages</span>(packages, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="manual-latin-hypercube-sampling.html#cb233-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lhs&quot;</span>,<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;purrr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;here&quot;</span>, <span class="st">&quot;stringr&quot;</span>, </span>
+<span id="cb233-2"><a href="manual-latin-hypercube-sampling.html#cb233-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;tibble&quot;</span>, <span class="st">&quot;ggbeeswarm&quot;</span>, <span class="st">&quot;ggpubr&quot;</span>)</span>
+<span id="cb233-3"><a href="manual-latin-hypercube-sampling.html#cb233-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(packages, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="using-the-tamasa-lhc-kit" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Using the TAMASA lhc kit</h2>
 <p>First <code>source</code> the <code>TAMASA_.*_lhc</code> functions into memory. You don’t have to bother about loading the require packages using <code>library</code>, it will be done in the background for you.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="manual-latin-hypercube-sampling.html#cb234-1"></a><span class="kw">source</span>(<span class="st">&quot;./scripts/TAMASA_lhc.R&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="manual-latin-hypercube-sampling.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;./scripts/TAMASA_lhc.R&quot;</span>)</span></code></pre></div>
 <div id="tamasa_prepare_lhc" class="section level3" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> TAMASA_prepare_lhc()</h3>
 <p>The firs step is, to prepare a reference data.frame containing the values to feed to the lhc sampling function and some useful information.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="manual-latin-hypercube-sampling.html#cb235-1"></a>(vars_df &lt;-<span class="st"> </span><span class="kw">TAMASA_prepare_lhc</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="manual-latin-hypercube-sampling.html#cb235-1" aria-hidden="true" tabindex="-1"></a>(vars_df <span class="ot">&lt;-</span> <span class="fu">TAMASA_prepare_lhc</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 23 x 6
 ##    param            values       count   mean      sd lhc_bin
 ##    &lt;chr&gt;            &lt;named list&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;
@@ -272,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 price_herbicide  &lt;int [10]&gt;      10 13180   4621.        1
 ##  9 N_price          &lt;dbl [46]&gt;      46  5886.  2411.        1
 ## 10 P_price          &lt;dbl [27]&gt;      27  9953.  3397.        1
-## # ... with 13 more rows</code></pre>
+## # … with 13 more rows</code></pre>
 <p>It contains the following columns:</p>
 <ul>
 <li><code>param</code>: character, variable name.</li>
@@ -288,28 +287,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.2.2</span> TAMASA_sample_lhc()</h3>
 <p>Once <code>vars_df</code> has been prepared, <code>TAMASA_sample_lhc</code> can be called to actually perform the lhc sampling.
 The argument <code>n</code> simply specifies the number of data points to be sampled from the underlying gamma distributions.</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="manual-latin-hypercube-sampling.html#cb237-1"></a>sampled_data &lt;-<span class="st"> </span><span class="kw">TAMASA_sample_lhc</span>(vars_df, <span class="dt">n =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="manual-latin-hypercube-sampling.html#cb237-1" aria-hidden="true" tabindex="-1"></a>sampled_data <span class="ot">&lt;-</span> <span class="fu">TAMASA_sample_lhc</span>(vars_df, <span class="at">n =</span> <span class="dv">100</span>)</span></code></pre></div>
 </div>
 <div id="tamasa_plot_lhc" class="section level3" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> TAMASA_plot_lhc()</h3>
 <p>The sampled data can be checked as such. The grey data points correspond to the sampled data while the plain red ones represent the real data. The horizontal red line is the real data average.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="manual-latin-hypercube-sampling.html#cb238-1"></a><span class="kw">TAMASA_plot_lhc</span>(vars_df, sampled_data)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-217-1.png" width="960" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="manual-latin-hypercube-sampling.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TAMASA_plot_lhc</span>(vars_df, sampled_data)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-217-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="use-that-in-code" class="section level3" number="5.2.4">
 <h3><span class="header-section-number">5.2.4</span> Use that in code</h3>
 <p>Upon integrating that code into a broader simulation scheme, you might want to store the data.frame harbouring the sampled data for each run. Below, a simple way to do that using a list.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="manual-latin-hypercube-sampling.html#cb239-1"></a>vars_df &lt;-<span class="st"> </span><span class="kw">TAMASA_prepare_lhc</span>()</span>
-<span id="cb239-2"><a href="manual-latin-hypercube-sampling.html#cb239-2"></a></span>
-<span id="cb239-3"><a href="manual-latin-hypercube-sampling.html#cb239-3"></a>N_sim &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb239-4"><a href="manual-latin-hypercube-sampling.html#cb239-4"></a>l_sampled_data &lt;-<span class="st"> </span><span class="kw">as.list</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, N_sim))</span>
-<span id="cb239-5"><a href="manual-latin-hypercube-sampling.html#cb239-5"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N_sim){</span>
-<span id="cb239-6"><a href="manual-latin-hypercube-sampling.html#cb239-6"></a>  </span>
-<span id="cb239-7"><a href="manual-latin-hypercube-sampling.html#cb239-7"></a>  l_sampled_data[[i]] &lt;-<span class="st"> </span><span class="kw">TAMASA_sample_lhc</span>(vars_df, <span class="dt">n =</span> <span class="dv">100</span>)</span>
-<span id="cb239-8"><a href="manual-latin-hypercube-sampling.html#cb239-8"></a>  </span>
-<span id="cb239-9"><a href="manual-latin-hypercube-sampling.html#cb239-9"></a>  <span class="co">## Here plug in Paul&#39;s code </span></span>
-<span id="cb239-10"><a href="manual-latin-hypercube-sampling.html#cb239-10"></a>  </span>
-<span id="cb239-11"><a href="manual-latin-hypercube-sampling.html#cb239-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="manual-latin-hypercube-sampling.html#cb239-1" aria-hidden="true" tabindex="-1"></a>vars_df <span class="ot">&lt;-</span> <span class="fu">TAMASA_prepare_lhc</span>()</span>
+<span id="cb239-2"><a href="manual-latin-hypercube-sampling.html#cb239-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb239-3"><a href="manual-latin-hypercube-sampling.html#cb239-3" aria-hidden="true" tabindex="-1"></a>N_sim <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb239-4"><a href="manual-latin-hypercube-sampling.html#cb239-4" aria-hidden="true" tabindex="-1"></a>l_sampled_data <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, N_sim))</span>
+<span id="cb239-5"><a href="manual-latin-hypercube-sampling.html#cb239-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N_sim){</span>
+<span id="cb239-6"><a href="manual-latin-hypercube-sampling.html#cb239-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb239-7"><a href="manual-latin-hypercube-sampling.html#cb239-7" aria-hidden="true" tabindex="-1"></a>  l_sampled_data[[i]] <span class="ot">&lt;-</span> <span class="fu">TAMASA_sample_lhc</span>(vars_df, <span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb239-8"><a href="manual-latin-hypercube-sampling.html#cb239-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb239-9"><a href="manual-latin-hypercube-sampling.html#cb239-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Here plug in Paul&#39;s code </span></span>
+<span id="cb239-10"><a href="manual-latin-hypercube-sampling.html#cb239-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb239-11"><a href="manual-latin-hypercube-sampling.html#cb239-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 <div id="recap-table" class="section level2" number="5.3">
